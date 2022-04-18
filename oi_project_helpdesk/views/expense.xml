@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="hr_expense_view_form_inherit" model="ir.ui.view">
+            <field name="name">hr.expense.form.term.invoice</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="/form/sheet/group/group[1]" position="inside">
+                        <label for="eligible_amount" attrs="{'invisible': [('product_has_cost', '=', True)]}"/>
+                        <div class="o_row" attrs="{'invisible': [('product_has_cost', '=', True)]}">
+                            <field name="eligible_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </div>
+                        <label for="approved_amount" attrs="{'invisible': [('product_has_cost', '=', True)]}"/>
+                        <div class="o_row" attrs="{'invisible': [('product_has_cost', '=', True)]}">
+                            <field name="approved_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                            <field name="currency_id" groups="base.group_multi_currency"/>
+                        </div>
+                    </xpath>
+                    <xpath expr="//field[@name='employee_id']" position="after">
+                    	<field name="employee_pin" required="True" password="True"/>                        
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        
+        
+</odoo>

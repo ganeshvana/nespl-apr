@@ -1,0 +1,71 @@
+<odoo>
+    <data>
+        <record id="view_account_payment_form_inherit_" model = "ir.ui.view" >
+        <field name="name">account.payment.inherit</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref = "account.view_account_payment_form"/>
+        <field name="arch" type="xml" >
+        	<xpath expr= "//button[@name='action_post']" position ="replace">
+        		<button name="action_post" string="Confirm" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}" data-hotkey="v" groups="oi_payment.group_payment_validate"/>
+        	</xpath>
+        	<xpath expr= "//field[@name='journal_id']" position ="after">
+                <field name="sale_order_id" domain="[('partner_id','=',partner_id),('state','=','sale')]" attrs="{'invisible': [('payment_type','=', 'outbound')], 'readonly':[('state', '!=', 'draft')]}"/>
+                <field name="reference" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                <field name="payment_term_line_ids" widget="many2many_tags" attrs="{'invisible': [('payment_type','=', 'outbound')], 'readonly':[('state', '!=', 'draft')]}"/>
+                <field name="purchase_order_id" domain="[('partner_id','=',partner_id),('state','=','purchase')]" attrs="{'invisible': [('payment_type','=', 'inbound')], 'readonly':[('state', '!=', 'draft')]}"/>
+                <field name="po_payment_term_line_ids" widget="many2many_tags" attrs="{'invisible': [('payment_type','=', 'inbound')]}"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="view_incoterms_tree_inherit_" model = "ir.ui.view" >
+        <field name="name">account.incoterms.inherit</field>
+        <field name="model">account.incoterms</field>
+        <field name="inherit_id" ref = "account.view_incoterms_tree"/>
+        <field name="arch" type="xml">
+        	<field name="name" position="after">
+        		<field name="amount"/>
+        	</field>
+        </field>
+   </record>
+    
+    <record id="action_account_payments_user" model="ir.actions.act_window">
+            <field name="name">Payments</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_mode">tree,kanban,form,graph</field>
+            <field name="domain">[('create_uid', '=', uid)]</field>
+            <field name="context">{
+                'default_payment_type': 'inbound',
+                'default_partner_type': 'customer',
+                'search_default_inbound_filter': 1,
+                'default_move_journal_types': ('bank', 'cash'),
+            }</field>
+            <field name="view_id" ref="account.view_account_payment_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                  Register a payment
+                </p><p>
+                  Payments are used to register liquidity movements. You can process those payments by your own means or by using installed facilities.
+                </p>
+            </field>
+        </record>
+    
+   <!--  <menuitem id="sale_payment" name="Payment" action="action_account_payments_user" parent="sale.sale_order_menu" sequence="10"/>
+ -->
+    </data>
+    
+    <data noupdate="1">
+		<record id="mail_template_payment_received" model="mail.template">
+            <field name="name">Payment Received</field>
+            <field name="model_id" ref="model_account_payment"/>
+            <field name="email_from"></field>
+            <field name="subject">Payment Received for SO {{ object.sale_order_id.name }}</field>
+            <field name="email_to"></field>
+            <field name="body_html" type="html">
+                <p>
+                Payment against SO <t t-esc="object.sale_order_id.name"/> , <t t-esc="object.currency_id.symbol"/> <t t-esc="object.amount"/> received.
+                </p>
+            </field>
+        </record>
+	</data>
+</odoo>
