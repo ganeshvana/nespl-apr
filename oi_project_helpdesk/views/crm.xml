@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="crm_form_inherit_lead" model = "ir.ui.view" >
+        <field name="name">crm.lead.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref = "crm.crm_lead_view_form"/>
+        <field name="arch" type="xml" >
+        	<xpath expr= "//div[@name='button_box']" position ="inside">
+        		<button type="object" name="need_analysis_form" class="oe_stat_button" icon="fa-check" string="Questionnaire"/>
+        		<button type="object" name="action_view_survey_answer" class="oe_stat_button" icon="fa-check" string="Questionnaire Inputs"/>
+        		 <button type="object" name="action_view_project_ids" class="oe_stat_button" icon="fa-puzzle-piece" string="Projects"/>
+            </xpath>
+        </field>
+    </record>
+    
+    
+    
+    
+    <record id="view_inherit_partner_field" model="ir.ui.view">
+         <field name="name">view.inherit.partner.field</field>
+         <field name="model">res.partner</field>
+         <field name="inherit_id" ref="base.view_partner_form"/>
+         <field name="arch" type="xml">
+             <xpath expr="//field[@name='vat']" position="after">
+                 <field name="pan"/>  
+             </xpath>
+         </field>
+     </record>
+     
+     
+        
+                
+</odoo>
