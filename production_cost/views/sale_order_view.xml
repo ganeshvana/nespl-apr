@@ -10,9 +10,38 @@
                   <button type="object"
                       name="view_product_entry"
                       icon='fa-file-text-o'
-                      class="oe_stat_button">
-                      <field name="entry_count" widget="statinfo" string="Quote Details"/>
+                      class="oe_stat_button"
+                      groups="production_cost.group_project_costing">
+                      <field name="entry_count" widget="statinfo" string="Project Costing"/>
                   </button>
+                </xpath>
+                <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
+                  <attribute name="string">Bill of Material</attribute>
+                  <attribute name="domain">[('state', '=', 'validated')]</attribute>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="sale_order_template_view_form1" model="ir.ui.view">
+            <field name="name">sale.order.template.form.inherit</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//sheet" position="before">
+                	<header>
+                		<field name="state" widget="statusbar" states_visible="draft,validated"/>
+                	</header>
+                </xpath>
+                <xpath expr="//field[@name='active']" position="before">
+                	<field name="kw"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
+                	<field name="unit"/>
+                	<field name="per_kw"/>
+                </xpath>
+                <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_id']" position="after">
+                	<field name="cost" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
+                	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
                 </xpath>
             </field>
         </record>

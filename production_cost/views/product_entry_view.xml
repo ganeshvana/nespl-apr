@@ -64,25 +64,32 @@
                                     <!-- <field name="remarks"/> -->
                                 </tree>
                             </field>
-                            <group name="note_group" col="4">      
-                            	<group></group>     
-                            	<group></group>   
-                            	<group></group>                      
-                                <group>
-                                    <h5>Total:<field name="total" class="oe_subtotal_footer_separator"/></h5><br/>
-                                    <h5>Cost / W:<field name="cost_per_wat" /></h5>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="quote_value"/>
+                                    <field name="tax_value"/>
                                 </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total" />
+                                    <field name="cost_per_wat"/>
+                                    <field name="quote" />
+                                    <field name="quote_per_watt"/>
+                                    <field name="with_tax"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="net_profit"/>
+                                    </div>
+                                    <field name="net_profit" nolabel="1" class="oe_subtotal_footer_separator"/> 
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="net_profit_percent"/>
+                                    </div>
+                                    <field name="net_profit_percent" nolabel="1" class="oe_subtotal_footer_separator"/> 
+                                </group>
+                                <div class="oe_clear"/>
                             </group>
+                            
+                            
                         </page>
-                        <!-- <page name='costlines' string='Cost Lines'>
-                            <field name="cost_lines_copy" nolable='1' attrs="{'readonly':[('state','in',['compute'])]}">
-                                <tree editable="none">
-                                    <field name="name" required='1'/>
-                                    <field name="percentage" required='1'/>
-                                    <field name="total"/>
-                                </tree>
-                            </field>
-                        </page> -->
+                        
                     </notebook>
                 </sheet>
             </form>
@@ -131,9 +138,9 @@
     </record>
 
     <menuitem
-        name="Quotation Details"
+        name="Project Costing"
         parent="sale.sale_order_menu"
         action="action_product_entry"
         id="menu_product_entry"
-        sequence="3"/>
+        sequence="3" groups="production_cost.group_project_costing"/>
 </odoo>

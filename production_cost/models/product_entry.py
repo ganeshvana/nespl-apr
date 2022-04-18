@@ -51,6 +51,33 @@ class ProductEntry(models.Model):
         for rec in self:
             if rec.kw > 0:
                 rec.cost_per_wat = rec.total / (rec.kw * 1000) 
+                
+    @api.depends('quote_value', 'total')
+    def _compute_quote(self):
+        for record in self: 
+            record.quote = record.quote_value * record.total
+            
+    @api.depends('quote', 'kw')
+    def _compute_quote_per_watt(self):
+        for record in self: 
+            if record.kw > 0.0:
+                record.quote_per_watt = record.quote / (record.kw * 1000)
+            
+    @api.depends('quote_per_watt', 'tax_value')
+    def _compute_with_tax(self):
+        for record in self: 
+            record.with_tax = record.quote_per_watt * record.tax_value
+            
+    @api.depends('quote', 'total')
+    def _compute_net_profit(self):
+        for record in self: 
+            record.net_profit = record.quote - record.total
+            
+    @api.depends('net_profit','quote', 'tax_value')
+    def _compute_net_profit_percent(self):
+        for record in self: 
+            if (record.quote * record.tax_value) > 0.0:
+                record.net_profit_percent = ((record.net_profit/(record.quote * record.tax_value)))*100
 
     name = fields.Char('Name', default='New', copy=True , readonly = True)
     partner_id =  fields.Many2one('res.partner', related='sale_order_id.partner_id', string="Partner" )
@@ -79,6 +106,13 @@ class ProductEntry(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('validate', 'Validated'), ('compute', 'Computed'),('cancel', 'Cancelled')], string='Status', readonly=True, copy=True, index=True, track_visibility='onchange', track_sequence=3, default='draft')
     sale_order_line_id = fields.Many2one('sale.order.line', copy=True, track_visibility='always')
     quotation_template_id = fields.Many2one('sale.order.template', "Quotation Template")
+    quote_value = fields.Float("Quote Value")
+    tax_value = fields.Float("Tax Value")
+    quote = fields.Float("Quote", compute='_compute_quote', store=True)
+    quote_per_watt = fields.Float("Quote / W", compute='_compute_quote_per_watt', store=True)
+    with_tax = fields.Float("w GST", compute='_compute_with_tax', store=True)
+    net_profit = fields.Float("Net Profit", compute='_compute_net_profit', store=True)
+    net_profit_percent = fields.Float("Net Profit %", compute='_compute_net_profit_percent', store=True)
 
     @api.onchange('quotation_template_id')
     def onchange_quotation_template_id(self):
@@ -107,9 +141,12 @@ class ProductEntry(models.Model):
                     'product_id': line.product_id.id,
                     'name': line.product_id.name,
                     'product_uom_qty': line.product_uom_qty,
-                    'product_uom_id': line.product_uom_id.id
+                    'product_uom_id': line.product_uom_id.id,
+                    'cost': line.cost,
+                    'total': line.total
                     })
             order.quotation_template_id = template.id
+            template.state = 'validated'
             order.state = 'validate'
 
     def action_re_compute(self):
