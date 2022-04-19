@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_purchase_tracking_form" model="ir.ui.view">
+		<field name="name">purchase.tracking.form</field>
+		<field name="model">purchase.tracking</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<field name="state" widget="statusbar" status_visible='draft,done' options="{'clickable': '1'}"/>
+				</header>
+				<sheet>
+					<group>
+						<group>
+							<field name="type" invisible="1" />
+							<field name="partner_id" invisible="1"/>
+							<field name="name" readonly="1"/>
+							<field name="purchase_id" attrs="{'readonly': [('state', '=', 'done')]}" required="1" domain="[('type', '=', 'import'), ('state', 'in', ['purchase','done'])]"/>
+							<field name="product_ids" widget="many2many_tags" invisible="1"/>
+						</group>
+						<group>
+						</group>
+					</group>
+					<group>
+						<group>
+							<field name="commercial_invoice" />
+							<field name="bl_no" required="1"/>
+							<field name="bl_date" required="1"/>
+							<field name="bl_qty" />
+							<field name="bank_account_id" />
+							<field name="awb_tracking" />
+							<field name="bank_ref_no" />
+							<field name="linear_id" />
+						</group>
+						<group>
+							<field name="eta" required="1"/>
+							<field name="actual_eta" required="1"/>
+							<field name="free_days" />
+							<field name="free_days_end" />
+							<field name="no_of_container" />
+							<field name="cha" />
+							<field name="cfs" />
+							<field name="payment_proposed_date" attrs="{'invisible': [('voyage', '=', True)]}"/>
+							<field name="payment_clearance_date" attrs="{'invisible': [('voyage', '=', True)]}"/>
+							<field name="seq" invisible="1"/>
+							<field name="voyage" invisible="1"/>
+							<field name="import_stage_id" domain="[('sequence', '>=', seq)]"/>
+						</group>
+					</group>
+					<notebook>
+						<page string="Containers &amp; Trucks">
+							<group string="Containers">
+								<field name="tracking_container_ids" nolabel="1" context="{'default_vendor_id': parent.partner_id}">
+									<tree editable="top">
+										<field name="name" required="1"/>
+										<field name="product_ids" widget="many2many_tags" invisible="1"/>
+										<field name="product_id" required="1" domain="[('id', 'in', product_ids)]" />
+										<field name="qty" />
+										<field name="vendor_id" required="1"/>
+									</tree>
+								</field>
+							</group>
+							<group string="Truck" attrs="{'invisible': [('voyage', '=', True)]}">
+								<field name="tracking_truck_ids" nolabel="1">
+									<tree editable="top">
+										<field name="container_id" required="1" domain="[('purchase_id', '=', purchase_id)]"/>
+										<field name="name" required="1"/>
+										<field name="qty" />
+										<field name="purchase_id" invisible="1"/>
+									</tree>
+								</field>
+							</group>
+						</page>
+					</notebook>
+				</sheet>
+				<div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_purchase_tracking_tree" model="ir.ui.view">
+		<field name="name">purchase.tracking.form</field>
+		<field name="model">purchase.tracking</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="purchase_id" />
+				<field name="bl_no" />
+				<field name="bl_date" />
+				<field name="no_of_container" />
+				<field name="commercial_invoice" />
+				<field name="bl_qty" optional="hide"/>
+				<field name="bank_account_id" optional="hide"/>
+				<field name="awb_tracking" optional="hide"/>
+				<field name="bank_ref_no" optional="hide"/>
+				<field name="linear_id" optional="hide"/>						
+				<field name="eta" required="1" optional="hide"/>
+				<field name="actual_eta" required="1" optional="hide"/>
+				<field name="free_days" optional="hide"/>
+				<field name="free_days_end" optional="hide"/>
+				<field name="no_of_container" optional="hide"/>
+				<field name="cha" optional="hide"/>
+				<field name="cfs" optional="hide"/>
+				<field name="payment_proposed_date" optional="hide"/>
+				<field name="payment_clearance_date" optional="hide"/>
+				<field name="seq" invisible="1"/>
+				<field name="voyage" invisible="1"/>
+				<field name="import_stage_id" optional="show"/>
+			</tree>
+		</field>
+	</record>
+	
+	<record id="view_purchase_tracking_filter" model="ir.ui.view">
+            <field name="name">purchase_tracking</field>
+            <field name="model">purchase.tracking</field>
+            <field name="arch" type="xml">
+                <search string="Stock Moves">
+                    <field name="name"/>
+                    <field name="product_ids"/>
+                    <field name="purchase_id"/>
+                    <field name="import_stage_id"/>
+                    <separator/>
+                    
+                    <separator/>
+                    <filter string="Date" name="today" date="bl_date"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Purchase Order" name="by_product" domain="[]" context="{'group_by': 'purchase_id'}"/>
+                        <filter string="Import Stage" name="groupby_picking_id" domain="[]" context="{'group_by': 'import_stage_id'}"/>
+                        <filter string="Creation Date" name="groupby_create_date" domain="[]" context="{'group_by': 'create_date'}" groups="base.group_no_one"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+	<record id="action_purchase_tracking"
+		model="ir.actions.act_window">
+		<field name="name">BL Entry</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">purchase.tracking</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+		<field name="search_view_id" ref="view_purchase_tracking_filter"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create the first record
+			</p>
+		</field>
+	</record>
+
+	<menuitem id="purchase_tracking" name="BL Entry"
+		action="action_purchase_tracking"
+		parent="purchase.menu_procurement_management" sequence="31" />
+
+
+
+</odoo>

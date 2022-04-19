@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+	<record id="view_gatepass_form" model="ir.ui.view">
+		<field name="name">gatepass.form</field>
+		<field name="model">gatepass</field>
+		<field name="arch" type="xml">
+			<form>
+				<header>
+					<button name="returnpass" type="object" string="Return" class="oe_highlight" states="in"/>
+					<field name="state" widget="statusbar" status_visible='in,out'/>
+				</header>
+				<sheet>
+					<h2><field name="name" readonly="1"/></h2>
+					<group>
+						<group>
+							<field name="date" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="mode" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="contact" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="truck_no" attrs="{'readonly': [('state', '=', 'out')]}" required="1"/>
+						</group>
+						<group>
+							<field name="product_id" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="gross_weight" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="net_weight" attrs="{'readonly': [('state', '=', 'out')]}"/>
+							<field name="qty" attrs="{'readonly': [('state', '=', 'out')]}"/>
+						</group>
+					</group>
+					<group>
+						<field name="return_id" readonly="1"/>
+						<field name="return_time" readonly="1"/>
+					</group>
+					
+				</sheet>
+				<div class="oe_chatter">
+                    <field name="message_follower_ids" groups="base.group_user"/>
+                    <field name="activity_ids"/>
+                    <field name="message_ids"/>
+                </div>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_gatepass_tree" model="ir.ui.view">
+		<field name="name">gatepass.form</field>
+		<field name="model">gatepass</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name" />
+				<field name="truck_no" />
+				<field name="product_id" />
+			</tree>
+		</field>
+	</record>
+	
+	<record id="view_gatepass_filter" model="ir.ui.view">
+            <field name="name">gatepass.filter</field>
+            <field name="model">gatepass</field>
+            <field name="arch" type="xml">
+                <search string="Stock Moves">
+                    <field name="name"/>
+                    <field name="product_id"/>
+                    <field name="state"/>
+                    <separator/>
+                    
+                    <separator/>
+                    <filter string="Date" name="today" date="date"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Product" name="by_product" domain="[]" context="{'group_by': 'product_id'}"/>
+                        <filter string="Date" name="groupby_create_date" domain="[]" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+	<record id="action_gatepass"
+		model="ir.actions.act_window">
+		<field name="name">Gatepass</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">gatepass</field>
+		<field name="view_mode">tree,form</field>
+		<field name="target">current</field>
+		<field name="search_view_id" ref="view_gatepass_filter"/>
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create the first record
+			</p>
+		</field>
+	</record>
+	
+	<menuitem id="menu_gatepass" name="Gate Pass" sequence="1000" />
+
+	<menuitem id="menu_gatepass_sub" name="Gate Pass" action="action_gatepass"
+		parent="oi_purchase.menu_gatepass" sequence="1" />
+
+	<template id="gatepass_external_layout_header">
+        <div t-attf-class="header">
+                </div>
+    </template>
+    
+    <template id="gatepass_external_layout_footer">
+    	<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+        	<div t-attf-class="footer">				
+            
+        </div>
+   	</template>
+    
+    <template id="gatepass_external_layout">
+    	<style type="text/css">
+		      .table {
+		                border-collapse: collapse;
+		                border: 1px solid black;
+		                width: 100%; 
+		            }
+		
+		       table td {
+		                border: 1px solid black;
+		                vertical-align: middle;
+		                padding: 8px 10px 8px 10px;
+		                
+		            }
+		            
+		            th {
+		                border: 1px solid black;
+		                vertical-align: middle;
+		                padding: 8px 10px 8px 10px;
+		            }
+		
+		       .p {
+		                line-height: 1;
+		            }
+		       .table table1 {
+		                border-collapse: collapse;
+		                border: 1px solid black;
+		                width: 100%; 
+		            }
+		
+		       table1 td {
+		                border: 1px solid black;
+		                vertical-align: middle;
+		                padding: 8px 10px 8px 10px;
+		                text-align: center;		                
+		            }
+		            
+		            th {
+		                border: 1px solid black;
+		                vertical-align: middle;
+		                padding: 8px 10px 8px 10px;
+		            }
+
+    </style>
+	    <t t-if="not o and doc">
+	        <t t-set="o" t-value="doc"/>
+	    </t>
+	    <t t-if="o and 'company_id' in o">
+	        <t t-set="company" t-value="o.company_id"></t>
+	    </t>
+	    <t t-if="not o or not 'company_id' in o">
+	        <t t-set="company" t-value="res_company"></t>
+	    </t>
+    	<t t-call="oi_purchase.gatepass_external_layout_header"/>
+    	<t t-raw="0" />
+    	<t t-call="oi_purchase.gatepass_external_layout_footer"/>
+	</template>
+		
+		<template id="gatepass_template_document">
+			<t t-call="oi_purchase.gatepass_external_layout">
+				<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+				<div class="page">
+					<table class="table table-sm o_main_table" style="font-size:13px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="100%" colspan="2"><h2><strong><center>GATE PASS</center></strong></h2></td>	
+						</tr>						
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Number</td>
+							<td width="70%"><span t-field="doc.name"/></td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">In Time </td>
+							<td width="70%"><span t-field="doc.date" t-options='{"widget": "datetime"}' /></td>								
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Truck No</td>
+							<td width="70%"><span t-field="doc.truck_no"/></td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Mode</td>
+							<td width="70%"><span t-field="doc.mode"/></td>								
+						</tr>						
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Contact</td>
+							<td width="70%"><span t-field="doc.contact"/></td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Gross Weight</td>
+							<td width="70%"><span t-field="doc.gross_weight"/></td>								
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Net Weight</td>
+							<td width="70%"><span t-field="doc.net_weight"/></td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Qty</td>
+							<td width="70%"><span t-field="doc.qty"/></td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="30%">Out Time</td>
+							<td width="70%"><span t-field="doc.return_time" t-options='{"widget": "datetime"}' /></td>		
+						</tr>
+					</table>
+					<table class="table table-sm o_main_table" style="font-size:13px;" width="100%">						
+						<tr style="border-style: solid;border-width:1px;">
+							<td width="50%">
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<strong><center>Driver Signature</center></strong>
+							</td>
+							<td width="50%">
+							<br></br>
+							<br></br>
+							<br></br>
+							<br></br>
+							<strong><center>Security signature</center></strong>
+							</td>	
+						</tr>
+					</table>
+				</div>
+			</t>
+		</template>
+
+		<template id="report_gatepass">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="oi_purchase.gatepass_template_document" t-lang="doc.partner_id.lang" />
+				</t>
+			</t>
+		</template>
+		
+		<record id="action_report_gatepass" model="ir.actions.report">
+	       <field name="name">Gatepass</field>
+	       <field name="model">gatepass</field>
+	       <field name="report_type">qweb-pdf</field>
+	       <field name="report_name">oi_purchase.report_gatepass</field>
+	       <field name="report_file">oi_purchase.report_gatepass</field>
+	       <field name="print_report_name">'Gatepass - %s' % (object.name)</field>
+	       <field name="binding_model_id" ref="oi_purchase.model_gatepass"/>
+	       <field name="binding_type">report</field>
+	   </record>
+	</data>
+
+</odoo>
