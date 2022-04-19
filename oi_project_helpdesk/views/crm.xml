@@ -10,12 +10,13 @@
         		<button type="object" name="action_view_survey_answer" class="oe_stat_button" icon="fa-check" string="Questionnaire Inputs"/>
         		 <button type="object" name="action_view_project_ids" class="oe_stat_button" icon="fa-puzzle-piece" string="Projects"/>
             </xpath>
+            <xpath expr="//field[@name='team_id']" position="after">
+                 <field name="employee_id"/>  
+                 <field name="employee_pin" password="True"/>  
+             </xpath>
         </field>
     </record>
-    
-    
-    
-    
+       
     <record id="view_inherit_partner_field" model="ir.ui.view">
          <field name="name">view.inherit.partner.field</field>
          <field name="model">res.partner</field>
@@ -24,10 +25,10 @@
              <xpath expr="//field[@name='vat']" position="after">
                  <field name="pan"/>  
              </xpath>
+             <xpath expr="//field[@name='vat']" position="attributes">
+                 <attribute name="string">GST Number</attribute>
+             </xpath>
          </field>
-     </record>
-     
-     
-        
+     </record>        
                 
 </odoo>

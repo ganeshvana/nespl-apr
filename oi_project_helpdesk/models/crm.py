@@ -15,6 +15,28 @@ class Lead(models.Model):
     _inherit = 'crm.lead'
     
     survey_id = fields.Many2one('survey.survey', "Questionnaire")
+    employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
+    employee_pin = fields.Char("Employee PIN")
+    
+    @api.onchange('employee_pin', 'employee_id')
+    def onchange_employee_pin(self):
+        if self.employee_pin and not self.employee_id:
+            raise ValidationError("Select Employee")
+        # if self.employee_pin and self.employee_id:
+        #     if self.employee_pin != self.employee_id.employee_pin:
+        #         raise ValidationError("PIN is wrong!!!")
+        
+    def write(self, vals):
+        res = super(Lead, self).write(vals)
+        for rec in self:
+            if rec.employee_id and not rec.employee_pin:
+                raise ValidationError("Enter Employee PIN !!!")
+            if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+                raise ValidationError("PIN is wrong!!!")
+            if 'employee_pin' in vals:
+                if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+                    raise ValidationError("PIN is wrong!!!")
+        return res
     
     def need_analysis_form(self):
         survey = self.env['survey.survey'].search([('title', '=', 'Questionnaire')])
@@ -28,19 +50,6 @@ class Lead(models.Model):
                 'target': '_blank',
                 'url': '/survey/test/%s' % survey.access_token,
             }
-    
-    # def write(self, vals):
-    #     res = super(Lead, self).write(vals)
-    #     mail = ''
-    #     if 'stage_id' in vals:
-    #         mail_template_id = self.env.ref('oi_crm.mail_template_crm_stage_change')
-    #         tempalte = self.env['mail.template'].browse(mail_template_id.id)
-    #         for fol in self.message_partner_ids:
-    #             if fol.email:
-    #                 mail += fol.email + ','
-    #         tempalte.email_to = mail
-    #         self.env['mail.template'].browse(mail_template_id.id).send_mail(self.id, force_send=True)
-    #     return res
     
     def action_view_project_ids(self):
         self.ensure_one()
@@ -82,8 +91,6 @@ class Lead(models.Model):
         else:
             action['views'] = [(tree_form_id, 'tree'), (view_form_id, 'form')]
         return action
-    
-    
     
 class Partner(models.Model):
     _inherit = 'res.partner'

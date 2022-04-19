@@ -24,6 +24,10 @@
                   <attribute name="string">Bill of Material</attribute>
                   <attribute name="domain">[('sale_order_id', '=', active_id)]</attribute>
                 </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                  <field name="employee_id"/>
+	    			<field name="employee_pin" password="True"/> 
+                </xpath>
             </field>
         </record>
         

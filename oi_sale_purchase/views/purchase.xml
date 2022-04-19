@@ -10,6 +10,19 @@
 	            </xpath>
 	            <xpath expr="//field[@name='origin']" position="after">
 	                <field name="cancel_reason_id" readonly="1" attrs="{'invisible':[('cancel_reason_id', '=', False)]}"/>
+	            	<field name="employee_id"/>
+	    			<field name="employee_pin" password="True"/> 
+	            </xpath>
+            </field>
+        </record>
+        
+        <record id="product_pricelist_item_form_view_inh" model="ir.ui.view">
+            <field name="name">product.pricelist.item.term.invoice</field>
+            <field name="model">product.pricelist.item</field>
+            <field name="inherit_id" ref="product.product_pricelist_item_form_view"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//field[@name='product_tmpl_id']" position="after">
+	                <field name="product_uom_id" options="{'no_create':1}" attrs="{'invisible':[('product_uom_id', '=', False)]}"/>
 	            </xpath>
             </field>
         </record>

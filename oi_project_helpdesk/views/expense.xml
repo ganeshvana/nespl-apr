@@ -19,7 +19,7 @@
                         </div>
                     </xpath>
                     <xpath expr="//field[@name='employee_id']" position="after">
-                    	<field name="employee_pin" required="True" password="True"/>                        
+                    	<field name="employee_pin" password="True"/>                        
                     </xpath>
                 </data>
             </field>

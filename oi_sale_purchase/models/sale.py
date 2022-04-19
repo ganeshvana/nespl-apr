@@ -14,6 +14,7 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
     
     bom_id = fields.Many2one('mrp.bom', "BoM")
+    
 
     @api.onchange('bom_id')
     def onchange_bom_id(self):

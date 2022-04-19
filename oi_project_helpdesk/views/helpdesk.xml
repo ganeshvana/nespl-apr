@@ -13,7 +13,7 @@
 	    	</xpath>
 	    	<xpath expr="//field[@name='user_id']" position="after">
 	    		<field name="employee_id"/>
-	    		<field name="employee_pin" password="True" attrs="{'required': [('employee_id', '!=', False)]}"/> 
+	    		<field name="employee_pin" password="True"/> 
 	    	</xpath>
 	    	<xpath expr="//field[@name='user_id']" position="attributes">
 	    		<attribute name="invisible">True</attribute>
@@ -21,15 +21,4 @@
 	    	
 	    </field>
 	</record>
-	
-	<!-- <record id="helpdesk_ticket_view_form_inherit_helpdesk_stockinherit1" model="ir.ui.view">
-	    <field name="name">helpdesk.ticket.form.inherit</field>
-	    <field name="model">helpdesk.ticket</field>
-	    <field name="inherit_id" ref="helpdesk_stock.helpdesk_ticket_view_form_inherit_helpdesk_stock"/>
-	    <field name="arch" type="xml">
-	    	<field name="product_id" position="attributes">
-	    		<attribute name="invisible">True</attribute>
-	    	</field>
-	    </field>
-	</record> -->
 </odoo>

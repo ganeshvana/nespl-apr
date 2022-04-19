@@ -7,6 +7,30 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     entry_count = fields.Integer(string='Entry Count', compute='count_entry')
+    employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
+    employee_pin = fields.Char("Employee PIN")
+    
+    
+    
+    @api.onchange('employee_pin', 'employee_id')
+    def onchange_employee_pin(self):
+        if self.employee_pin and not self.employee_id:
+            raise ValidationError("Select Employee")
+        # if self.employee_pin and self.employee_id:
+        #     if self.employee_pin != self.employee_id.employee_pin:
+        #         raise ValidationError("PIN is wrong!!!")
+        
+    def write(self, vals):
+        res = super(SaleOrder, self).write(vals)
+        for rec in self:
+            if rec.employee_id and not rec.employee_pin:
+                raise ValidationError("Enter Employee PIN !!!")
+            if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+                raise ValidationError("PIN is wrong!!!")
+            if 'employee_pin' in vals:
+                if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+                    raise ValidationError("PIN is wrong!!!")
+        return res
     
     def action_view_bom(self):
         self.ensure_one()

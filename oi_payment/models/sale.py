@@ -20,12 +20,7 @@ class SaleOrder(models.Model):
                         'payment_term_id': res.payment_term_id.id,
                         'payment_term_line_id': line.id,
                     }))
-            res.update({'payment_detail_ids': payterm_vals})
-        if res.team_id.name == 'Website':
-            lead = self.env['crm.lead'].search([('type','=','opportunity')], order='id desc', limit=1)
-            if lead:
-                res.opportunity_id = lead.id
-                res.partner_id = lead.partner_id.id
+            res.update({'payment_detail_ids': payterm_vals})        
         return res
     
     def write(self, vals):
