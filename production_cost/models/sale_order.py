@@ -8,6 +8,25 @@ class SaleOrder(models.Model):
 
     entry_count = fields.Integer(string='Entry Count', compute='count_entry')
     
+    def action_view_bom(self):
+        self.ensure_one()
+        view_form_id = self.env.ref('sale_management.sale_order_template_view_form').id
+        bom = self.env['sale.order.template'].search([('sale_order_id', '=', self.id)], limit=1)
+        print(bom)
+        action = {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'name': _('BoM'),
+            'res_model': 'sale.order.template',
+            'domain': [('id', '=', bom.id)]
+        }
+        
+        if bom:
+            action.update({'views': [(view_form_id, 'form')], 'res_id': bom.id})
+        else:
+            action.update({'views': [(view_form_id, 'form')], 'res_id': self.sale_order_template_id.id, 'context': {'default_sale_order_id': self.id}})
+        return action
+    
     @api.onchange('sale_order_template_id')
     def onchange_sale_order_template_id(self):
 
@@ -65,40 +84,9 @@ class SaleOrder(models.Model):
         if not is_html_empty(template.note):
             self.note = template.note
 
-    
-
-    # @api.model
-    # def create(self, vals):
-    #     # Entry = self.env['product.entry']
-    #     res = super(SaleOrder, self).create(vals)
-    #     if len(res.order_line) > 0:
-    #         for line in res.order_line:
-    #             var = self.env['product.entry'].create({'partner_id': res.partner_id.id,'sale_order_id': res.id, 'sale_order_line_id': line.id, 'product_id': line.product_id.id,'product_uom_id': line.product_uom,'list_price':line.price_subtotal,'unit_price':line.price_unit})  
-    #     return res
-    
-    # def write(self,vals):
-    #     res = super(SaleOrder, self).write(vals)
-    #     if len(self.order_line) > 0:
-    #         for line in self.order_line:
-    #             entry = self.env['product.entry'].search([('sale_order_line_id.product_id.id', '=', line.product_id.id),('sale_order_id', '=' , self.id)])
-    #             product_entry = self.env['product.entry'].search([('sale_order_line_id', '=' , False)]).unlink()
-    #             print("Entry",product_entry)
-    #
-    #             if not entry:
-    #                 var = self.env['product.entry'].create({'partner_id': self.partner_id.id, 'sale_order_line_id': line.id, 'sale_order_id': self.id, 'product_id': line.product_id.id,'product_uom_id': line.product_uom})
-    #
-    #     return res
 
     def unlink(self):
         return super(SaleOrder, self).unlink()
-
-    # def unlink(self):
-    #     for rec in self:
-    #         line_id = self.env['product.entry'].search([('sale_order_line_id.product_id.id', '=', line.product_id.id),('sale_order_id', '=' , self.id)])
-    #         print("IDDDDDD",self.id)
-    #         if not line_id:
-    #             self.line_id.unlink()
-    #     return super(SaleOrder, self).unlink()
 
     def count_entry(self):
         for order in self:
@@ -122,6 +110,7 @@ class SaleOrderTemplate(models.Model):
     
     kw = fields.Integer("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
+    sale_order_id = fields.Many2one('sale.order', "Sale Order")
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
@@ -131,6 +120,17 @@ class SaleOrderTemplateLine(models.Model):
     kw = fields.Integer(related='sale_order_template_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make / Model")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make / Model")
+    
+    @api.onchange('product_id')
+    def onchange_product(self):
+        products = []
+        if self.product_id:
+            if self.product_id.seller_ids:
+                for line in self.product_id.seller_ids:
+                    products.append(line.name.id)
+            self.partner_ids = [(6, 0, products)]
     
     @api.depends('kw', 'unit')
     def compute_per_kw(self):

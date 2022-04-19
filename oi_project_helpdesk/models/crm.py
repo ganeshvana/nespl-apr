@@ -14,10 +14,10 @@ class SurveyAns(models.Model):
 class Lead(models.Model):
     _inherit = 'crm.lead'
     
-    survey_id = fields.Many2one('survey.survey', "Need Analysis Form")
+    survey_id = fields.Many2one('survey.survey', "Questionnaire")
     
     def need_analysis_form(self):
-        survey = self.env['survey.survey'].search([('title', '=', 'Need Analysis Form')])
+        survey = self.env['survey.survey'].search([('title', '=', 'Questionnaire')])
         if survey:
             self.survey_id = survey.id
             survey.crm_id = self.id

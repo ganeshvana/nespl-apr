@@ -56,7 +56,7 @@ class IndentComparision(models.TransientModel):
     def generate_report(self):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet('Fuel')
+        worksheet = workbook.add_worksheet('Tender Comparision')
         style_highlight_right = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#E0E0E0', 'align': 'right'})
         style_highlight = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#E0E0E0', 'align': 'center'})
         style_normal = workbook.add_format({'align': 'center'})

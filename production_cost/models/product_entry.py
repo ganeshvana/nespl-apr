@@ -125,7 +125,7 @@ class ProductEntry(models.Model):
                         'product_id': line.product_id.id,
                         'product_uom_id': line.product_uom_id.id,
                     }
-                order_lines.append((0, 0, data))
+                    order_lines.append((0, 0, data))
 
         self.order_line = order_lines
     

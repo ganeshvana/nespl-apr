@@ -7,6 +7,11 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//button[@name='action_view_invoice']" position="before">
+                	<button type="object"
+                      name="action_view_bom"
+                      icon='fa-file-text-o'
+                      class="oe_stat_button" string="BoM">
+                  </button>
                   <button type="object"
                       name="view_product_entry"
                       icon='fa-file-text-o'
@@ -17,7 +22,7 @@
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
                   <attribute name="string">Bill of Material</attribute>
-                  <attribute name="domain">[('state', '=', 'validated')]</attribute>
+                  <attribute name="domain">[('sale_order_id', '=', active_id)]</attribute>
                 </xpath>
             </field>
         </record>
@@ -34,10 +39,14 @@
                 </xpath>
                 <xpath expr="//field[@name='active']" position="before">
                 	<field name="kw"/>
+                	<field name="sale_order_id"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
-                	<field name="unit"/>
-                	<field name="per_kw"/>
+                	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
+                	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
+                	<field name="unit" invisible="1"/>
+                	<field name="per_kw" invisible="1"/>
+                	
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_id']" position="after">
                 	<field name="cost" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
