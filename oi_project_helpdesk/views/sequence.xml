@@ -1,0 +1,22 @@
+<odoo>
+	<data noupdate="1">
+		<record id="customer_seq" model="ir.sequence">
+            <field name="name">customer.code.seq</field>
+            <field name="code">customer.code.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">NC/1</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">4</field>
+        </record>
+        <record id="vendor_seq" model="ir.sequence">
+            <field name="name">vendor.code.seq</field>
+            <field name="code">vendor.code.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">NV/1</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

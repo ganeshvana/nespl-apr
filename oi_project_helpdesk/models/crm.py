@@ -95,9 +95,24 @@ class Lead(models.Model):
 class Partner(models.Model):
     _inherit = 'res.partner'
     
-    # anniversary = fields.Date("Anniversary")
 
     pan = fields.Char("PAN")
+    
+    @api.model_create_multi
+    def create(self, vals_list):
+        print(vals_list, "vals_list----")
+        result = super(Partner, self).create(vals_list)
+        for res in result:
+            if res.customer_rank > 0:
+                seq = self.env['ir.sequence'].next_by_code('customer.code.seq') or '/'
+                res.ref = seq   
+            if res.supplier_rank > 0:
+                seq = self.env['ir.sequence'].next_by_code('vendor.code.seq') or '/'
+                res.ref = seq        
+        return result
+    
+    
+    
     
     
     
