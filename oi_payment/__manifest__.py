@@ -14,6 +14,7 @@
         "wizard/account_payment_register_views.xml",
         "views/payment.xml",
         "views/sale.xml",
+        "views/bg_view.xml",
         
     ],
     "active": False,

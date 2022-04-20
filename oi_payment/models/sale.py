@@ -1,5 +1,6 @@
 from odoo import api, Command, fields, models, _
 from odoo.exceptions import UserError
+from datetime import datetime,timedelta
 
 
 class SaleOrder(models.Model):
@@ -85,4 +86,57 @@ class Payterm(models.Model):
                 name =  'Payment Term Line'
             result.append((line.id, name))
         return result
+    
+class BankGuarantee(models.Model):
+    _name = "bank.guarantee" 
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Bank Guarantee"   
+    
+    state = fields.Selection([('draft', 'Draft'),('inprogress', 'In progress'),('validate', 'Validated')], default='draft')
+    date = fields.Date("Date", default=fields.Date.today())
+    partner_id = fields.Many2one('res.partner', "Customer")
+    name = fields.Char("BG Number")
+    expiry_date = fields.Date("BG Expiry Date")
+    claim_expiry_date = fields.Date("Claim Expiry Date")
+    amount = fields.Float("BG Amount")
+    remarks = fields.Text("Remarks")
+    fd_no = fields.Char("FD No.")
+    fdremarks = fields.Text("Remarks")
+    bgtype_id = fields.Many2one('bank.guarantee.type', "BG Type")    
+    activity_created = fields.Boolean("Activity Created")    
+    user_id = fields.Many2one('res.users', copy=False, tracking=True, string='Salesperson', default=lambda self: self.env.user)
+    
+    def get_expiring_bg(self):
+        late_payment_po = []
+        template_rec = False
+        users = []
+        guarantees = self.env['bank.guarantee'].search([('state', '=', 'inprogress'),('activity_created', '=', False)])
+        if guarantees:
+            for gua in guarantees:
+                if gua.expiry_date + timedelta(days=-7) == fields.Date.today():  
+                    body_dynamic_html = '<p> Bank Guarantee %s is expiring on %s </p></div>'%(gua.name, gua.expiry_date)                   
+                    activity_type = self.env['mail.activity.type'].search([('name','=','To Do')])
+                    modell = self.env['ir.model'].search([('model', '=', 'bank.guarantee')])
+                    user = gua.user_id
+                    mail_activity = self.env['mail.activity'].create({
+                        'activity_type_id': activity_type.id,
+                        'summary': 'Guaranty Expiry',
+                        'date_deadline': fields.Date.today(),
+                        'user_id': user.id,
+                        'note': body_dynamic_html,
+                        'res_model': 'bank.guarantee',
+                        'res_id': gua.id,
+                        'res_model_id': modell.id,
+                        })
+                    gua.activity_created = True   
+                    self.env.cr.commit()
+                    
+                                         
+        return True
+    
+class BankGuaranteeType(models.Model):
+    _name = "bank.guarantee.type" 
+    _description = "Bank Guarantee Type" 
+    
+    name = fields.Char("Name")
     
