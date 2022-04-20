@@ -1,0 +1,325 @@
+<odoo>
+    <data>
+        <template id="sale_report_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                
+               
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+
+        <template id="report_novergydeliverychallan_report_template">
+            <t t-call="oi_sale_novergy.sale_report_external_layout">
+                <!-- <t t-call="web.external_layout"> -->
+
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <style>
+                    
+                    table { page-break-inside:auto }
+                    tr    { page-break-inside:avoid; page-break-after:auto }
+                        thead { display:table-header-group }
+
+                    td{
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+
+                    </style>
+
+
+                 <table   style="border-style: solid;border-width:1px;" width="100%">
+
+               <tr style="solid;border-width:1px;width:100%"> 
+
+                    <td style="width:25%;text-align:left"></td>
+                    <td style="width:60%;text-align:center;"><h5><strong><span t-field="doc.company_id"/></strong></h5></td>
+                    <td style="width:15%;text-align:right"><img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/></td>
+
+
+            </tr>
+            </table>
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%;">
+                 <td style="width:100%;text-align:center"><h5><strong>DELIVERY CHALLAN</strong></h5></td>
+
+             </tr>    
+
+            </table>
+
+              <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
+                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
+                 <td style="width:70%;text-align:center;solid;border-width:1px"><strong>Shipper Address:</strong></td>
+                 
+
+
+             </tr>   
+
+              <tr style="solid;border-width:1px;width:100%">
+                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
+                 <td style="width:70%;text-align:center;solid;border-width:1px">
+                      <strong><span t-field="doc.company_id.street"/>, <span t-field="doc.company_id.street2"/>,<span t-field="doc.company_id.city"/>-<span t-field="doc.company_id.zip"/>,
+                        <span t-field="doc.company_id.state_id"/></strong>
+                </td>
+                 
+
+             </tr>    
+
+              <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
+                 <td style="width:30%;text-align:center;text-align:left;solid;border-width:1px"><strong>BRC:</strong></td>
+                 <td style="width:70%;text-align:center;text-align:right;solid;border-width:1px;text-align:center"> <strong>State Code:
+                    <span t-field="doc.partner_id.state_id.code"/> &#160; GSTIN:<span t-field="doc.partner_id.vat"/></strong></td>
+                
+
+
+             </tr>    
+ 
+
+            </table>
+
+
+            <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+                  <tr >
+                    <td rowspan="2" style="width:40%;border:1px solid black">
+                        <strong>Consignee:</strong><br/>
+                        <span t-field="doc.partner_id.name"/><br/>
+                        <span t-field="doc.partner_id.street"/>, <span t-field="doc.partner_id.street2"/><br/>
+                        <span t-field="doc.partner_id.city"/> - <span t-field="doc.partner_id.zip"/>
+                        <span t-field="doc.partner_id.state_id"/> - <span t-field="doc.partner_id.zip"/><br/>
+                       
+                        <span><STRONG>Consignee GSTIN</STRONG></span><span style="width:40%;">
+                        </span>
+                        <span style="width:20%;">
+                            <span>:</span>
+                        </span>
+                        <span style="width:35%;">
+                            <span t-field="doc.partner_id.vat"/><br/>
+                        </span>
+                        <span><strong>Concern Person Name:</strong> </span><span style="width:40%;">
+                        </span>
+                        <span style="width:20%;">
+                            <span>:</span>
+                        </span>
+                        <span style="width:35%;">
+                            <span t-field="doc.name"/><br/>
+                        </span>
+                        <span><strong>Mob.No.</strong></span><span style="width:40%;">
+                        </span>
+                        <span style="width:20%;">
+                            <span>:</span>
+                        </span>
+                        <span style="width:35%;">
+                            <span t-field="doc.partner_id.mobile"/><br/>
+                        </span>
+                       
+                    </td>
+
+                    <td style="width:60%;border:1px solid black">
+                        <strong>Delivery challan no:</strong><span t-field="doc.name"/><br/>
+                        <strong>date :</strong><span t-field="doc.scheduled_date" t-options='{"widget": "date"}'/><br/>
+                        <strong>Client PO No. &amp;Date :</strong><span t-field="doc.origin"/><br/>
+
+                        <strong>EWay Bill No.:</strong><br/>
+                        <strong>Material Insured:</strong><span t-field="doc.origin"/><br/>
+                        <strong>Insurence policy:</strong><span t-field="doc.insurance_policy"/><br/>
+                        <strong>Insurence Number:</strong><span t-field="doc.insurance_number"/>
+
+
+                    </td>
+                </tr>
+
+                <tr style="width:100%;border:1px solid black">
+                    <td style="width:60%;border:1px solid black">
+                    <table style="border:hidden;" width="">
+                        
+                        <tr>
+                            <td style="width:20%;">
+                                <span><strong>Project No</strong></span>
+                            </td>
+                            <td style="width:10%;">
+                                <span>:</span>
+
+                            </td>
+                            <td style="width:30%;"> 
+                           <span t-field="doc.project_number"/>
+                        </td>
+                        </tr>
+                    </table> 
+                </td>
+                </tr>
+
+            </table>
+
+
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="10%"><strong>Price Basis:</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="40%"><strong>Place Of Discharge:</strong> <span t-field="doc.location_id"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="20%"><strong>Place of Loading</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="30%"><strong>Made of transport:</strong><span t-field="doc.transport"/></td>
+
+             </tr> 
+             
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="40%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="20%"> 
+                        <span t-field="doc.loading"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="30%"></td>
+
+             </tr>  
+           
+            </table>
+
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="10%"><strong>Sr.No</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="40%"><strong>Description of goods</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="20%"><strong>Unit</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Qty.</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="20%"><strong>Approx Price(Rs.)</strong></td>
+
+
+             </tr> 
+
+                <t t-foreach="doc.move_line_ids_without_package" t-as="package">
+             
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%"><span t-esc="package_index + 1"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-esc="package.product_id.name"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><span t-field="package.product_id.uom_id"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-esc="package.qty_done"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+                        
+                    </td>
+
+
+             </tr>
+
+             </t>  
+           
+            </table>
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden;text-align:right" width="80%"><strong>TOTAL AMOUNT</strong></td>
+                  
+
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="20%"><strong><t t-set="i" t-value="0"/>
+                        <t t-foreach="doc.move_line_ids_without_package" t-as="l">
+                            <t t-set="i" t-value="i+l.qty_done"/>
+                        </t>
+                        <t t-esc="(i)" t-options='{"widget": "float", "precision": 2}'/></strong> 
+                    </td>
+                    
+
+             </tr> 
+         
+            </table>
+
+              <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="30%"><strong>NOTE:</strong></td>
+                   
+
+             </tr> 
+            <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="30%"><strong>1.<span t-field="doc.note"/></strong></td>
+                   
+
+             </tr> 
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="30%"><strong>2.<span t-field="doc.note"/></strong></td>
+                   
+
+             </tr> 
+         
+         
+         
+         
+            </table>
+
+          <table   style="border-style: solid;border-width:1px;border-bottom:hidden" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%">
+
+                   <!--  <td style="border-style: solid;border-width:1px;border-top:hidden;border-right:hidden" width="50%"></td> -->
+                     <td style="border-style: solid;border-width:1px;border-top:hidden;text-align:right" width="100%">For  <strong><span t-field="doc.company_id.name"/></strong>
+                     <br/>
+                    <br/>
+                    <br/>
+                 </td>
+                    
+
+             </tr> 
+
+         
+            </table>
+
+
+
+          
+        <table style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden" width="100%">
+                <tr>
+                    <td style="border-style: solid;border-width:1px;border-bottom:hidden" width=""><span t-field="doc.user_id"/></td>
+ 
+                </tr>
+         </table> 
+            
+        <table style="border-style: solid;border-width:1px;" width="100%">
+
+           
+                <tr style="border-style: solid;border-width:1px;border-top:hidden">
+                    <td style="border-style: solid;border-width:1px;border-right:hidden;text-align:left" width="50%"></td>
+                    
+                    
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="50%"><strong>Authorized Signatory</strong></td>
+
+                </tr>
+
+
+        </table> 
+       </div>
+     </t>
+</template>
+
+
+     <template id="novergydeliverychallan_report_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="oi_sale_novergy.report_novergydeliverychallan_report_template" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>  

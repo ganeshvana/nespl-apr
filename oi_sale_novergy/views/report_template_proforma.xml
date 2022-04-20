@@ -1,0 +1,401 @@
+<odoo>
+    <data>
+        <template id="accounting_report_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                
+               
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+
+        <template id="report_proforma_report_template">
+            <t t-call="oi_sale_novergy.accounting_report_external_layout">
+                <!-- <t t-call="web.external_layout"> -->
+
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <style>
+                    
+                    table { page-break-inside:auto }
+                    tr    { page-break-inside:avoid; page-break-after:auto }
+                        thead { display:table-header-group }
+
+                    td{
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+
+                    </style>
+
+                <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:100%;text-align:center"><h5><strong>PROFORMA INVOICE</strong></h5></td>
+
+                         </tr>   
+                </table>
+
+                 <table   style="border-style: solid;border-width:1px;" width="100%">
+
+               <tr style="solid;border-width:1px;width:100%"> 
+
+                    <td style="width:100%;text-align:center;"><h5><strong><span t-field="doc.company_id"/></strong></h5></td>
+                    
+
+            </tr>
+            </table>
+
+
+              <table   style="border-style: solid;border-width:1px;" width="100%">
+
+            <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
+                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
+                 <td style="width:50%;text-align:center;solid;border-width:1px"><strong>Seller:</strong></td>
+                <td style="width:20%;text-align:right;solid;border-width:1px"></td>
+
+
+             </tr>   
+
+              <tr style="solid;border-width:1px;width:100%">
+                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
+                 <td style="width:50%;text-align:center;solid;border-width:1px">
+                      <strong><span t-field="doc.company_id.street"/>, <span t-field="doc.company_id.street2"/>,<span t-field="doc.company_id.city"/>-<span t-field="doc.company_id.zip"/><br/>
+                        <span t-field="doc.company_id.state_id"/></strong>
+                </td>
+                 <td style="width:20%;text-align:right;solid;border-width:1px"></td>
+
+                 
+
+             </tr>    
+
+              <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
+                 <td style="width:30%;text-align:center;text-align:left;solid;border-width:1px"><strong>BRC:<h4>u</h4></strong></td>
+                 <td style="width:70%;text-align:center;text-align:right;solid;border-width:1px;text-align:center"> <strong>State Code:
+                    <span t-field="doc.partner_id.state_id.code"/> &#160; GSTIN:<span t-field="doc.partner_id.vat"/></strong></td>
+                 <td style="width:20%;text-align:right;solid;border-width:1px"><img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/></td>
+
+
+
+             </tr>    
+ 
+
+            </table>
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Proforma Invoice No.</strong></td>
+                             <td style="width:50%;solid;border-width:1px;"><strong>Proforma invoice date:-</strong></td>
+
+
+                         </tr>
+
+
+
+                </table>
+
+
+             <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Purchase Order No.:-</strong></td>
+                             <td style="width:50%;solid;border-width:1px;"><strong>Purchase Order date:-</strong></td>
+
+
+                         </tr>
+
+
+                         
+                </table>
+                
+            <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Consignee:-</strong><br/>
+
+                             <span t-field="doc.partner_id.street"/>, <span t-field="doc.partner_id.street2"/><br/>
+                             <span t-field="doc.partner_id.city"/>-<span t-field="doc.partner_id.zip"/><br/>
+                        <span t-field="doc.partner_id.state_id"/>, <span t-field="doc.partner_id.country_id"/><br/>
+                         <span t-field="doc.partner_id.vat"/>
+                         </td>
+                             <td style="width:50%;solid;border-width:1px;"><strong>Buyer(If Other than Consignee):-</strong><br/>
+
+                              <span t-field="doc.partner_id.street"/>, <span t-field="doc.partner_id.street2"/><br/>
+                             <span t-field="doc.partner_id.city"/>-<span t-field="doc.partner_id.zip"/><br/>
+                        <span t-field="doc.partner_id.state_id"/>, <span t-field="doc.partner_id.country_id"/><br/>
+                         <span t-field="doc.partner_id.vat"/>
+                         </td>
+
+                              
+                         </tr>
+
+
+                         
+                </table>
+
+
+                <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Consignee State Code:</strong></td>
+                             <td style="width:50%;solid;border-width:1px;"><strong>Buyer State Code:</strong></td>
+
+
+                         </tr>
+
+
+                         
+                </table>
+    
+            
+                <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Consingee GSTIN/Unique ID:</strong></td>
+                             <td style="width:50%;solid;border-width:1px;"><strong>Buyer GSTIN/Unique ID:</strong></td>
+
+
+                         </tr>
+
+
+                         
+                </table>
+
+
+                <table style="border-style: solid;border-width:1px;" width="100%">
+                    <tr>
+                    <td style="border-style: solid;border-width:1px;border-top:hidden" width="5%"><strong>Sr.No.</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%"><strong>Description of Goods</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>HSN/SAC Code</strong></td>
+
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="5%"><strong>Qty.</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Unit</strong></td>
+
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Rate</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Amount</strong></td>
+<!--                     <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Taxes value</strong></td>
+ -->
+
+            </tr>
+                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                <tr>
+                    <td style="border-style: solid;border-width:1px;" width="5%"><span t-esc="line_index + 1"/>  </td>
+                    <td style="border-style: solid;border-width:1px;" width="50%"><span t-field="line.product_id"/></td>
+                    <td style="border-style: solid;border-width:1px;" width="10%"><span t-field="line.product_id.l10n_in_hsn_code"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="5%"><span t-field="line.quantity"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.product_id.name"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.price_unit"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.price_subtotal"/></td>
+<!--                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-esc="(line.price_total-line.price_subtotal)"/></td>
+ -->
+
+                </tr>
+            </t>
+                    
+                    <!-- <tr>
+                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="5%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;border-right:hidden" width="40%"></td>
+                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="5%"></td>
+                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="10%"></td>
+                                        <td style="border-style: solid;border-width:1px;" width="10%"><strong>Total</strong></td>
+
+                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+                         <t t-set="i" t-value="0"/>
+                        <t t-foreach="doc.invoice_line_ids" t-as="l">
+                            <t t-set="i" t-value="i+l.price_subtotal"/>
+                        </t>
+                        <t t-esc="(i)" t-options='{"widget": "float", "precision": 2}'/>
+
+                     </td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+                        <t t-set="i" t-value="0"/>
+                        <t t-foreach="doc.invoice_line_ids" t-as="l">
+                            <t t-set="i" t-value="i+l.price_tax"/>
+                        </t>
+                        <t t-esc="(i)" t-options='{"widget": "float", "precision": 2}'/></td>
+          </tr> -->
+
+
+                <tr style="border-style: solid;border-width:1px;" width="100%">
+                        <td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"></td>
+                                <td  colspan="3" style="width:25%;border:1px solid black">
+                                    <span>Untaxed Amount</span> 
+                                </td>
+                                <td colspan="2" style="width:20%;text-align:right">
+                                    <span t-field="doc.amount_untaxed"/>
+
+                                </td>
+                            </tr>
+ 
+                            <t t-if="json.loads(doc.tax_totals_json)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+                            <t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+
+                                <t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
+              
+                            </t>
+                            <t t-if="subtotal_to_show">
+                            <t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+                            <tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
+                                <t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) > 1">
+                                 <td  colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"></td>
+
+                                  <td  colspan="3" style="width:25%;border:1px solid black">
+                                        <span t-esc="amount_by_group['tax_group_name']"/>
+                                        <span class="text-nowrap"> on
+                                             <t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
+                                        </span>
+                                    </td>
+                                    <td  colspan="2" style="width:20%;text-align:right">
+                                        <span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+
+                                    </td>
+
+                                </t>
+                                <t t-else="">
+                                    <td  colspan="2" style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+                                    </td>
+                                    <td colspan="3" style="width:25%;border:1px solid black"><span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/></td>
+                                   
+                                    <td colspan="2" style="width:20%;text-align:right">
+                                        <span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+
+                                    </td>
+                                </t>
+
+                            </tr>
+                            </t>
+                        </t>
+
+                            <tr style="border-style: solid;border-width:1px;" width="100%">
+                              <td  colspan="2" style="border-style: solid;border-width:1px;" width="55%"></td>
+                               <td colspan="3" style="width:25%;">
+                                    <span><strong>Net</strong></span> 
+                                </td>
+                                <td colspan="2" style="width:20%;text-align:right">
+                                    <strong><span t-field="doc.amount_total"/></strong>
+                          </td>
+                    </tr>
+                </table>
+
+
+
+                <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:100%;"><strong>Amount (In Words)</strong> : Rs  <strong><span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/> Only.</strong></td>
+
+                         </tr>   
+                </table> 
+
+                 <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:100%;">
+                                 <strong>Bank Details:</strong><br/>
+                                    <br/>
+                                    &#160; <strong>Bank Name:ICICI Bank Limited</strong><br/>
+                                    &#160; <strong>Bank Branch Address:Madhuban,udaipur-313001,Rajasthan</strong><br/>
+                                    &#160; <strong>Account Type:Current Account</strong><br/>
+                                    &#160; <strong>Account No:004505500170</strong><br/>
+                                    &#160; <strong>MICR Code:313229002</strong><br/>
+                                    &#160; <strong>IFSC Code:ICIC0000045</strong><br/>
+
+                             </td>
+
+                         </tr>   
+                </table> 
+      
+
+                
+                 <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;border-bottom:hidden">
+                             <td style="width:100%;text-align:right">
+                                 
+                                 <br/>
+                                For  <strong><span t-field="doc.company_id.name"/></strong>
+                            </td>
+                                   
+
+
+                     </tr>   
+                </table> 
+
+
+                 <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:50%;text-align:left;border-bottom:hidden">
+                                 <br/>
+                                 
+                                <strong>Declaration</strong>
+
+                                <br/>
+                                
+                            </td>
+
+                            
+                     </tr>   
+                </table> 
+
+
+                 <table   style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;border-top:hidden;border-bottom:hidden">
+                             <td style="width:50%;text-align:left;border-top:hidden;border-bottom:hidden">
+                                 We declare that this invoice shows the actual price of the goods described and that all particulars true and correct.
+
+                                 
+                                 <br/>
+                            </td>
+                             <td style="width:50%;text-align:right;border-top:hidden;border-bottom:hidden">
+                                 
+
+                                 
+                                 <br/>
+                            </td>
+
+                     </tr>
+
+                 </table> 
+
+                   <table   style="border-style: solid;border-width:1px;border-top:hidden;" width="100%">
+                          <tr style="solid;border-width:1px;width:100%;">
+
+                            <td style="width:50%;text-align:right">
+                                 
+                                 <br/>
+                                <strong>Authorised Signatory</strong>
+
+                            </td>
+ 
+ 
+                     </tr>   
+                </table> 
+ 
+       </div>
+     </t>
+</template>
+
+
+     <template id="proforma_report_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="oi_sale_novergy.report_proforma_report_template" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>  

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="action_report_materialsbill_report"
+                string="Bill of Material"
+                model="mrp.bom"
+                report_type="qweb-pdf"
+                file="oi_sale_novergy.materialsbill_report_report"
+                name="oi_sale_novergy.materialsbill_report_report"
+        />
+    </data>
+</odoo>

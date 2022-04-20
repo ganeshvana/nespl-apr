@@ -1,0 +1,203 @@
+<odoo>
+    <data>
+        <template id="manufacturing_report_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                
+               
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+
+        <template id="report_materialsbill_report_template">
+            <t t-call="oi_sale_novergy.manufacturing_report_external_layout">
+                <!-- <t t-call="web.external_layout"> -->
+
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <style>
+                    
+                    table { page-break-inside:auto }
+                    tr    { page-break-inside:avoid; page-break-after:auto }
+                        thead { display:table-header-group }
+
+                    td{
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+
+                    </style>
+
+                <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+                             <td style="width:50%;text-align:left;border-left:hidden"><h5><strong><span t-field="doc.company_id"/></strong></h5></td>
+                             <td style="width:50%;text-align:right;border-right:hidden"><img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
+                             <BR/>
+                             <BR/>
+                         </td>
+
+
+                         </tr>   
+                </table>
+
+                 <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+               <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+
+                <BR/>
+                   <BR/> 
+
+                    <td style="width:100%;text-align:left;border-left:hidden;border-right:hidden"><h5><strong><U>ANNEXURE 1</U></strong></h5></td>
+                    
+
+            </tr>
+            </table>
+
+
+            <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+               <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden"> 
+
+                 <BR/>
+                   <BR/>
+                   
+
+                    <td style="width:100%;text-align:center;border-left:hidden;border-right:hidden"><h5><strong><U>BILL OF MATERIAL</U></strong></h5>
+                  
+
+                </td>
+                    
+
+            </tr>
+            </table>
+
+
+
+            
+
+
+
+                <table style="border-style: solid;border-width:1px;" width="100%">
+                    <tr>
+
+                        <br/>
+                        <br/>
+                    <td style="border-style: solid;border-width:1px;" width="10%"><strong>Sr.No.</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="50%"><strong>particulars &amp; Make/Model</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><strong>Units</strong></td>
+
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><strong>Quantity</strong></td>
+                    
+
+            </tr>
+                <t t-foreach="doc.bom_line_ids" t-as="line">
+                <tr>
+                    <td style="border-style: solid;border-width:1px;" width="5%"><span t-esc="line_index + 1"/>  </td>
+                    <td style="border-style: solid;border-width:1px;" width="50%"><span t-field="line.product_id"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-field="line.product_uom_id"/></td>
+                     <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-field="line.product_qty"/></td>
+
+                </tr>
+            </t>
+
+        </table>
+
+
+        <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+        <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+
+                <BR/>
+                   <BR/> 
+
+                    <td style="width:100%;text-align:left;border-left:hidden;border-right:hidden"><h5><strong><U>ANNEXURE 2</U></strong></h5></td>
+                    
+
+            </tr>
+            </table>
+
+
+
+
+            <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+               <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden"> 
+
+                 <BR/>
+                   <BR/>
+                   
+
+                    <td style="width:100%;text-align:center;border-left:hidden;border-right:hidden"><h5><strong><U>COMMERCIAL OFFER:</U></strong></h5>
+                  
+
+                </td>
+                    
+
+            </tr>
+            </table>
+
+            <table style="border-style: solid;border-width:1px;" width="100%">
+                    <tr>
+
+                        <br/>
+                        <br/>
+                    <td style="border-style: solid;border-width:1px;" width="10%"><strong>Sr.No.</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="50%"><strong>Location</strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><strong>Capacity<br/>(Mwp)</strong></td>
+
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="30%"><strong>Total Amount for above<br/> said BOM<br/>(Rs.)</strong></td>
+                    
+
+            </tr>
+                <!-- <t t-foreach="doc.bom_line_ids" t-as="line"> -->
+                <tr>
+                    <td style="border-style: solid;border-width:1px;" width="10%"><!-- <span t-esc="line_index + 1"/>  --> </td>
+                    <td style="border-style: solid;border-width:1px;" width="50%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                     <td style="border-style: solid;border-width:1px;text-align:center;" width="30%"></td>
+
+                </tr>
+          <!--   </t>
+ -->
+        </table>
+
+        <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+        <tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+
+                <BR/>
+                   <BR/> 
+
+                    <td style="width:100%;text-align:left;border-left:hidden;border-right:hidden"><h5><strong><U>TERMS AND CONDITIONS:</U></strong></h5></td>
+                    
+
+            </tr>
+            </table>
+                    
+                    
+                                   
+       </div>
+     </t>
+</template>
+
+
+     <template id="materialsbill_report_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="oi_sale_novergy.report_materialsbill_report_template" t-lang="doc.partner_id.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>  

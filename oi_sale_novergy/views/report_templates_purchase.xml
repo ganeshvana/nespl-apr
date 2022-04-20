@@ -1,0 +1,274 @@
+<odoo>
+	<data>
+ <template id="purchase_report_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                
+               
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+		<template id="report_offer_letter_template">
+			 <t t-call="oi_sale_novergy.purchase_report_external_layout">
+                <!-- <t t-call="web.external_layout"> -->
+
+                <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
+                <div class="page">
+                    <style>
+                    
+                    table { page-break-inside:auto }
+                    tr    { page-break-inside:avoid; page-break-after:auto }
+                        thead { display:table-header-group }
+
+                    td{
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+
+                    </style>
+
+                     <table   style="border-style: solid;border-width:1px;" width="100%">
+
+                        <tr style="solid;border-width:1px;width:100%;">
+                             <td style="width:100%;text-align:center"><h5><strong>Purchase order</strong></h5></td>
+
+                         </tr>   
+                </table>
+
+				<table   style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Project Name</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >PO No-PUR/IND/21-22/Project no./Sr.no.</td>
+				</tr>
+
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Supplier Name</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >PO Date</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Supplier Address</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Quote Date</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Contact Number</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Email Id</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>Supplier GST No</td>
+					<td></td>
+					<td></td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >Payment Terms</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >delivery Period</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+			<tr style="solid;border-width:1px;width:100%;">
+				<td  style="border-style: solid;border-width:1px;" >Billing Address</td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+				<td  style="border-style: solid;border-width:1px;" >Shipping Address</td>
+			</tr>
+			<tr style="solid;border-width:1px;width:100%;">
+				<td  style="border-style: solid;border-width:1px;" >1.Name</td>
+				<td  style="border-style: solid;border-width:1px;" >2.</td>
+				<td  style="border-style: solid;border-width:1px;" >3.Address</td>
+			</tr>
+			</table>
+
+			<table style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >S.No</td>
+					<td  style="border-style: solid;border-width:1px;" >Items</td>
+					<td  style="border-style: solid;border-width:1px;" >Unit</td>
+					<td  style="border-style: solid;border-width:1px;" >Unit Price</td>
+					<td  style="border-style: solid;border-width:1px;" >Quantity</td>
+					<td  style="border-style: solid;border-width:1px;" >Amount</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1.</td>
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" >1.</td>
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+					<td  style="border-style: solid;border-width:1px;" >2.</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >3.</td>
+					<td  style="border-style: solid;border-width:1px;" >3</td>
+					<td  style="border-style: solid;border-width:1px;" >3</td>
+					<td  style="border-style: solid;border-width:1px;" >3.</td>
+					<td  style="border-style: solid;border-width:1px;" >3</td>
+					<td  style="border-style: solid;border-width:1px;" >3</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+			<tr style="solid;border-width:1px;width:100%;">
+				<td  style="border-style: solid;border-width:1px;" >Note</td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+				<td  style="border-style: solid;border-width:1px;" ></td>
+			</tr>
+			</table>
+
+			<table style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Amount</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Discount</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >0.00</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Net price</td>
+					<td style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >0.00</td>
+				</tr> 
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Packing and Forwarding</td>
+					<td  style="border-style: solid;border-width:1px;" >included</td>
+					<td  style="border-style: solid;border-width:1px;" >0.00</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td   style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >GST</td>
+					<td  style="border-style: solid;border-width:1px;" >18.00%</td>
+					<td  style="border-style: solid;border-width:1px;" >0.00</td>
+				</tr>
+				<tr style="solid;border-width:1px;width:100%;">
+					<td  style="border-style: solid;border-width:1px;" >1</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >Total amount(Round Off)</td>
+					<td  style="border-style: solid;border-width:1px;" ></td>
+					<td  style="border-style: solid;border-width:1px;" >0.00</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+			<tr style="solid;border-width:1px;width:100%;">
+				<td>Amount in words(Rupees)</td>
+			</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>Warranty:</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>Packing=</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>Inspection (prior to despatch)</td>
+				</tr>
+			</table>
+
+			<table style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>Liquiated Damages</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>DOCUMENTS TO BE SUBMITTED by SUPPLIER</td>
+				</tr>
+			</table>
+
+			<table style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>1)INVOICE</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>2)TEST CERTIFICATE </td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr>
+					<td>3)WARRANTY CERTIFICATE</td>
+				</tr>
+			</table>
+
+			<table  style="border-style: solid;border-width:1px;" width="100%">
+				<tr style="solid;border-width:1px;width:100%;">
+					<td>4)DELIVERY CHALLAN</td>
+				</tr>
+			</table>
+
+
+		</div>
+	</t>
+		</template>
+		<template id="offer_letter_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="oi_sale_novergy.report_offer_letter_template" t-lang="doc.partner_id.lang"/>
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>
