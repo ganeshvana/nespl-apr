@@ -1,0 +1,17 @@
+{
+    'name': 'Itara Bank Fieds',
+    'version': '1.0',
+    'category': 'Generic Modules/Company',
+    'summary': 'Bank Info',
+    'description': """Amount transaction details stored here..""",
+    'author': 'Itara/Prasanth',
+    'website': "https://www.odoo.com",
+    'images':['static/description/logo.png',],
+    'depends': ['base'],
+    'data': ['views/views.xml'],
+    'demo': [ ],
+    'test': [ ],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+  }

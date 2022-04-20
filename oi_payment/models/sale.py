@@ -7,9 +7,17 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     payment_detail_ids = fields.One2many('payment.details', 'sale_order_id',"Payment Details")
-            
+               
     @api.model
-    def create(self, vals):
+    def create(self, vals):        
+        if vals.get('name', _('New')) == _('New'):
+            seq_date = None
+            if 'date_order' in vals:
+                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+            if 'warehouse_id' in vals:
+                warehouse = self.env['stock.warehouse'].browse(vals['warehouse_id'])
+                seq = self.env['ir.sequence'].next_by_code(warehouse.sale_sequence.code, sequence_date=seq_date) or _('New')
+                vals['name'] = seq        
         res = super(SaleOrder, self).create(vals)
         if res.payment_term_id:
             payterm_vals = []
@@ -52,9 +60,7 @@ class SaleOrder(models.Model):
             'url': baseurl,
             'target': 'new',
         }
-        
-    
-    
+            
 class PaymentDetails(models.Model):
     _name = 'payment.details'
     _description = 'Payment Details'
@@ -130,8 +136,6 @@ class BankGuarantee(models.Model):
                         })
                     gua.activity_created = True   
                     self.env.cr.commit()
-                    
-                                         
         return True
     
 class BankGuaranteeType(models.Model):
@@ -139,4 +143,9 @@ class BankGuaranteeType(models.Model):
     _description = "Bank Guarantee Type" 
     
     name = fields.Char("Name")
+    
+class Warehouse(models.Model):
+    _inherit='stock.warehouse'
+
+    sale_sequence = fields.Many2one('ir.sequence','Sale Sequence')
     

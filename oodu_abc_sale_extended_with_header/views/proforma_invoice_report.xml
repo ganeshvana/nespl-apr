@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <template id="proforma_invoice_report_with_header_document">  
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="o">
+                    <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})" />
+                    <div class="page" style="margin-top:0;">
+                    	<div class="row" style="padding-top:0px;margin-top:1px">
+               				<div class="col-4" style="float:left">
+                            	<img t-if="o.company_id.logo" t-att-src="'data:image/png;base64,%s' % to_text(o.company_id.logo)" style="width:40%;" alt="Logo"/>
+                			</div>  
+
+               				<div class="col-8" style="margin-top:1px; float:right;text-align:right">
+                    			<strong>
+                        			<span style="font-size: 20px;" t-if="o.company_id.name">
+                            			<span t-field="o.company_id.name"/>
+                        			</span>
+                    			</strong>
+                    			<br/>
+                    			<span  t-if="o.company_id.street">
+                    				<span t-field="o.company_id.street" />
+                    			</span>
+                    			<br />
+                    			<span t-if="o.company_id.street2">
+                        			<span t-field="o.company_id.street2"/>
+                    			</span>
+                    			<span t-if="o.company_id.city">
+                        			<span t-field="o.company_id.city" />
+                    			</span>
+                    			<br />
+                    			<span t-if="o.company_id.country_id">
+                        			<span t-field="o.company_id.country_id" />
+                    			</span>
+                    			<span t-if="o.company_id.zip">
+                        			<span>-</span>
+                        			<span t-field="o.company_id.zip" />
+                    			</span>
+                    			<br/>
+                    			<span t-if="o.company_id.phone">
+                        			<span t-field="o.company_id.phone" />
+                    			</span>
+                    			<br />
+                    			<span t-if="o.company_id.website">
+                         			<span t-field="o.company_id.website" />
+                         			<br />
+                    			</span>
+                    
+                			</div>          
+           				</div>
+
+                    <div class="row" style="margin-top:30px;">
+               			<div class="col-12">
+                   			<center>
+                       			<span style="font-size:24px;"> <b>PROFORMA INVOICE</b></span>
+                    		</center>
+               			</div>              
+           			</div>       
+
+           			<div class="row" style="margin-top:35px;">
+                        <div name="invoice_address" class="col-12">
+                            <span class="table table-condensed" style="font-size:12px;font-family:helvetica;"><strong>Customer Name</strong></span><br />
+                            <span t-if="o.partner_id.name">
+                                <span style="font-size:12px;" t-field="o.partner_id.name" />
+                            </span><br />
+                            <span t-if="o.partner_id.street">
+                                <span style="font-size:12px;" t-field="o.partner_id.street" />
+                            </span><br />
+                            <span t-if="o.partner_id.street2">
+                                <span  style="font-size:12px;" t-field="o.partner_id.street2" />
+                            </span><br />
+                            <span t-if="o.partner_id.city">
+                                <span style="font-size:12px;" t-field="o.partner_id.city" />
+                            </span>
+                            <span t-if="o.partner_id.zip">
+                                <span style="font-size:12px;" t-field="o.partner_id.zip" />
+                            </span><br />
+                            <span t-if="o.partner_id.state_id">
+                                <span style="font-size:12px;" t-field="o.partner_id.state_id"/>, 
+                                <!-- <span>,</span> -->
+                            </span>
+                            <span t-if="o.partner_id.country_id">
+                                
+                                <span style="font-size:12px;" t-field="o.partner_id.country_id" />
+                            </span><br/>
+
+                            <span t-if="o.partner_id.vat">
+                            	<!-- <br/> -->
+                                <span class="table table-condensed" style="font-size:12px;"><strong>GSTIN<!-- <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/> --></strong></span>
+                                <span>&amp;nbsp;</span>
+                                <span>:</span>
+                                <span>&amp;nbsp;</span>
+                                <span style="font-size:12px;" t-field="o.partner_id.vat"/>
+                            </span><br/>
+                                <!-- <div><span t-field="o.partner_id.pan"/></div> -->
+                            <span>
+                                <span class="table table-condensed"><b style="font-size:12px;">State Name</b></span>
+                                <span>&amp;nbsp;</span>
+                                <span>:</span>
+                                <span>&amp;nbsp;</span>
+                                <span style="font-size:12px;" t-field="o.partner_id.state_id"/>
+                                <span>&amp;nbsp;</span>
+                                <span class="table table-condensed"><b style="font-size:12px;">State code</b></span>
+                                <span>&amp;nbsp;</span>
+                                <span>:</span>
+                                <span>&amp;nbsp;</span>
+                                <span style="font-size:12px;" t-field="o.partner_id.state_id.code"/>
+                            </span>
+                        </div>
+                    </div>
+
+                    <br/>
+                    <div class="row">
+                        <div class="col-6">
+
+                            <div style="float:left;">
+                                <span>Number</span>
+                                <span>&amp;nbsp;</span>
+                                <span>:</span>
+                                <span>&amp;nbsp;</span>
+                                
+                                <b style="font-size:12px;">PI/<span style="font-size:12px;" t-field="o.name"/></b>
+                            </div>
+                            
+                        </div>
+                       
+                        <div class="col-6">
+                        	<div style="float:right;">
+	                            <span style="font-size:12px;">Date</span>
+	                            <span>&amp;nbsp;</span>
+	                            <span>:</span>
+	                            <span>&amp;nbsp;</span>
+	                            <b style="font-size:12px;">
+	                            	<span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/> 
+	                            </b>
+                        	</div>
+                        </div>
+                      
+                    </div>
+
+                   
+                    <t t-set="display_discount" t-value="any([l.discount for l in o.order_line])"/>
+
+                    <table class="table table-sm o_main_table" name="invoice_line_table" style="width:100%;">
+                        <!-- <style>
+                            table {
+                            border: 1px solid black;
+                            width: 900px;
+                            }
+                        </style> -->
+
+                        <thead>
+                            <tr>
+                                <th class="text-center" style="font-size:12px; width:30%;">DESCRIPTION</th>
+                                <!-- <th class="hidden">Source Document</th> -->
+                                <!-- <th class="text-right">Quantity</th> -->
+                                <th class="text-center" style="font-size:12px; width:15%;">HSN/SAC Code</th>
+                                <th class="text-center" style="font-size:12px; width:20%;">PROFESSIONAL FEES</th>
+                                <th t-if="display_discount" class="text-center">Disc.(%)</th>
+                                <th class="text-center" style="font-size:12px; width:15%;">Taxes</th>
+                                <th class="text-center" style="font-size:12px; width:20%;">SUB TOTAL</th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="invoice_tbody">
+                            <tr t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+
+                                <td style=" width:30%;font-size:12px;"><span t-field="l.name"/></td>
+                                <td style=" width:15%;font-size:12px;" class="text-right">
+                                    <span t-field="l.product_id.l10n_in_hsn_code" />
+                                </td>
+                                <td style=" width:20%;font-size:12px;" class="text-right">
+                                    <span t-field="l.price_unit"/>
+                                </td>
+                                <td t-if="display_discount" class="text-right">
+                                    <span t-field="l.discount"/>
+                                </td>
+                                
+                        		<td style="width:15%;font-size:12px;" class="text-right">
+                            		<span t-esc="', '.join(map(lambda x: (x.description or x.name), l.tax_id))"/>
+                        		</td>
+                                <td style="width:20%;font-size:12px;" class="text-right" id="subtotal">
+                            		<span t-field="l.price_subtotal"
+                                		  t-options='{"widget": "monetary", "display_currency": o.currency_id}'/>
+                        		</td>
+                            </tr>
+                           <tr t-foreach="range(max(3-len(o.order_line),0))" t-as="l">
+		                        <td t-translation="off">&amp;nbsp;</td>
+		                        <td></td>
+		                        <td></td>
+		                        <td t-if="display_discount"></td>
+		                        <td></td>
+		                        <td></td>
+                    		</tr>
+                        </tbody>
+                    </table>
+
+                  <div class="clearfix">
+                        <div id="total" class="row">
+                        	 <div class="col-8" style="float:left;" >
+                               <!--  <t t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+                                                    <t t-set="i" t-value="i+l.price_total"/>
+                                                </t> -->
+								<t t-set="i" t-value="0"/>
+                                <t t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+                                <t t-set="i" t-value="i+l.price_total"/></t>
+                                <p style="font-size:12px;"><b>Amount In Words</b></p>
+		                        <b><span style="font-size:12px;" t-esc="o.currency_id.name"></span></b><span>&amp;nbsp;</span><span>&amp;nbsp;</span>
+		                        <span style="font-size:12px;" t-esc="o.currency_id.amount_to_text(i)"/>
+		                        <span style="font-size:12px;">Only</span>
+        
+                            </div>
+
+                            <div class="col-4" style="float:right;">
+
+                                <table class="table table-sm" style="min-width: 250px;max-width: 400px;margin-left:auto;font-size:12px;">
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td style="font-size:12px;"><strong>Subtotal</strong></td>
+                                        <td style="font-size:12px;" class="text-right">
+                                            <t t-set="i" t-value="0"/>
+                                                <t t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+                                                    <t t-set="i" t-value="i+l.price_subtotal"/>
+                                                </t>
+                                                <t t-esc="'%.2f'%(i)"></t>
+                                                <span t-field="o.currency_id.symbol"/>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-black" style="border-bottom:1px solid #dddddd;">
+                                        <td style="font-size:12px;"><strong>Tax</strong></td>
+
+                                        <td style="font-size:12px;" class="text-right">
+                                            <t t-set="i" t-value="0"/>
+                                                <t t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+                                                    <t t-set="i" t-value="i+l.price_tax"/>
+                                                </t>
+                                                <t t-esc="'%.2f'%(i)"></t>
+                                                <span t-field="o.currency_id.symbol"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr class="border-black">
+                                        <td><strong style="font-size:12px;">Total</strong></td>
+                                        <td style="font-size:12px;" class="text-right">
+                                            <t t-set="i" t-value="0"/>
+                                                <t t-foreach="o.order_line" t-as="l" t-if="l.proforma_invoice">
+                                                    <t t-set="i" t-value="i+l.price_total"/>
+                                                </t>
+                                                <t t-esc="'%.2f'%(i)"></t>
+                                                <span t-field="o.currency_id.symbol"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                           
+                        </div>
+                    </div>
+
+
+		 			<div>
+            <div class="col-7" style="float:left">
+                <table width="500" class="col-6" style="background-color:hidden">
+                    <tr>
+                       
+                <td class="text-center" style="padding:5px;">
+                  <span style="font-size:12px;"><b><strong>BANK &amp; GST DETAILS</strong></b></span>
+                </td>
+
+              </tr>
+               <tr>
+                 
+                 
+                   <td>
+                      <div class="row">
+                          <div>
+                              <span style="font-size:12px; padding-left:20px;">Company Name</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">Bank Name</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">Bank Branch</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">A/C No</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">IFSC Code</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">Swift Code</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">GSTIN</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">State Name&amp;Code</span><br/>
+                              <span style="font-size:12px; padding-left:20px;">PAN No</span>
+                          </div>
+                          <div style="margin-left:25px">
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.name"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.bank_name"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.bank_branch"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.ac_no"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.ifsc_code"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.swift_code"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.gst_no"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.state_id"/>, <span style="font-size:12px;" t-field="o.company_id.state_id.l10n_in_tin"/><br/>
+                              <span>:</span><span>&amp;nbsp;</span><span style="font-size:12px;" t-field="o.company_id.pan_no"/>
+                          </div>
+  
+                  </div>
+                  
+                  </td>
+                  
+                  
+              </tr>
+                </table>
+            </div>
+            <div class="col-5" style="float:right">
+                <!-- <span class="text-right" style="font-size:12px;"> <span class="text-right">For</span><span>&amp;nbsp;</span><span style="font-size:12px;text-align:right"><span style="font-size:12px;text-align:right" t-field = "o.company_id.name" /></span></span> -->
+                <!-- <span class="text-right">For</span> -->
+                <h4 class="text-right" style=" font-size:12px; padding-top:60px;">For <span>&amp;nbsp;</span><span t-field="o.company_id.name"/></h4>
+
+                <h4 class="text-right" style=" font-size:12px; padding-top:60px;"><b>Authorised Signatory</b></h4>
+            </div>
+        </div>
+                </div>
+                   
+
+                </t>
+            </t>
+
+        </template>
+
+
+
+        <template id="report_proforma_invoice_doc">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="oodu_abc_sale_extended_with_header.proforma_invoice_report_with_header_document" t-lang="doc.partner_id.lang"/>
+                </t>
+
+            </t>
+        </template>
+
+    </data>
+
+</odoo>
