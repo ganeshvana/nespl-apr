@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="view_partner_form_field" model="ir.ui.view">
+         <field name="name">res.partner.form</field>
+         <field name="model">res.partner</field>
+         <field name="inherit_id" ref="base.view_partner_form" />
+         <field name="arch" type="xml">
+             <xpath expr="//form/sheet/group/group/field[@name='website']" position="after">
+             	<field name="pan"/>
+             	<field name="cha"/>
+             	<field name="cfs"/>
+             </xpath>
+         </field>
+     </record>
+
+      <record id="view_order_form_inherit_purchase" model="ir.ui.view">
+			<field name="name">purchase.order.form</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_form" />
+			<field name="arch" type="xml">	
+				<xpath expr="//button[@id='bid_confirm']" position="attributes">
+					<attribute name="string">Convert to PO Draft</attribute>
+				</xpath>
+				<xpath expr="//button[@id='draft_confirm']" position="attributes">
+					<attribute name="string">Convert to PO Draft</attribute>
+				</xpath>
+				<xpath expr="//button[@name='button_approve']" position="attributes">
+					<attribute name="string">Approve PO Draft</attribute>
+				</xpath>
+				<xpath expr="//field[@name='origin']" position="attributes">
+					<attribute name="readonly">True</attribute>
+				</xpath>
+				<xpath expr="//field[@name='partner_ref']" position="after">
+					<field name="expire_date"/>
+				</xpath>
+				<xpath expr="//field[@name='fiscal_position_id']" position="after">
+					<field name="cancel_reason"/>
+				</xpath>
+				<xpath expr="//field[@name='payment_term_id']" position="replace">
+				</xpath>
+				<xpath expr="//field[@name='incoterm_id']" position="replace">
+				</xpath>	
+				<xpath expr="//field[@name='date_order']" position="after">
+					<field name="transport_mode" attrs="{'invisible': [('type', '!=', 'import')]}"/>
+					<field name="sea_port" attrs="{'invisible': [('transport_mode', '!=', 'sea')]}"/>
+					<field name="air_port" attrs="{'invisible': [('transport_mode', '!=', 'air')]}"/>
+					<field name="port" attrs="{'invisible': [('transport_mode', 'not in', ['road', 'courier'])]}"/>
+					<field name="payment_term_id" domain="[('team_id', '=', team_id)]"/>
+					<field name="incoterm_id"/>
+				</xpath>	
+				<xpath expr="//field[@name='date_approve']" position="attributes">
+					<attribute name="string">Approved Date</attribute>
+				</xpath>
+				<xpath expr="//field[@name='picking_type_id']" position="attributes">
+					<attribute name="string">Unit</attribute>
+				</xpath>
+				<xpath expr="//field[@name='date_order']" position="attributes">
+					<attribute name="string">PO Date</attribute>
+				</xpath>
+				<xpath expr="//field[@name='partner_ref']" position="attributes">
+					<attribute name="string">Indent Ref number</attribute>
+				</xpath>
+				<xpath expr="//field[@name='partner_ref']" position="after">
+					<field name="indent_date"/>
+					<field name="type" invisible="1"/>
+				</xpath>	
+				
+				<xpath expr="//label[@for='date_planned']" position="attributes">
+					<attribute name="string">Required Delivery Date</attribute>
+				</xpath>
+				<xpath expr="//page[@name='products']/field/tree/field[@name='product_id']" position="after">
+					<field name="origin_id" attrs="{'column_invisible': [('parent.type', '!=', 'import')]}"/>
+					<field name="agent_id" attrs="{'column_invisible': [('parent.type', '!=', 'import')]}"/>
+				</xpath>	
+				<xpath expr="//page[@name='products']/field[@name='order_line']" position="attributes">
+					<attribute name="context">{'default_state': 'draft', 'default_date_planned': expire_date}</attribute>
+				</xpath>	
+			</field>
+		</record>  
+		
+		
+		<record id="purchase_order_view_tree1" model="ir.ui.view">
+			<field name="name">purchase.order.tree</field>
+			<field name="model">purchase.order</field>
+			<field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+			<field name="arch" type="xml">	
+				<xpath expr="//field[@name='date_approve']" position="attributes">
+					<attribute name="string">Approved Date</attribute>
+				</xpath>	
+				<xpath expr="//field[@name='date_planned']" position="attributes">
+					<attribute name="string">Required Delivery Date</attribute>
+				</xpath>			
+			</field>
+		</record>
+		
+		
+		<record id="view_picking_form_inherit_purchase" model="ir.ui.view">
+			<field name="name">stock.picking.form</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form" />
+			<field name="arch" type="xml">				
+				<xpath expr="//field[@name='location_dest_id']" position="after">
+				<field name="type" invisible="1"/>
+					<field name="purchase_id" invisible="1"/>
+					<field name="tracking_id" domain="[('purchase_id', '=', purchase_id)]" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')], 'required': [('type', '=', 'import')]}"/>	
+					<!-- <field name="bl_date" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="bl_qty" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="bank_account_id" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="awb_tracking" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="bank_ref_no" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="linear_id" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/> -->
+						
+				</xpath>
+				<xpath expr="//label[@for='scheduled_date']" position="replace">	
+					<label for="scheduled_date" string="Onboard Date"/>
+				</xpath>	
+				<!-- <xpath expr="//field[@name='origin']" position="after">	
+								
+					<field name="eta" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="actual_eta" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="free_days" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="free_days_end" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="no_of_container" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+					<field name="cha" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="cfs" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="payment_proposed_date" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="payment_clearance_date" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>
+					<field name="import_stage_id" attrs="{'invisible': ['|',('picking_type_code', '!=', 'incoming'),('type', '!=', 'import')]}"/>	
+				</xpath> -->	
+				<!-- <xpath expr="//field[@name='origin']" position="replace">	
+					<label for="origin" string="Source Document" attrs="{'invisible': [('picking_type_code', '=', 'incoming')]}"/>
+					<label for="origin" string="PO Number" attrs="{'invisible': [('picking_type_code', '!=', 'incoming')]}"/>
+                    <div >
+                        <field name="origin" placeholder="e.g. PO0032" class="oe_inline"/>
+                    </div>
+				</xpath> -->
+				<xpath expr="//page/field[@name='move_ids_without_package']/tree/field[@name='quantity_done']" position="after">	
+					<field name="truck_number" attrs="{'invisible': ['|',('parent.picking_type_code', '!=', 'incoming'),('parent.type', '!=', 'import')]}"/>
+					<field name="receipt_remarks_id" attrs="{'invisible': ['|',('parent.picking_type_code', '!=', 'incoming'),('parent.type', '!=', 'import')]}"/>
+				</xpath>	
+			</field>
+		</record> 
+		
+		<record id="view_payment_term_form_purchase" model="ir.ui.view">
+			<field name="name">account.payment.term.form</field>
+			<field name="model">account.payment.term</field>
+			<field name="inherit_id" ref="account.view_payment_term_form" />
+			<field name="arch" type="xml">	
+				<xpath expr="//field[@name='name']" position="after">
+					<field name="team_id"/>
+				
+				</xpath>			
+			</field>
+		</record>
+		
+		<record id="view_backorder_confirmation_inherit_purchase1" model="ir.ui.view">
+			<field name="name">stock.backorder.confirmation.form</field>
+			<field name="model">stock.backorder.confirmation</field>
+			<field name="inherit_id" ref="stock.view_backorder_confirmation" />
+			<field name="arch" type="xml">
+				<xpath expr="//button[@name='process_cancel_backorder']" position="replace">	
+					<button name="process_cancel_backorder" string="No Backorder" type="object" class="btn-primary" attrs="{'invisible': [('show_transfers', '=', True)]}" data-hotkey="w" invisible="1"/>
+				</xpath>		
+			</field>
+		</record>
+		
+		<template id="report_purchase_document_with_purchase_field" inherit_id="purchase.report_purchaseorder_document">
+            <xpath expr="//div[@id='informations']" position="inside">
+            	<div t-if="o.indent_date" class="col-3 bm-2">
+                    <strong>Indent Ref Date:</strong>
+                    <p t-field="o.indent_date" class="m-0"/>
+                </div>
+                <div t-if="o.transport_mode" class="col-3 bm-2">
+                    <strong>Transport Mode:</strong>
+                    <p t-field="o.transport_mode" class="m-0"/>
+                </div>
+                <div t-if="o.expire_date" class="col-3 bm-2">
+                    <strong>Expire Date:</strong>
+                    <p t-field="o.expire_date" class="m-0"/>
+                </div>
+            </xpath>
+        </template>  
+		
+<data noupdate="1">
+	<record forcecreate="True" id="ir_cron_approve_delay_cron" model="ir.cron">
+	         <field name="name">Purchase Approval - Delay Reminder</field>
+	         <field eval="True" name="active"/>
+	         <field name="user_id" ref="base.user_root"/>
+	         <field name="interval_number">1</field>
+	         <field name="interval_type">days</field>
+	         <field name="numbercall">-1</field>
+	         <field eval="False" name="doall"/>
+	         <field name="model_id" ref="model_purchase_order" />
+	         <field name="code">model.send_approve_delay()</field>
+	     </record>
+
+	<record id="mail_template_send_approve_delay" model="mail.template">
+            <field name="name">Purchase Approval - Delay Reminder</field>
+            <field name="model_id" ref="model_purchase_order"/>
+            <field name="email_from"></field>
+            <field name="subject">Purchase Approval - Delay Reminder</field>
+            <field name="email_to"></field>
+            <field name="body_html" type="html">
+                <p>Hello, <br/> <t t-esc="object.name"/> is in queue for your approval.</p>
+            </field>
+        </record>
+</data> 
+</odoo>

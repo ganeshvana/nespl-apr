@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_picking_form_inherit">
+        <field name="name">sale.template.form.vehicle_no</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr= "//form/sheet/notebook/page[@name='extra']/group/group/field[@name='company_id']" position ="after">
+                <field name="vehicle_number"/>
+                <field name="so_id"/>  
+                <field name="customer_po"/>                           
+                <field name="project_id"/>                           
+                <field name="salesman_code"/>  
+                <field name="fax"/>  
+
+                         
+            </xpath>
+            <xpath expr= "//form/sheet/group/group/field[@name='origin']" position ="after">
+               <!--  <field name="client_po_no"/>
+                <field name=" date"/>
+                <field name=" material_insured"/>
+                <field name="insurance_policy"/>
+                <field name="insurance_number "/>
+                <field name="project_number"/>
+ -->
+              
+            </xpath>
+            
+        </field>
+    </record>
+
+
+
+   <record model="ir.ui.view" id="view_picking_form_inherit123">
+        <field name="name">sale.template.form.delivery</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr= "//field[@name='origin']" position ="after">
+                <field name="reference_number"/>
+                <field name="transport"/>
+                <field name="loading"/>
+
+               <!--  <field name="client_po_no"/>
+                <field name="client_date"/> -->
+            </xpath>
+            
+            <xpath expr= "//field[@name='location_id']" position ="after">   
+                <field name="material_insured"/>
+                <field name="insurance_policy"/>
+                <field name="insurance_number"/>
+                <field name="project_number"/>
+
+            </xpath>
+        </field>
+     </record>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</odoo>

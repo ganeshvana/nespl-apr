@@ -1,0 +1,57 @@
+<odoo>
+    <data>
+        <record id="view_inherit_sale_creditlimit" model="ir.ui.view">
+            <field name="name">view.inherit.sale.order.creditlimit</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">            	       	
+            	<xpath expr="//field[@name='payment_term_id']" position="attributes">
+            		<attribute name="required">True</attribute>
+            	</xpath>            	
+                <xpath expr="//page[@name='other_information']" position="after">
+                	<page string="Payment">
+                		<field name="payment_detail_ids" editable="1" readonly="1">
+                			<tree editable="bottom">
+                				<field name="payment_term_line_id"/>
+                				<field name="payment_term_id" invisible="1"/>
+                				<field name="payment_ids" widget="many2many_tags"/>
+                				<field name="payment_amount" string="Payment Amount"/>
+                			</tree>
+                		</field>
+                	</page>                    
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_inherit_purchase_creditlimit" model="ir.ui.view">
+            <field name="name">view.inherit.purchase.order</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='purchase_delivery_invoice']" position="after">
+                	<page string="Payment">
+                		<field name="payment_detail_ids" editable="1" readonly="1">
+                			<tree editable="bottom">
+                				<field name="payment_term_line_id"/>
+                				<field name="payment_term_id" invisible="1"/>
+                				<field name="payment_ids" widget="many2many_tags"/>
+                				<field name="payment_amount" string="Payment Amount"/>
+                			</tree>
+                		</field>
+                	</page>                    
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="view_warehouse_inherit1" model="ir.ui.view">
+            <field name="name">stock.warehouse.form</field>
+            <field name="model">stock.warehouse</field>
+            <field name="inherit_id" ref="stock.view_warehouse"/>
+            <field name="arch" type="xml">            	       	
+            	<xpath expr="//field[@name='code']" position="after">
+            		<field name="sale_sequence" required="1"/>
+            	</xpath> 
+            </field>
+        </record>
+    </data>
+</odoo>

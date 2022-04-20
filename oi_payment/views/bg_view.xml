@@ -1,0 +1,90 @@
+<odoo>
+	<data>
+		<record forcecreate="True" id="ir_cron_bank_guarantee" model="ir.cron">
+	         <field name="name">Bank Guarantee Expiry</field>
+	         <field eval="True" name="active"/>
+	         <field name="user_id" ref="base.user_root"/>
+	         <field name="interval_number">1</field>
+	         <field name="interval_type">days</field>
+	         <field name="numbercall">-1</field>
+	         <field eval="False" name="doall"/>
+	         <field name="model_id" ref="model_bank_guarantee" />
+	         <field name="code">model.get_expiring_bg()</field>
+	     </record>
+	     
+	</data>
+	<data>
+		<record id="bank_guarantee_form" model="ir.ui.view">
+			<field name="name">bank.guarantee.form</field>
+			<field name="model">bank.guarantee</field>
+			<field name="arch" type="xml">
+				<form string="Invoice Term">
+					<header>
+						<field name="state" widget="statusbar" options="{'clickable': True}"/>
+					</header>
+					<sheet>
+						<group>
+							<h2>
+							<group>
+								<field name="name" required="1"/>
+							</group>
+							</h2>
+							<group>
+							</group>
+						</group>
+						
+						<group>
+							<group>
+								<field name="date" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="bgtype_id" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="partner_id" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="amount" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								
+							</group>
+							<group>
+								<field name="expiry_date" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="claim_expiry_date" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="fd_no" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="user_id" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+							</group>
+						</group>
+						<group>
+							<group>
+								<field name="remarks" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+							</group>
+							<group>
+								<field name="fdremarks" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+				</form>
+			</field>
+		</record>
+
+		<record id="bank_guarantee_tree" model="ir.ui.view">
+			<field name="name">bank.guarantee.tree</field>
+			<field name="model">bank.guarantee</field>
+			<field name="arch" type="xml">
+				<tree string="Sale Term">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_bank_guarantee"
+			model="ir.actions.act_window">
+			<field name="name">Bank Guarantee</field>
+			<field name="res_model">bank.guarantee</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_bank_guarantee"
+			parent="sale.menu_sale_config"
+			action="action_bank_guarantee" sequence="52" />
+	</data>
+</odoo>

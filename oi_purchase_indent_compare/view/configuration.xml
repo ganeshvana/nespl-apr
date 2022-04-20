@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="purchase_order_type_tree_view" model="ir.ui.view">
+			<field name="name">purchase.order.type.tree</field>
+			<field name="model">purchase.order.type</field>
+			<field name="arch" type="xml">
+				<tree string="name">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="purchase_order_type_form_view" model="ir.ui.view">
+			<field name="name">purchase.order.type.form</field>
+			<field name="model">purchase.order.type</field>
+			<field name="arch" type="xml">
+				<form string="name">
+					<sheet>
+						<group>
+							<group>
+								<field name="name" />
+								<field name="escalation_days" />
+							</group>
+							<group>
+								<field name="company_id" />
+								<field name="from_email" />
+								<field name="to_email" />
+							</group>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_purchase_order_type" model="ir.actions.act_window">
+			<field name="name">Purchase Order Type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">purchase.order.type</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create the first record
+				</p>
+			</field>
+		</record>
+		
+		<!-- <menuitem id="purchase_order_type_menu"
+			name="Purchase Order Type" sequence="31" parent="purchase.menu_purchase_config"
+			action="action_purchase_order_type" /> -->
+			
+		<record id="purchase_origin_tree_view" model="ir.ui.view">
+			<field name="name">purchase.origin.tree</field>
+			<field name="model">purchase.origin</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_purchase_origin" model="ir.actions.act_window">
+			<field name="name">Purchase Origin</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">purchase.origin</field>
+			<field name="view_mode">tree,form</field>
+			
+		</record>
+		
+		<menuitem id="purchase_origin_menu"
+			name="Purchase Origin" sequence="31" parent="purchase.menu_purchase_config"
+			action="action_purchase_origin" />
+			
+		
+		<record id="sea_port_tree_view" model="ir.ui.view">
+			<field name="name">sea.port.tree</field>
+			<field name="model">sea.port</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_sea_port" model="ir.actions.act_window">
+			<field name="name">Sea Port</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">sea.port</field>
+			<field name="view_mode">tree,form</field>
+			
+		</record>
+		
+		<menuitem id="sea_port_menu" name="Sea Port" sequence="32" parent="purchase.menu_purchase_config" action="action_sea_port"/>
+		
+		<record id="air_port_tree_view" model="ir.ui.view">
+			<field name="name">air.port.tree</field>
+			<field name="model">air.port</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_air_port" model="ir.actions.act_window">
+			<field name="name">Air Port</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">air.port</field>
+			<field name="view_mode">tree,form</field>
+			
+		</record>
+		
+		<menuitem id="air_port_menu" name="Air Port" sequence="32" parent="purchase.menu_purchase_config" action="action_air_port"/>
+		
+			
+		<record id="receipt_remarks_tree_view" model="ir.ui.view">
+			<field name="name">receipt.remarks.tree</field>
+			<field name="model">receipt.remarks</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_receipt_remarks" model="ir.actions.act_window">
+			<field name="name">Receipt Remarks</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">receipt.remarks</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="purchase_receipt_remarks_menu" name="Receipt Remarks" sequence="32" parent="stock.menu_stock_config_settings" action="action_receipt_remarks" />
+		
+		<record id="linear_tree_view" model="ir.ui.view">
+			<field name="name">linear.tree</field>
+			<field name="model">linear</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_linear" model="ir.actions.act_window">
+			<field name="name">Liner</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">linear</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="linear_menu" name="Liner" sequence="33" parent="stock.menu_stock_config_settings" action="action_linear" />
+		
+		
+		
+		<record id="action_cha" model="ir.actions.act_window">
+			<field name="name">CHA</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.partner</field>
+			<field name="context">{'default_cha': True}</field>
+			<field name="domain">[('cha','=', True)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="cha_menu" name="CHA" sequence="34" parent="stock.menu_stock_config_settings" action="action_cha" />
+		
+		
+		
+		
+		<record id="action_cfs" model="ir.actions.act_window">
+			<field name="name">CFS</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">res.partner</field>
+			<field name="context">{'default_cfs': True}</field>
+			<field name="domain">[('cfs','=', True)]</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="cfs_menu" name="CFS" sequence="35" parent="stock.menu_stock_config_settings" action="action_cfs" />
+		
+		<record id="import_stage_tree_view" model="ir.ui.view">
+			<field name="name">import.stage.tree</field>
+			<field name="model">import.stage</field>
+			<field name="arch" type="xml">
+				<tree string="name" editable="top">
+					<field name="sequence" widget="handle"/>
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+		
+		<record id="action_import_stage" model="ir.actions.act_window">
+			<field name="name">Import Stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">import.stage</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+		
+		<menuitem id="import_stage_menu" name="Import Stage" sequence="35" parent="stock.menu_stock_config_settings" action="action_import_stage" />
+    </data>
+    
+    
+    <data noupdate="1">
+    	<record id="po_tracking_seq" model="ir.sequence">
+            <field name="name">po.tracking.seq</field>
+            <field name="code">po.tracking.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">BL</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">4</field>
+        </record>
+        <record id="gatepass_seq" model="ir.sequence">
+            <field name="name">gatepass.seq</field>
+            <field name="code">gatepass.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">GP</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">4</field>
+        </record>
+    </data>
+</odoo>

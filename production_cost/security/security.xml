@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<record id="group_project_costing" model="res.groups">
+		<field name="name">Project Costing</field>		
+	</record>
+</odoo>

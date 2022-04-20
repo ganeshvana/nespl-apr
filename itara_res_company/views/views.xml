@@ -1,0 +1,33 @@
+<odoo>
+  <data>
+ <record id="view_inherit_res_company" model="ir.ui.view">
+            <field name="name">view.inherit.res.company</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                 <xpath expr="//page[1]" position="after">
+                 <page string="Banking">
+                      <group>
+                        <group>
+                          
+                         <!--  <field name="loc_com_name" /> -->
+                          <field name="bank_name" />
+                          <field name="bank_branch" />
+                          <field name="ac_no" />
+                          <field name="ifsc_code" />
+                          <field name="swift_code" />
+                          
+
+                        </group>
+                        <group>
+                          
+                          <field name="gst_no" />
+                          <field name="pan_no" />
+                        </group>
+                      </group>
+                  </page>
+                 </xpath>
+            </field>
+</record>
+  </data>
+</odoo>

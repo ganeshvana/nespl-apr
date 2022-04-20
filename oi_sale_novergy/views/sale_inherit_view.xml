@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_inherit_from_pricelist_product">
+        <field name="name">sale.template.form.pricelist</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/group[1]/field[@name='company_id']" position ="after">
+                 <field name="partner_id"/>              
+            </xpath>
+        </field>
+    </record>
+
+
+    </data>
+
+</odoo>

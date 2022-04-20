@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>   
+        <record id="indent_comparision_report_view_form" model="ir.ui.view">
+        <field name="name">indent.comparision.report.view.form</field>
+        <field name="model">indent.comparision.report</field>
+        <field name="arch" type="xml">
+            <form>    
+            	<group>
+            		<group>
+            			<field name="purchase_indent" required="1"/>            			
+            		</group>
+            		<group>
+            		</group>
+            	</group>
+            	<group>
+            		<group>
+            			<field name="xls_file" readonly="1" filename="xls_filename"/>
+            			<field name="xls_filename" readonly="1"/>
+            		</group>
+            	</group>            
+                <footer>
+                    <button name="generate_report" string="Export XLSX" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>               
+            </form>
+        </field>
+    </record>
+
+    <record id="action_indent_comparision" model="ir.actions.act_window">
+        <field name="name">Indent Comparision Report</field>
+        <field name="res_model">indent.comparision.report</field>
+        <field name="view_mode">form</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_id" ref="indent_comparision_report_view_form"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem id="menu_indent_comparision"
+        action="action_indent_comparision"
+        name="Indent Comparision"
+        sequence="33" parent="purchase.menu_purchase_config"/>
+        
+	</data>    
+</odoo>

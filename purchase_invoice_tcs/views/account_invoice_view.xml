@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="vendor_invoice_form_inherit_insurance" model="ir.ui.view">
+            <field name="name">account.move.invoice.form.inherit.insurance</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <data>
+                	<xpath expr="//button[@name='button_cancel'][2]" position="replace">
+                    	<button name="button_cancel" string="Cancel" type="object" groups="purchase_invoice_tcs.group_bill_cancel" data-hotkey="w" attrs="{'invisible' : ['|', '|', ('id', '=', False), ('state', '!=', 'draft'),('move_type', '==', 'entry')]}"/>
+                    </xpath>
+                    <xpath expr="//field[@name='invoice_date']" position="after">
+                        <field name="is_tcs_apply"/>
+                    </xpath>
+                   
+                    <xpath expr="//field[@name='tax_totals_json']" position="before">
+                        <field name="tcs_value" attrs="{'invisible': [('is_tcs_apply', '=', False)]}"/>
+                        
+                    </xpath>
+                </data>
+            </field>
+        </record>
+
+        <record id="view_invoice_supplier_tree_inherit_tcs" model="ir.ui.view">
+            <field name="name">invoice.move.tree.inherit.tcs</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_invoice_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="is_tcs_apply"/>
+                    <field name="tcs_value"/>
+                </xpath>
+ 
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="view_employee_form_personal_inherit" model="ir.ui.view">
+            <field name="name">hr.employee.form.personal.info</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+	            <xpath expr="//page[@name='personal_information']/group" position="inside">
+	                <group string="General">
+	                    <field name="aadhaar"/>
+	                    <field name="blood_group"/>
+	                    <field name="vaccinedate1"/>
+	                    <field name="vaccinedate2"/>
+	                    <field name="boosterdate"/>
+	                    <field name="allergic"/>
+	                </group>
+	                
+	                <group string="Security" groups="oi_project_helpdesk.group_employee_pin_security">
+	                    <field name="employee_pin" required="True" password="True"/>
+	                </group>
+	            </xpath>
+            </field>
+        </record>
+        
+        
+</odoo>

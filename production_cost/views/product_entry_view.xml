@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_entry_view_form" model="ir.ui.view">
+        <field name="name">product.entry.form</field>
+        <field name="model">product.entry</field>
+        <field name="arch" type="xml">
+            <form string="Quotation Details">
+                <header>
+                    <button name="action_validate" string="Validate" type="object" class="oe_highlight" states="draft"/>
+                    <button name="compute_amount" string="Compute" type="object" class="oe_highlight" states="validate"/>
+                    <button name="action_re_compute" string="Reset to draft" type="object" class="oe_highlight" states="compute"/>
+                    <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="draft,validate"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validate,compute,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="partner_id"/>
+                            <!--<field name="product_id" string='Product'/>
+                             <field name="sale_order_line_id" string='Product' attrs="{'readonly':[('state','in',['compute'])]}"/> 
+                            <field name="product_uom_qty" required='1'/>
+                            <field name="product_uom_id" string='UOM'/>
+                            <field name="final_cost"/>-->
+                            <field name="sale_order_id" string='Source' required='1'/>
+                            <field name="quotation_template_id"/>
+                            <!-- <field name="net_realization"/>
+                            <field name="total_variable_cost"/>
+                            <field name="contribution_price"/>
+                            <field name="contribution_percent"/> -->
+                            <field name="date"/>
+                            <field name="kw"/>
+                        </group>
+                        <group>
+                            <!--<field name="total_material_cost"/>
+                            <field name="unit_price"/>
+                            <field name="list_price"/>
+                            <field name="agreed_price"/>
+                            <field name="subtotal_sum_a"/>
+                             <field name="subtotal_sum_b"/> 
+                            <field name="cost_lines" nolable='1' attrs="{'readonly':[('state','in',['compute'])]}">
+                                <tree editable="none">
+                                    <field name="name" required='1'/>
+                                    <field name="percentage" required='1'/>
+                                    <field name="total"/>
+                                </tree>
+                            </field>-->
+                        </group>
+                    </group>
+                    <notebook>
+                       <page name='components' string='Components'>
+                            <field name="order_line" attrs="{'readonly':[('state','in',['compute'])]}">
+                                <tree editable="none">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id" required='1'/>
+                                    <field name="product_uom_id"/>                                    
+                                    <field name="cost"/>
+                                    <field name="product_uom_qty" required='1'/>
+                                    <field name="total"/>
+                                    <!-- <field name="remarks"/> -->
+                                </tree>
+                            </field>
+                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="quote_value"/>
+                                    <field name="tax_value"/>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total" />
+                                    <field name="cost_per_wat"/>
+                                    <field name="quote" />
+                                    <field name="quote_per_watt"/>
+                                    <field name="with_tax"/>
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="net_profit"/>
+                                    </div>
+                                    <field name="net_profit" nolabel="1" class="oe_subtotal_footer_separator"/> 
+                                    <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                        <label for="net_profit_percent"/>
+                                    </div>
+                                    <field name="net_profit_percent" nolabel="1" class="oe_subtotal_footer_separator"/> 
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
+                            
+                            
+                        </page>
+                        
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="product_entry_view_tree" model="ir.ui.view">
+        <field name="name">product.entry.tree</field>
+        <field name="model">product.entry</field>
+        <field name="arch" type="xml">
+            <tree string="Quotation Details">
+                <field name="name"/>
+                <field name="sale_order_id" string='Source'/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="product_uom_qty" />
+                <field name="final_cost"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_product_entry_filter" model="ir.ui.view">
+        <field name="name">product.entry.filter</field>
+        <field name="model">product.entry</field>
+        <field name="arch" type="xml">
+            <search string="Search Quotation Details">
+                <group expand="0" string="Group By">
+                    <filter name="partner_id" string="Partner" context="{'group_by':'partner_id'}"/>
+                    <filter name="sale_order_id" string="Source" context="{'group_by':'sale_order_id'}"/>
+                    <filter string="Name" name="name" context="{'group_by':'name'}"/>
+                    <filter name="state" string="Status" context="{'group_by':'state'}"/>
+                    <separator/>
+                    <filter string="Product" name="product_id" context="{'group_by':'product_id'}"/>
+                </group>
+           </search>
+        </field>
+    </record>
+
+
+    <record id="action_product_entry" model="ir.actions.act_window">
+        <field name="name">Quotation Details</field>
+        <field name="res_model">product.entry</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" eval="False"/>
+    </record>
+
+    <menuitem
+        name="Project Costing"
+        parent="sale.sale_order_menu"
+        action="action_product_entry"
+        id="menu_product_entry"
+        sequence="3" groups="production_cost.group_project_costing"/>
+</odoo>
