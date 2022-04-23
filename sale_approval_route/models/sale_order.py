@@ -8,7 +8,7 @@ class SaleOrder(models.Model):
     _inherit = "sale.order"
 
     so_team_id = fields.Many2one(
-        comodel_name="sale.team", string="Sale Type", domain="[('company_id', '=', company_id)]",
+        comodel_name="sale.team", string="Sale Order Type", domain="[('company_id', '=', company_id)]",
         readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
 
     approver_ids = fields.One2many(
@@ -30,6 +30,7 @@ class SaleOrder(models.Model):
         string="Lock Amount Total", compute="_compute_lock_amount_total"
     )
     type = fields.Selection(related='so_team_id.type', store=True)
+    approval_required = fields.Boolean(related='so_team_id.approval_required', store=True)
     amount_total = fields.Monetary(tracking=True)
     state = fields.Selection(selection_add=[('to approve', 'To Approve')])
     # state = fields.Selection([
@@ -165,6 +166,8 @@ class SaleOrder(models.Model):
                 continue
             if not order.so_team_id:
                 # Do default behaviour if PO Team is not set
+                super(SaleOrder, order).action_confirm()
+            elif order.approval_required == False:
                 super(SaleOrder, order).action_confirm()
             else:
                 # Generate approval route and send PO to approve

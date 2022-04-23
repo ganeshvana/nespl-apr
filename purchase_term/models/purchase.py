@@ -22,6 +22,18 @@ class SaleOrder(models.Model):
         if self.template_id:
             self.sale_term = self.template_id.template
             
+class SaleOrderTemplate(models.Model):
+    _inherit = 'sale.order.template'
+
+    template_id = fields.Many2one('sale.letter.template', 'Template', readonly=True, states={'draft': [('readonly', False)]})
+    sale_term = fields.Html('Template', readonly=True, states={'draft': [('readonly', False)]})
+    print_term = fields.Boolean('Print Terms', readonly=True, states={'draft': [('readonly', False)]})
+
+    @api.onchange('template_id')
+    def onchange_template_id(self):
+        if self.template_id:
+            self.sale_term = self.template_id.template
+            
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 

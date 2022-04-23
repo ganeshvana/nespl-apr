@@ -19,6 +19,25 @@
             </field>
         </record>
         
+        <record id="invoice_form_sale_order_template_term" model="ir.ui.view">
+            <field name="name">sale.order.template.form.term.invoice</field>
+            <field name="model">sale.order.template</field>
+            <field name="inherit_id" ref="sale_management.sale_order_template_view_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//page[@name='confirmation']" position="after">
+                        <page string="Terms and Conditions">
+                            <group>
+                                <field name="template_id"/>
+                                <field name="print_term"/>
+                            </group>
+                            <field name="sale_term"/>
+                        </page>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+        
         <record id="invoice_form_purchase_order_term" model="ir.ui.view">
             <field name="name">purchase.order.form.term.invoice</field>
             <field name="model">purchase.order</field>

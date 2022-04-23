@@ -15,7 +15,7 @@
     Design Sales agreements
     Agreements sales
 """,
-    'depends': ['base', 'mail', 'sale', 'purchase', 'product'],
+    'depends': ['base', 'mail', 'sale', 'purchase', 'product','sale_mrp', 'sale_management', 'sale'],
     'data': [
         'security/ir.model.access.csv',
         'report/letter_print.xml',

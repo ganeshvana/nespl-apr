@@ -30,6 +30,7 @@
                             <group>
                                 <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user"/>
                             	<field name="max_amount" />
+                            	<field name="approval_required" />
                             	<!-- <field name="escalation_days" /> -->
                             </group>
                             <group>
@@ -189,7 +190,7 @@
 
                 <field name="partner_id" position="after">
                     <field name="so_team_id" required="1"/>
-                    <field name="order_type_id" required="1"/>
+                    <field name="order_type_id" invisible="1"/>
                 </field>
 
                 <notebook position="inside">
