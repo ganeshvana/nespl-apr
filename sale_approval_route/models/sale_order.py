@@ -57,7 +57,8 @@ class SaleOrder(models.Model):
                 if order.pricelist_id:
                     plines = order.pricelist_id.item_ids.filtered(lambda l: l.product_tmpl_id.id == line.product_id.product_tmpl_id.id)
                     if plines:
-                        price.append(plines.fixed_price)
+                        for line in plines:
+                            price.append(line.fixed_price)
                 if price:
                     if line.price_unit not in price:    
                         if order.current_approver:
