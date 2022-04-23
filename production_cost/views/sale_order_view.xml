@@ -62,12 +62,42 @@
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Opex">
-                		<field name="opex_lines">
-                			<tree editable="top">
-                				<field name="particular"/>
-                				<field name="offered"/>
-                			</tree>
-                		</field>
+                		<group>
+                			<field name="opex_description" required="1"/>
+                		</group>
+                	
+                		<group string="Plants">
+                			<field name="opex_lines_site"  nolabel="1">
+	                			<tree editable="top">
+	                				<field name="plant_name" required="1"/>
+	                				<field name="buyer_location" required="1"/>
+	                				<field name="solar_capacity" required="1"/>
+	                				<field name="output_voltage" required="1"/>
+	                				<field name="buyer_contract" required="1"/>
+	                				<field name="buyer_grid" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Solar Tariff">
+                			<field name="opex_lines_site_rate" nolabel="1">
+	                			<tree editable="top">
+	                				<field name="site_id"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="rate" required="1"/>
+	                				<field name="year" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Special Terms and Condition">
+                			<field name="opex_lines"  nolabel="1">
+	                			<tree editable="top">
+	                				<field name="particular" required="1"/>
+	                				<field name="offered" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
                 	</page>
                 </xpath>
             </field>

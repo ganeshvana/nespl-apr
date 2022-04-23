@@ -3,3 +3,6 @@ access_product_entry,access_product_entry,model_product_entry,base.group_user,1,
 access_product_entry_line,access_product_entry_line,model_product_entry_line,base.group_user,1,1,1,1
 access_product_entry_cost,access_product_entry_cost,model_product_entry_cost,base.group_user,1,1,1,1
 access_product_entry_cost_lines,access_product_entry_cost_lines,model_product_entry_cost_lines,base.group_user,1,1,1,1
+access_opex_lines,access_opex_lines,model_opex_lines,base.group_user,1,1,1,1
+access_opex_lines_site,access_opex_lines.site,model_opex_lines_site,base.group_user,1,1,1,1
+access_opex_lines_site_year,access_opex_lines.site.year,model_opex_lines_site_year,base.group_user,1,1,1,1

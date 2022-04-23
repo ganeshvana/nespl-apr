@@ -136,8 +136,10 @@ class SaleOrderTemplate(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
     partner_id = fields.Many2one('res.partner')
-    opex_lines = fields.One2many('opex.lines', 'template_id')
-    opex_description = fields.Text("OPEX Description")
+    opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
+    opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
+    opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
+    opex_description = fields.Html("OPEX Description")
     
 
 class SaleOrderTemplateLine(models.Model):
@@ -169,7 +171,31 @@ class SaleOrderTemplateLine(models.Model):
                 
 class OpexLines(models.Model):
     _name = 'opex.lines'
+    _description = "Opex Lines"
     
     template_id = fields.Many2one('sale.order.template', "Template")
     particular = fields.Char("Particular")
     offered = fields.Char("Offered")
+    
+    
+class OpexLinesSite(models.Model):
+    _name = 'opex.lines.site'
+    _description = "Opex Lines Site"
+    
+    template_id = fields.Many2one('sale.order.template', "Template")
+    plant_name = fields.Char("Plant Name")
+    buyer_location = fields.Char("Buyer Location")
+    solar_capacity = fields.Char("Offered Solar Capacity KWp (DC)")
+    output_voltage = fields.Char("Buyer Location")
+    buyer_contract = fields.Char("Buyer Contract Demand / Sanction Load (KVA)")
+    buyer_grid = fields.Char("Buyer grid connection Voltage (KV)")
+    
+class OpexLinesSiteYear(models.Model):
+    _name = 'opex.lines.site.year'
+    _description = "Opex Lines Site Year"
+    
+    template_id = fields.Many2one('sale.order.template', "Template")
+    site_id = fields.Many2one('opex.lines.site', "Site")
+    particular = fields.Char("Particular")
+    year = fields.Char("Years")
+    rate = fields.Float("Rate Rs. / Kwh")
