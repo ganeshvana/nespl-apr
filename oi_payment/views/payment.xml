@@ -67,5 +67,15 @@
                 </p>
             </field>
         </record>
+        
+        <record id="project_seq" model="ir.sequence">
+            <field name="name">project.code.seq</field>
+            <field name="code">project.code.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">NPR/</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">5</field>
+        </record>
 	</data>
 </odoo>

@@ -10,7 +10,7 @@
     'description': """
     Custom Sales
 """,
-    'depends': ['base', 'mail', 'sale', 'purchase', 'account', 'product'],
+    'depends': ['base', 'mail', 'sale', 'purchase', 'account', 'product', 'sale_project'],
     'data': [
         'security/security.xml',
         'security/ir.model.access.csv',

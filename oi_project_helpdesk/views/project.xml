@@ -10,6 +10,7 @@
 		    		<field name="project_lifelines"/>
 		    		<field name="employee_id"/>
 		    		<field name="employee_pin"/>
+		    		<h2><field name="project_number" readonly="1"/></h2>
 		    	</field>		    	
 		    </field>
 	    </record>
