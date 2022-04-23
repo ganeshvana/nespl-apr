@@ -111,6 +111,11 @@ class BankGuarantee(models.Model):
     bgtype_id = fields.Many2one('bank.guarantee.type', "BG Type")    
     activity_created = fields.Boolean("Activity Created")    
     user_id = fields.Many2one('res.users', copy=False, tracking=True, string='Salesperson', default=lambda self: self.env.user)
+    fd_amount = fields.Float(string="FD Amount", related='fixed_deposit.fd_amount', store=True)
+    bg_liean_amount = fields.Float("BG Liean Amount")
+    balance = fields.Float(string="Balance", related='fixed_deposit.balance', store=True)
+    fixed_deposit = fields.Many2one('fixed.deposit', "Fixed Deposit")
+    
     
     def get_expiring_bg(self):
         late_payment_po = []
@@ -138,6 +143,8 @@ class BankGuarantee(models.Model):
                     self.env.cr.commit()
         return True
     
+    
+    
 class BankGuaranteeType(models.Model):
     _name = "bank.guarantee.type" 
     _description = "Bank Guarantee Type" 
@@ -149,3 +156,41 @@ class Warehouse(models.Model):
 
     sale_sequence = fields.Many2one('ir.sequence','Sale Sequence')
     
+class FixedDeposit(models.Model):
+    _name = "fixed.deposit" 
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Fixed Deposit"   
+    
+    name = fields.Char("FD Number")
+    fd_amount = fields.Float("FD Amount")
+    balance = fields.Float("Available Amount", compute='compute_amount_all', store=True)
+    used = fields.Float("Used Amount", compute='compute_amount_all', store=True)
+    bank = fields.Char("Bank")
+    date = fields.Date("Date of Issue")
+    maturity_date = fields.Date("Maturity Date")
+    maturity_amount = fields.Float("Maturity Amount")
+    bg_ids = fields.One2many('bank.guarantee', 'fixed_deposit', "BGs")
+    state = fields.Selection([('running', 'Running'),('closed', 'Closed')], default='running')
+    user_id = fields.Many2one('res.users', copy=False, tracking=True, string='Salesperson', default=lambda self: self.env.user)
+    
+    def action_view_bg(self):
+        self.ensure_one()
+        action = self.env.ref("oi_payment.action_bank_guarantee")
+        result = action.read()[0]
+        result["domain"] = [("fixed_deposit", "=", self.id)]
+        result["context"] = {
+            "default_fixed_deposit": self.id,
+        }
+        return result
+    
+    
+    
+    @api.depends('bg_ids', 'bg_ids.bg_liean_amount', 'fd_amount')
+    def compute_amount_all(self):
+        used = 0.0
+        for rec in self:            
+            if rec.bg_ids:
+                for line in rec.bg_ids:
+                    used += line.bg_liean_amount
+            rec.used = used
+            rec.balance = rec.fd_amount - used

@@ -26,11 +26,12 @@
 						<group>
 							<h2>
 							<group>
-								<field name="name" required="1"/>
+								<field name="name" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+							</group>							
+							<group>
+								<field name="fixed_deposit" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 							</group>
 							</h2>
-							<group>
-							</group>
 						</group>
 						
 						<group>
@@ -39,12 +40,14 @@
 								<field name="bgtype_id" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 								<field name="partner_id" required="1" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 								<field name="amount" attrs="{'readonly': [('state', '=', 'validate')]}"/>
-								
+								<field name="bg_liean_amount" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="balance" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 							</group>
 							<group>
 								<field name="expiry_date" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 								<field name="claim_expiry_date" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 								<field name="fd_no" attrs="{'readonly': [('state', '=', 'validate')]}"/>
+								<field name="fd_amount" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 								<field name="user_id" attrs="{'readonly': [('state', '=', 'validate')]}"/>
 							</group>
 						</group>
@@ -72,6 +75,9 @@
 			<field name="arch" type="xml">
 				<tree string="Sale Term">
 					<field name="name" />
+					<field name="fixed_deposit" />
+					<field name="amount" />
+					<field name="bg_liean_amount" />
 				</tree>
 			</field>
 		</record>
@@ -86,5 +92,84 @@
 		<menuitem id="menu_bank_guarantee"
 			parent="sale.menu_sale_config"
 			action="action_bank_guarantee" sequence="52" />
+			
+		<menuitem id="menu_bank_guaranteeaccount"
+			parent="account.menu_finance_receivables"
+			action="action_bank_guarantee" sequence="52" />
+			
+		<record id="fixed_deposit_form" model="ir.ui.view">
+			<field name="name">fixed.deposit.form</field>
+			<field name="model">fixed.deposit</field>
+			<field name="arch" type="xml">
+				<form string="Invoice Term">
+					<header>
+						<field name="state" widget="statusbar" options="{'clickable': True}"/>
+					</header>
+					<sheet>
+						<div class="oe_button_box" name="button_box">
+                        <button name="action_view_bg" type="object" class="oe_stat_button" icon="fa-pencil-square-o" string="Bank Guarantee">
+                        </button>
+                    </div>
+						<group>
+							<h2>
+							<group>
+								<field name="name" required="1" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+							</group>							
+							<group>
+							</group>
+							</h2>
+						</group>
+						
+						<group>
+							<group>
+								<field name="date" required="1" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+								<field name="fd_amount" required="1" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+								<field name="used" required="1"/>
+								<field name="maturity_date" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+							</group>
+							<group>
+								<field name="maturity_date" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+								<field name="bank" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+								<field name="balance"/>
+								<field name="maturity_amount" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+								<field name="user_id" attrs="{'readonly': [('state', '=', 'closed')]}"/>
+							</group>
+						</group>
+					</sheet>
+					<div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+				</form>
+			</field>
+		</record>
+
+		<record id="fixed_deposit_tree" model="ir.ui.view">
+			<field name="name">fixed.deposit.tree</field>
+			<field name="model">fixed.deposit</field>
+			<field name="arch" type="xml">
+				<tree string="Sale Term">
+					<field name="name" />
+					<field name="fd_amount" />
+					<field name="balance" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="action_fixed_deposit"
+			model="ir.actions.act_window">
+			<field name="name">Fixed Deposit</field>
+			<field name="res_model">fixed.deposit</field>
+			<field name="view_mode">tree,form</field>
+		</record>
+
+		<menuitem id="menu_fixed_deposit"
+			parent="sale.menu_sale_config"
+			action="action_fixed_deposit" sequence="51" />
+			
+		<menuitem id="menu_fixed_depositaccount"
+			parent="account.menu_finance_receivables"
+			action="action_fixed_deposit" sequence="51" />
 	</data>
 </odoo>

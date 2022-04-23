@@ -7,14 +7,8 @@ from odoo.tools import float_is_zero, float_compare, DEFAULT_SERVER_DATETIME_FOR
 class sale_order(models.Model):
     _inherit = 'sale.order'
     
-    state = fields.Selection([
-            ('draft', 'Quotation'),
-            ('sent', 'Quotation Sent'),           
-            ('sale', 'Sales Order'),
-            ('proforma_invoice','Proforma Invoice Sent'),
-            ('done', 'Locked'),
-            ('cancel', 'Cancelled'),
-            ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='draft')
+    state = fields.Selection(selection_add=[
+            ('proforma_invoice','Proforma Invoice Sent')])
 
     def action_view_lines(self):
         line_ids = []

@@ -21,6 +21,7 @@
         'views/expense.xml',
         'views/employee.xml',
         'views/crm.xml',
+        'views/sequence.xml',
     ],
     'installable': True,
     'application': True,

@@ -11,7 +11,7 @@ class SaleTeam(models.Model):
     approval_percentage = fields.Float("Approval Percentage")
     max_amount = fields.Float("Max Amount")
     name = fields.Char('Name')
-
+    approval_required = fields.Boolean("Approval Required")
     user_id = fields.Many2one(
         comodel_name='res.users', string='Team Leader',
         default=lambda self: self.env.user, required=True, index=True)

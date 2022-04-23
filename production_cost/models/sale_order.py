@@ -135,6 +135,7 @@ class SaleOrderTemplate(models.Model):
     kw = fields.Integer("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
+    partner_id = fields.Many2one('res.partner')
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
