@@ -82,10 +82,10 @@ class SaleOrder(models.Model):
                                         auto_delete_message=True,
                                         parent_id=False,
                                         subtype_id=self.env.ref('mail.mt_note').id)
-                                    if self._get_forbidden_state_confirm() & set(self.mapped('state')):
-                                        raise UserError(_(
-                                            'It is not allowed to confirm an order in the following states: %s'
-                                        ) % (', '.join(self._get_forbidden_state_confirm())))
+                                    # if self._get_forbidden_state_confirm() & set(self.mapped('state')):
+                                    #     raise UserError(_(
+                                    #         'It is not allowed to confirm an order in the following states: %s'
+                                    #     ) % (', '.join(self._get_forbidden_state_confirm())))
                             
                                     for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
                                         order.message_subscribe([order.partner_id.id])
@@ -101,10 +101,10 @@ class SaleOrder(models.Model):
                                         self.action_done()
                                     # Do default behaviour to set state as "sale" and update date_approve
                             else:
-                                if self._get_forbidden_state_confirm() & set(self.mapped('state')):
-                                    raise UserError(_(
-                                        'It is not allowed to confirm an order in the following states: %s'
-                                    ) % (', '.join(self._get_forbidden_state_confirm())))
+                                # if self._get_forbidden_state_confirm() & set(self.mapped('state')):
+                                #     raise UserError(_(
+                                #         'It is not allowed to confirm an order in the following states: %s'
+                                #     ) % (', '.join(self._get_forbidden_state_confirm())))
                         
                                 for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
                                     order.message_subscribe([order.partner_id.id])
@@ -119,10 +119,10 @@ class SaleOrder(models.Model):
                                 if self.env.user.has_group('sale.group_auto_done_setting'):
                                     self.action_done()
                     else:
-                        if self._get_forbidden_state_confirm() & set(self.mapped('state')):
-                            raise UserError(_(
-                                'It is not allowed to confirm an order in the following states: %s'
-                            ) % (', '.join(self._get_forbidden_state_confirm())))
+                        # if self._get_forbidden_state_confirm() & set(self.mapped('state')):
+                        #     raise UserError(_(
+                        #         'It is not allowed to confirm an order in the following states: %s'
+                        #     ) % (', '.join(self._get_forbidden_state_confirm())))
                 
                         for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
                             order.message_subscribe([order.partner_id.id])
@@ -139,10 +139,10 @@ class SaleOrder(models.Model):
                             
                                                 # self.action_done()
                 else:
-                    if self._get_forbidden_state_confirm() & set(self.mapped('state')):
-                        raise UserError(_(
-                            'It is not allowed to confirm an order in the following states: %s'
-                        ) % (', '.join(self._get_forbidden_state_confirm())))
+                    # if self._get_forbidden_state_confirm() & set(self.mapped('state')):
+                    #     raise UserError(_(
+                    #         'It is not allowed to confirm an order in the following states: %s'
+                    #     ) % (', '.join(self._get_forbidden_state_confirm())))
             
                     for order in self.filtered(lambda order: order.partner_id not in order.message_partner_ids):
                         order.message_subscribe([order.partner_id.id])
