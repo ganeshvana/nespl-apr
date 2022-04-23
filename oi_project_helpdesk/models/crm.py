@@ -26,17 +26,17 @@ class Lead(models.Model):
         #     if self.employee_pin != self.employee_id.employee_pin:
         #         raise ValidationError("PIN is wrong!!!")
         
-    def write(self, vals):
-        res = super(Lead, self).write(vals)
-        for rec in self:
-            if rec.employee_id and not rec.employee_pin:
-                raise ValidationError("Enter Employee PIN !!!")
-            if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
-                raise ValidationError("PIN is wrong!!!")
-            if 'employee_pin' in vals:
-                if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
-                    raise ValidationError("PIN is wrong!!!")
-        return res
+    # def write(self, vals):
+    #     res = super(Lead, self).write(vals)
+    #     for rec in self:
+    #         if rec.employee_id and not rec.employee_pin:
+    #             raise ValidationError("Enter Employee PIN !!!")
+    #         if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+    #             raise ValidationError("PIN is wrong!!!")
+    #         if 'employee_pin' in vals:
+    #             if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+    #                 raise ValidationError("PIN is wrong!!!")
+    #     return res
     
     def need_analysis_form(self):
         survey = self.env['survey.survey'].search([('title', '=', 'Questionnaire')])
