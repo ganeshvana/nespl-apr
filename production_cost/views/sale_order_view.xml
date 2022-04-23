@@ -48,6 +48,7 @@
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
                 	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
+                	<field name="model"/>
                 	<field name="unit" invisible="1"/>
                 	<field name="per_kw" invisible="1"/>
                 	
@@ -58,6 +59,46 @@
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_id']" position="after">
                 	<field name="cost" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
                 	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                	<page name="opex" string="Opex">
+                		<group>
+                			<field name="opex_description" required="1"/>
+                		</group>
+                	
+                		<group string="Plants">
+                			<field name="opex_lines_site"  nolabel="1">
+	                			<tree editable="top">
+	                				<field name="plant_name" required="1"/>
+	                				<field name="buyer_location" required="1"/>
+	                				<field name="solar_capacity" required="1"/>
+	                				<field name="output_voltage" required="1"/>
+	                				<field name="buyer_contract" required="1"/>
+	                				<field name="buyer_grid" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Solar Tariff">
+                			<field name="opex_lines_site_rate" nolabel="1">
+	                			<tree editable="top">
+	                				<field name="site_id"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="rate" required="1"/>
+	                				<field name="year" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Special Terms and Condition">
+                			<field name="opex_lines"  nolabel="1">
+	                			<tree editable="top">
+	                				<field name="particular" required="1"/>
+	                				<field name="offered" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                	</page>
                 </xpath>
             </field>
         </record>

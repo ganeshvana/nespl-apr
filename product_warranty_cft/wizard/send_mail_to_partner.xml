@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="wizard_email_template_preview_for_warranty" model="ir.actions.act_window">
+            <field name="name">Template Preview</field>
+            <field name="res_model">mail.template.preview</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="mail.mail_template_preview_view_form"/>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="mail.model_mail_template" />
+        </record>
+
+        <record id="view_send_mail_form" model="ir.ui.view">
+            <field name="name">send.mail.partner.form</field>
+            <field name="model">send.mail.partner</field>
+            <field name="arch" type="xml"> 
+			<form >
+                <div class="oe_button_box" name="button_box">
+                    <button class="oe_stat_button" name="%(wizard_email_template_preview_for_warranty)d" icon="fa-search-plus" string="Preview" type="action" target="new" context="{'template_id':mail_template_id}"/>
+                </div>
+                <group>
+                    <field name="mail_template_id" required="1"/>
+                </group>
+                <footer>
+                    <button name="send_mail"  string="Send Mail" type="object"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+			</form>
+            </field>
+        </record> 
+
+         <record id="action_send_mail_to_partner" model="ir.actions.act_window">
+            <field name="name">Send Mail</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">send.mail.partner</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+<!--             <field name="view_id" ref="view_send_mail_form"/>
+ -->        </record> 
+    
+</data>
+</odoo>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="move_serial_number_delivery_form" model="ir.ui.view">
+            <field name="name">move.serial.number.delivery.view</field>
+            <field name="model">move.serial.number.delivery</field>
+            <field name="arch" type="xml">
+                <form string="Import Invoice">
+                	<sheet>
+	                	<notebook>
+							<page string="Select Lot">
+								<group>
+								<field name="product_id" invisible="1"/>
+								<field name="move_id" invisible="1"/>
+								</group>								
+								
+	                   			<field name="lot_ids" domain="[('product_id', '=', product_id),('qty', '>', 0)]">
+			                		<tree editable="bottom">
+					        			<field name="name" readonly="1" />
+					        			<field name="product_id" readonly="1" />
+					                    <field name="product_qty" readonly="1"/>
+					                    <field name="qty"/>
+					                </tree>
+			                	</field>
+						    </page>
+						</notebook>
+					
+                    <footer>
+                        <button name="add_selected_lot" string="Update" type="object" class="oe_highlight"/>
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+                    </footer>
+                    </sheet>
+               </form>
+            </field>
+        </record>
+</odoo>

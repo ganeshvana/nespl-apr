@@ -3,7 +3,7 @@
     "name": "Sale Order - Payment Link",
     "summary": "Sale Order - Payment Link",
     "license": "OPL-1",
-    "depends": ["base", "sale", "stock","account"],
+    "depends": ["base", "sale", "stock","account", 'sale_project'],
     "author": "Oodu Implementers Private Limited",
     "website": "https://www.odooimplementers.com",
     "category": "Accounting",

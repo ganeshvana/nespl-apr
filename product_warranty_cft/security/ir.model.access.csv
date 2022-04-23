@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_warranty_card,access_warranty_card,model_warranty_card,,1,1,1,1
+access_product_warranty_config,access_product_warranty_config,model_product_warranty_config,,1,1,1,1
+access_claim_warranty,access_claim_warranty,model_claim_warranty,,1,1,1,1
+access_send_mail_partner,access_send_mail_partner,model_send_mail_partner,,1,1,1,1
+access_generate_claim_warranty,access_generate_claim_warranty,model_generate_claim_warranty,,1,1,1,1
+access_warranty_wizard,access_warranty_wizard,model_warranty_wizard,,1,1,1,1

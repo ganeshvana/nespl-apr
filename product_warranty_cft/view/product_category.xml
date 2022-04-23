@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>     
+            <record model="ir.ui.view" id="product_template_extended_view_extended_cft">
+				<field name="name">product.category.extended</field>
+				<field name="model">product.category</field>
+				<field name="inherit_id" ref = "product.product_category_form_view"/>
+				<field name="priority" eval="20"/>
+				<field name="arch" type="xml">					
+					<xpath expr="//sheet" position="inside">
+						<group>
+							<field name="warranty_period" />
+							<field name="warranty_unit" />
+							<field name="warranty_sequence_id"/>
+	                    </group>
+					</xpath>
+			    </field>
+			</record>
+	</data>
+</odoo>

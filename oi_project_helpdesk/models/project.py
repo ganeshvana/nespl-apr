@@ -61,6 +61,7 @@ class Project(models.Model):
     project_lifelines = fields.Integer("Lifelines")
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
+    project_number = fields.Char("Project Number")
     
 class ProjectTask(models.Model):
     _inherit = 'project.task'

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+        <record id="warranty_card_search_view" model="ir.ui.view">
+            <field name="name">warranty.card.search.view</field>
+            <field name="model">warranty.card</field>            
+            <field name="arch" type="xml">
+                <search string="Warranty">
+                    <field name="name" />
+                    <field name="partner_id" />
+                    <field name="sale_order_id" />
+                    <group expand="0" string="Group By">
+                        <filter string="Name" name="name" context="{'group_by': 'name'}" />
+                        <filter string="Customer" name="customer" domain="[]" context="{'group_by': 'partner_id'}" />
+                        <filter string="Sale Order" name="sale_order" domain="[]" context="{'group_by': 'sale_order_id'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_warranty_card_cft_form" model="ir.ui.view">
+            <field name="name">warranty.card.form</field>
+            <field name="model">warranty.card</field>
+            <field name="arch" type="xml"> 
+        		<form create="false">
+                <header>
+                    <button name="%(product_warranty_cft.action_view_warranty_claim_wizard_cft)d" string="Create Claim" type="action" icon='fa-won' context="{'id':id}"   />
+
+                    <button name="%(product_warranty_cft.action_send_mail_to_partner)d" class="btn-primary" context="{'warranty':id}" string="Send Mail To Customer" type="action" />
+
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">                        
+                        <button name="action_view_claim_lines" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('claim_count','=',0)]}">
+                        <field name="claim_count" widget="statinfo" string="Claim Entries"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+
+                    <field name="image" widget="image" class="oe_avatar" nolabel="1"/>
+                    
+                    <group>
+                        <group>
+                            <field name="validity_from"/>
+                            <field name="product_id" readonly="1"/>
+                            <field name="picking_id" readonly ="1"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                        
+            		    <group>
+                            <field name="validity_to"/>
+                            <field name="stock_move_id" readonly ="1"/>
+                            <field name="user_id" readonly ="1"/>
+                            <field name="picking_code" invisible="1" />
+                        </group>
+                    </group>
+                    <group attrs="{'invisible':[('picking_code','!=','outgoing')]}">
+                        <group>
+                            <field name="partner_id" readonly="1" string="Customer"/>
+                            <field name="sale_order_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="sale_line_id" readonly="1" />
+                            <field name="notes" placeholder="Return policy" />
+                        </group>
+                    </group>
+
+                    <group attrs="{'invisible':[('picking_code','!=','incoming')]}">
+                        <group>
+                            <field name="partner_id" readonly="1" string="Vendor"/>
+                            <field name="purchase_order_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="purchase_line_id" readonly="1" />
+                            <field name="notes" placeholder="Return policy" />
+                        </group>
+                    </group>
+                    
+        		</sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+        		</form>
+            </field>
+        </record>
+        
+        
+        <record id="view_warranty_card_cft_tree" model="ir.ui.view">
+            <field name="name">warranty.card.tree</field>
+            <field name="model">warranty.card</field>
+            <field name="arch" type="xml"> 
+			<tree create="false">
+                <field name="name"/>
+				<field name="partner_id"/>
+                <field name="validity_from"/>
+                <field name="validity_to"/>
+			</tree>
+            </field>
+        </record>
+        
+        <record id="action_view_warranty_card_cft" model="ir.actions.act_window">
+            <field name="name">Warranty Card</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">warranty.card</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_warranty_card_cft_tree"/>
+        </record>
+
+       
+
+        <menuitem id="menu_warrnty_cft" parent="menu_warrnty_card_cft" name="Warranty Card" action="action_view_warranty_card_cft"/>
+
+        <!-- warranty Claims -->
+
+        <record id="view_warranty_claim_cft_tree" model="ir.ui.view">
+            <field name="name">claim.warranty.tree</field>
+            <field name="model">claim.warranty</field>
+            <field name="arch" type="xml"> 
+            <tree create='false'>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="warranty_card_id"/>
+                <field name="date_of_purchase"/>
+                <field name="product_id" />
+                <field name="state" />
+            </tree>
+            </field>
+        </record>
+
+        <record id="view_warranty_claim_cft_form" model="ir.ui.view">
+            <field name="name">warranty.claim.form</field>
+            <field name="model">claim.warranty</field>
+            <field name="arch" type="xml"> 
+                <form create='false'>
+                    <header>
+                        <button name="%(product_warranty_cft.action_send_mail_to_partner)d" class="btn-primary" string="Send Mail To Customer" type="action" />
+
+                        <button name="start_processing" class="btn-primary" string="Start Processing" type="object" attrs="{'invisible':[('state','!=','draft')]}" />
+
+                        <button name="set_to_cancel" class="btn-primary" string="Cancel" type="object" attrs="{'invisible':[('state','=','cancel')]}"/>
+
+                        <button name="reset_to_draft" class="btn-primary" string="Reset to New" type="object" attrs="{'invisible':[('state','!=','cancel')]}"/>
+
+                        <button name="set_to_done" class="btn-primary" string="Done" type="object" attrs="{'invisible':[('state','!=','processing')]}" />
+
+                        <button name="create_draft_invoice" class="btn-primary" string="Cretae Invoice" type="object" />
+
+                        <field name="state" widget="statusbar" statusbar_visible="draft,processing,done"/>
+                    </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_invoices" type="object" class="oe_stat_button" icon="fa-pencil-square-o"  attrs="{'invisible': [('invoice_count','=',0)]}">
+                        <field name="invoice_count" string="Invoice" widget="statinfo" />
+                        </button>
+                    </div>
+                    <group>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_of_claim"/>
+                            <field name="warranty_card_id"/>
+                            <field name="date_of_purchase" />
+                        </group>
+                        <group>
+                            <field name="product_id" readonly="1"/>
+                            <field name="partner_id" readonly="1" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="warranty_start_date" readonly="1"/>
+                            <field name="end_date_of_warranty" readonly ="1"/>
+                            <field name="fee_type" />
+                        </group>
+                        <group>
+                            <field name="remarks" placeholder="example: replaced or expired" />
+                            <field name="notes" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+                </form>
+            </field>
+        </record>
+
+         <record id="action_view_warranty_claim_cft" model="ir.actions.act_window">
+            <field name="name">Warranty Claims</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">claim.warranty</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_warranty_claim_cft_tree"/>
+        </record>
+        
+
+        <menuitem id="menu_claim_cft" parent="menu_warrnty_card_cft" name="Warranty Claims" action="action_view_warranty_claim_cft"/>
+
+
+</data>
+</odoo>

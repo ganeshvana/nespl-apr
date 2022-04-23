@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_warranty_claim_wizard_cft_form" model="ir.ui.view">
+            <field name="name">generate.claim.warranty.form</field>
+            <field name="model">generate.claim.warranty</field>
+            <field name="arch" type="xml"> 
+    			<form >
+                    <group>
+                        <field name='name' required="1"/>
+                        <field name="date_of_claim" />
+                        <field name="expected_delivery_date" />
+                    </group>
+                    <footer>
+                        <button name='create_claim'  string='Create' type='object'/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+    			</form>
+            </field>
+        </record>
+        
+        <record id="action_view_warranty_claim_wizard_cft" model="ir.actions.act_window">
+            <field name="name">Create Claim</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.claim.warranty</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_warranty_claim_wizard_cft_form"/>
+        </record>
+
+        <!-- mass claim -->
+
+        <record id="view_warranty_mass_claim_wizard_cft_form" model="ir.ui.view">
+            <field name="name">generate.claim.warranty.form</field>
+            <field name="model">generate.claim.warranty</field>
+            <field name="arch" type="xml"> 
+                <form >
+                    <group>
+                        <field name="date_of_claim" />
+                        <field name="expected_delivery_date" />
+                    </group>
+                    <group >
+                        <field name="warranty_card_ids" widget="many2many_tags" options="{'no_quick_create':True,'no_create_edit':True}" />
+                    </group>
+                
+                    <button string='Create Claim Lines' name='create_mass_claim' class='pull-right' icon="fa-pencil-square-o" type='object' /> 
+                    <group colspan="4">
+                        <field name="claim_ids">
+                            <tree editable="bottom" create="false">
+                                <field name="name" />
+                                <field name="warranty_card_id" readonly="1"/>
+                                <field name="date_of_claim" />
+                                <field name="expected_delivery_date"/>
+                                <field name="product_id" readonly="1"/>
+                                <field name="partner_id" readonly="1" />
+                            </tree>
+                        </field>
+                    </group>
+                    <footer>
+                        <button name='view_claim_records'  string='View Created Claims' type='object'/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_mass_warranty_claim_wizard_cft" model="ir.actions.act_window">
+            <field name="name">Create Mass Claim</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">generate.claim.warranty</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'mass_claim':True}</field>
+            <field name="view_id" ref="view_warranty_mass_claim_wizard_cft_form"/>
+        </record>
+        
+         <menuitem id="menu_of_generate_mass_claim"
+            name="Generate Mass Claim"
+            action="action_view_mass_warranty_claim_wizard_cft"
+            parent="menu_warrnty_card_cft"/>
+</data>
+</odoo>

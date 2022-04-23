@@ -127,14 +127,11 @@
 									<span t-field="line.name" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<t t-if="line.product_id.product_template_variant_value_ids">
+									<t t-if="line.vendor_ids">
 										<t t-foreach="line.vendor_ids" t-as="l">
-											<strong>
-												<span t-field="l.name" />
-											</strong>
-											/
-											<br />
+											<span t-field="l.name" /> /
 										</t>
+										<span t-field="l.model" />
 									</t>
 								</td>
 								<td

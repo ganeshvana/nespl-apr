@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>     
+            <record model="ir.ui.view" id="purchase_order_add_warranty_card_btn_12">
+				<field name="name">purchase.order.warranty.cft</field>
+				<field name="model">purchase.order</field>
+				<field name="inherit_id" ref = "purchase.purchase_order_form"/>
+				<field name="arch" type="xml">
+					<xpath expr="//button[@name='action_view_invoice']" position="before">
+						<field name="warranty_ids" invisible="1"/>
+	                    <button type="object" name="action_view_warranty_lines" class="oe_stat_button"
+	                    	attrs="{'invisible': [('warranty_count','=',0)]}" icon="fa-won" >
+							<field name="warranty_count" widget="statinfo" string="Warranty Entries"/>
+	                    </button>
+                	</xpath>
+				</field>
+			</record>
+	</data>
+</odoo>
