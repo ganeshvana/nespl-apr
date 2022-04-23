@@ -136,6 +136,9 @@ class SaleOrderTemplate(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
     partner_id = fields.Many2one('res.partner')
+    opex_lines = fields.One2many('opex.lines', 'template_id')
+    opex_description = fields.Text("OPEX Description")
+    
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
@@ -147,6 +150,7 @@ class SaleOrderTemplateLine(models.Model):
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make / Model")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make / Model")
+    model = fields.Char("Model")
     
     @api.onchange('product_id')
     def onchange_product(self):
@@ -162,3 +166,10 @@ class SaleOrderTemplateLine(models.Model):
         for rec in self:
             if rec.unit > 0.0:
                 rec.per_kw = (rec.kw * 1000)/rec.unit
+                
+class OpexLines(models.Model):
+    _name = 'opex.lines'
+    
+    template_id = fields.Many2one('sale.order.template', "Template")
+    particular = fields.Char("Particular")
+    offered = fields.Char("Offered")
