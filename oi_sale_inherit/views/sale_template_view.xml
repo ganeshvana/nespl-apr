@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 	<data>
-		<record model="ir.ui.view" id="view_picking_form_inherit123">
+		<!-- <record model="ir.ui.view" id="view_picking_form_inherit123">
 			<field name="name">sale.template.form.delivery</field>
 			<field name="model">stock.picking</field>
 			<field name="inherit_id" ref="stock.view_picking_form" />
@@ -10,6 +10,6 @@
 					<field name="project_number" />
 				</xpath>
 			</field>
-		</record>
+		</record> -->
 	</data>
 </odoo>
