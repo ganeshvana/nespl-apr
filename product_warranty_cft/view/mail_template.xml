@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_template_warranty_card_to_partner" model="mail.template">
+            <field name="name">Warranty Card - Send by Email</field>
+            <field name="subject">${object.company_id.name} Warranty Card of ${object.product_id.name} and Ref : ${object.name or '' }</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="product_warranty_cft.model_warranty_card"/>
+            <field name="report_template" ref="action_report_warranty_card"/>
+            <field name="report_name">${(object.name or '').replace('/','-')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html" type="xml">
+                <p>Dear ${object.partner_id.name},</p>
+                <p>
+                    Please Find Attachment.<br /><br />
+                    Warranty Card validity is ${object.validity_from} to ${object.validity_to}.
+                    
+                </p>
+                <p>If you have any Issue, please do not hesitate to contact us.</p>
+                <p>Best regards,
+                    <br/>
+                    % if user and user.signature:
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </field>
+        </record>
+
+        <record id="mail_template_warranty_card_expire" model="mail.template">
+            <field name="name">Warranty Card Will Expire- Send by Email</field>
+            <field name="subject">${object.company_id.name} Warranty Card  (Ref ${object.name or 'n/a' }) Will Expire</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="product_warranty_cft.model_warranty_card"/>
+            <field name="report_template" ref="action_report_warranty_card"/>
+            <field name="report_name">${(object.name or '').replace('/','-')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html" type="xml">
+                <p>Dear ${object.partner_id.name},</p>
+                <p>
+                    Please Find Attachment.
+                    Warranty Card validity is ${object.validity_from} to ${object.validity_to}.
+                    <br/>
+                    Your product's warranty will expire in near future. Let me inform us if you need to renew.
+                </p>
+                <p>If you have any questions, please do not hesitate to contact us.</p>
+                <p>Best regards,
+                    % if user and user.signature:
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </field>
+        </record>
+
+        <record id="mail_template_claim_warranty_generated" model="mail.template">
+            <field name="name">Warranty Claim - Send by Email</field>
+            <field name="subject">${object.warranty_card_id.company_id.name} Payment Receipt (Ref ${object.name or 'n/a' })</field>
+            <field name="partner_to">${object.partner_id.id}</field>
+            <field name="model_id" ref="product_warranty_cft.model_claim_warranty"/>
+            <field name="report_name">${(object.name or '').replace('/','-')}</field>
+            <field name="lang">${object.partner_id.lang}</field>
+            <field name="body_html" type="xml">
+                <p>Dear ${object.warranty_card_id.partner_id.name},</p>
+                <p>
+                    Please Find Attachment.<br />
+                    Warranty Card validity is ${object.validity_from} to ${object.validity_to}.
+                    <br/>
+
+                    Your product's claim was generated.
+                </p>
+                <p>If you have any questions, please do not hesitate to contact us.</p>
+                <p>Best regards,
+                    % if user and user.signature:
+                    ${user.signature | safe}
+                    % endif
+                </p>
+            </field>
+        </record>
+
+        <record id="action_warrnty_card_mail_tmplate" model="ir.actions.act_window">
+            <field name="name">Send Receipt By Email</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">warranty.card</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="context">{
+                'default_model': 'warranty.card',
+                'mail_post_autofollow': True,
+                'default_composition_mode': 'comment',
+                'default_use_template': True,
+                'default_res_id': active_id,
+                'default_template_id': ref('product_warranty_cft.mail_template_warranty_card_to_partner'),
+                'force_email': True,
+            }</field>
+            <field name="binding_model_id" ref="mail.model_mail_compose_message" />
+        </record>
+
+        <!-- <act_window name="Send Receipt By Email"
+            res_model="mail.compose.message"
+            binding_model="warranty.card"
+            view_mode="form"
+            target="new"
+            key2="client_action_relate"
+            id="action_warrnty_card_mail_tmplate"
+            context="{
+                'default_model': 'warranty.card',
+                'mail_post_autofollow': True,
+                'default_composition_mode': 'comment',
+                'default_use_template': True,
+                'default_res_id': active_id,
+                'default_template_id': ref('product_warranty_cft.mail_template_warranty_card_to_partner'),
+                'force_email': True,
+            }"
+        /> -->
+        </data>
+</odoo>

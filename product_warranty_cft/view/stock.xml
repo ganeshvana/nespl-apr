@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>   
+		<record model="ir.ui.view" id="stock_picking_add_warranty_card_btn">
+			<field name="name">stock.picking.warranty.cft</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref = "stock.view_picking_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//header" position="inside">
+					<button name="%(product_warranty_cft.action_view_create_mass_warranty_wizard_cft)d" string="Create Warranty of all lines" type="action" icon='fa-won'  attrs="{'invisible': [('move_ids_without_package','=',False)]}"  context="{'mass_warrantry_from_picking':True,'picking_id':id}" />
+				</xpath>
+				<xpath expr="//div[@name='button_box']" position="inside">
+					<field name="warranty_ids" invisible="1"/>
+                    <button type="object" name="action_view_warranty_lines" class="oe_stat_button"
+                    	attrs="{'invisible': [('warranty_count','=',0)]}" icon="fa-won" >
+						<field name="warranty_count" widget="statinfo" string="Warranty Entries"/>
+
+                    </button>
+            	</xpath>
+            	<!-- move_ids_without_package
+            	 -->
+				<xpath expr='//field[@name="move_ids_without_package"]/tree' position='inside'>
+					<field name="warranty_set_in_product" invisible="1"/>
+						<button name="%(product_warranty_cft.action_view_warranty_wizard_cft)d" string="Create Warranty" type="action" icon='fa-won' context="{'id':id}" attrs="{'invisible': [('warranty_set_in_product','=',False)]}"  />
+				</xpath>
+				
+			</field>
+		</record>
+	</data>
+</odoo>

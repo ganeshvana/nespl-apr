@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_warranty_wizard_cft_form" model="ir.ui.view">
+            <field name="name">warranty.wizard.form</field>
+            <field name="model">warranty.wizard</field>
+            <field name="arch" type="xml"> 
+			<form >
+                <group>
+                    <field name='name' />
+                    <field name="warranty_config_id" />
+                    <field name="create_warranty_from" required="1" />
+                    <field name='validity_from' context="{'id':context.get('id')}" attrs="{'invisible': [('create_warranty_from', '=', False)],'required': [('create_warranty_from', '!=',False )]}"/>
+    				<field name="validity_to" attrs="{'invisible': [('create_warranty_from', '=', False)],'required': [('create_warranty_from', '!=', False)]}"/>
+                    
+                </group>
+                <footer>
+                    <button name='create_warranty'  string='Create' type='object'/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+			</form>
+            </field>
+        </record>
+        
+        <record id="action_view_warranty_wizard_cft" model="ir.actions.act_window">
+            <field name="name">Create warranty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">warranty.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_warranty_wizard_cft_form"/>
+        </record>
+
+        <!-- Generate Mass Warranty -->
+        <record id="view_mass_warranty_wizard_cft_form" model="ir.ui.view">
+            <field name="name">warranty.wizard.form</field>
+            <field name="model">warranty.wizard</field>
+            <field name="arch" type="xml"> 
+            <form>
+                <group>
+                    <field name="create_warranty_from" required="1" />
+                    <field name="picking_type_code" invisible="context.get('mass_warrantry_from_picking')"/>
+                </group>
+                <group>
+                    <field name='validity_from'  attrs="{'invisible': [('create_warranty_from', 'not in', ['now','other'])],'required': [('create_warranty_from', 'in', ['now','other'])]}"/>
+                    <field name="validity_to" attrs="{'invisible': [('create_warranty_from', 'not in', ['now','other'])],'required': [('create_warranty_from', 'in', ['now','other'])]}"/>
+                </group>
+                <group >
+                    <field name="stock_move_ids" widget="many2many_tags" domain ="[('picking_id','!=',False),('picking_code','=',picking_type_code)]" 
+                    options="{'no_quick_create':True,'no_create_edit':True}" context="{'move_for_warranty':True}"/>
+                </group>
+                
+                <button string='Create Warranty Lines' name='create_mass_warranty' class='pull-right' icon="fa-pencil-square-o" type='object' /> 
+                <group colspan="4">
+                    <field name="warranty_card_ids"   >
+                        <tree editable="bottom" create="false">
+                            <field name="name" />
+                            <field name="validity_from"/>
+                            <field name="validity_to"/>
+                            <field name="product_id" readonly="1"/>
+                            <field name="partner_id" readonly="1" />
+                        </tree>
+                    </field>
+                </group>
+
+                <footer>
+                    <button name='view_warranty_records'  string='View Created Warranty' type='object'/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+            </field>
+        </record>
+        
+
+         <record id="action_view_create_mass_warranty_wizard_cft" model="ir.actions.act_window">
+            <field name="name">Create Mass warranty</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">warranty.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'mass_warrantry':True}</field>
+            <field name="view_id" ref="view_mass_warranty_wizard_cft_form"/>
+        </record>
+
+        <menuitem id="menu_warrnty_card_cft" sequence="5" parent="sale.sale_menu_root" name="Warranty" />
+
+        <menuitem id="menu_of_generate_mass_warranty"
+            name="Generate Mass Warranty"
+            action="action_view_create_mass_warranty_wizard_cft"
+            parent="menu_warrnty_card_cft"/>
+    
+</data>
+</odoo>

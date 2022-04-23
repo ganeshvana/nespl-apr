@@ -1,0 +1,19 @@
+<odoo>
+	<data>
+		<record id="sale_order_alternatives" model="ir.ui.view">
+			<field name="name">sale_order_alternatives</field>
+			<field name="model">sale.order</field>
+			<field name="inherit_id" ref="sale.view_order_form" />
+			<field name="arch" type="xml">
+				<xpath
+					expr="//field[@name='order_line']/tree/field[@name='price_subtotal']"
+					position="after"
+				>
+				<button name="%(action_products_alternatives)d" type="action"
+					icon="fa-align-justify" class="oe_button"
+					/>
+				</xpath>
+			</field>
+		</record>
+	</data>
+</odoo>
