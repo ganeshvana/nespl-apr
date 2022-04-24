@@ -143,7 +143,6 @@
             <field name="arch" type="xml">
             	<field name="team_id" position="after">
             		<field name="so_team_id"/>
-            		<field name="order_type_id"/>
             	</field>
                 <filter name="activities_upcoming_all" position="after">
                 	<separator/>
@@ -191,8 +190,11 @@
                 <field name="partner_id" position="after">
                     <field name="so_team_id" required="1"/>
                     <field name="order_type_id" invisible="1"/>
+                    <field name="kw" required="1"/>
                 </field>
-
+				<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
+					<field name="unit" required="1"/>
+				</xpath>
                 <notebook position="inside">
                     <page name="approval_route" string="Approval Route"
                           attrs="{'invisible':['|', ('state', 'in', ['draft', 'sent']), ('so_team_id', '=', False)]}">

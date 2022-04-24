@@ -10,8 +10,6 @@ class SaleOrder(models.Model):
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     
-    
-    
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
         if self.employee_pin and not self.employee_id:

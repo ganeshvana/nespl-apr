@@ -44,6 +44,7 @@ class SaleOrder(models.Model):
 
     payment_detail_ids = fields.One2many('payment.details', 'sale_order_id',"Payment Details")
     project_number = fields.Char(string="Project No", copy=False, compute='compute_project_number')
+    all_product_delivery = fields.Boolean("All product to be delivered at a time?")
     
     @api.depends('project_ids')
     def compute_project_number(self):

@@ -33,14 +33,7 @@ class SaleOrder(models.Model):
     approval_required = fields.Boolean(related='so_team_id.approval_required', store=True)
     amount_total = fields.Monetary(tracking=True)
     state = fields.Selection(selection_add=[('to approve', 'To Approve')])
-    # state = fields.Selection([
-    #     ('draft', 'Quotation'),
-    #     ('sent', 'Quotation Sent'),
-    #     ('to approve', 'To Approve'),
-    #     ('sale', 'Sales Order'),
-    #     ('done', 'Locked'),
-    #     ('cancel', 'Cancelled'),
-    #     ], string='Status', readonly=True, copy=False, index=True, tracking=3, default='draft')
+    kw = fields.Integer("KWP", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     order_type_id = fields.Many2one('sale.order.type', "Order Type")
 
     # def _track_subtype(self, init_values):
@@ -301,15 +294,15 @@ class SaleOrder(models.Model):
                 parent_id=False,
                 subtype_id=self.env.ref('mail.mt_note').id)
 
-    # def _check_lock_amount_total(self):
-    #     msg = _('Sorry, you are not allowed to change Amount Total of Sale. ')
-    #     for order in self:
-    #         if order.state in ('draft', 'sent'):
-    #             continue
-    #         if order.lock_amount_total:
-    #             reason = _('It is locked after received approval. ')
-    #             raise UserError(msg + "\n\n" + reason)
-    #         if order.team_id.lock_amount_total:
-    #             reason = _('It is locked after generated approval route. ')
-    #             suggestion = _('To make changes, cancel and reset Sale to draft. ')
-    #             raise UserError(msg + "\n\n" + reason + "\n\n" + suggestion)
+class SaleOrder(models.Model):
+    _inherit = "sale.order.line"    
+    
+    unit = fields.Float("Unit", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
+    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
+    kw = fields.Integer(related='order_id.kw', store=True)
+    
+    @api.depends('kw', 'unit')
+    def compute_per_kw(self):
+        for rec in self:
+            if rec.unit > 0.0:
+                rec.per_kw = (rec.kw * 1000)/rec.unit
