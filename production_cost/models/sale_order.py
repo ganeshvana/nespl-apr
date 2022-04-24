@@ -137,7 +137,7 @@ class SaleOrderTemplate(models.Model):
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
-    opex_description = fields.Html("OPEX Description")
+    opex_description = fields.Html("OPEX Summary")
     
 
 class SaleOrderTemplateLine(models.Model):

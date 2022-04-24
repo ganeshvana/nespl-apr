@@ -1,0 +1,275 @@
+<odoo>
+	<data>
+		<template id="manufacturing_report_external_layout1">
+			<div t-attf-class="header" t-att-style="report_header_style">
+				<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+					<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+						<td style="width:50%;text-align:left;border-left:hidden">
+							<h5>
+								<strong>
+									<span t-field="doc.company_id" />
+								</strong>
+							</h5>
+						</td>
+						<td style="width:50%;text-align:right;border-right:hidden">
+							<img t-att-src="image_data_uri(doc.company_id.logo)"
+								style="max-height: 4cm; max-width: 4cm;" align="right" />
+							<BR />
+							<BR />
+						</td>
+
+					</tr>
+				</table>
+
+			</div>
+			<div t-attf-class="article o_report_layout_standard "
+				t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
+				t-att-data-oe-lang="o and o.env.context.get('lang')">
+
+				<t t-raw="0" />
+			</div>
+			<div t-attf-class="footer o_standard_footer ">
+				<table width="100%" style="border:none;">
+					<tr>
+						<td>
+							<center>
+								Page:
+								<span class="page" />
+								/
+								<span class="topage" />
+							</center>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</template>
+
+
+		<template id="report_materialsbill_report_template1">
+			<t t-call="oi_sale_novergy.manufacturing_report_external_layout">
+				<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+				<div class="page">
+					<style>
+
+						table { page-break-inside:auto }
+						tr { page-break-inside:avoid; page-break-after:auto }
+						thead { display:table-header-group }
+
+						td{
+						padding-left:2px;
+						padding-right:2px;
+						}
+
+					</style>
+
+					<table
+						style="border-style: solid;border-width:1px;border-top:hidden"
+						width="100%">
+						<tr
+							style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+							<br />
+							<td
+								style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
+								<h5>
+									<strong>
+										<u>COMMERCIAL TERMS AND CONDITIONS</u>
+									</strong>
+								</h5>
+							</td>
+						</tr>
+					</table>
+					<p>
+					<strong>A) SUMMARY:</strong><br/>
+						<span t-field="doc.opex_description" />
+					</p>
+
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr>
+							<br />
+							<br />
+							<td style="border-style: solid;border-width:1px;" width="10%">
+								<strong>Sr.No.</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Plant Name</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Buyer Location</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="20%">
+								<strong>Offered Solar capacity KWp (DC)</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;"
+								width="20%">
+								<strong>Solar System Output Voltage</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;"
+								width="20%">
+								<strong>Buyer Contract Demand / Sanction Load (KVA)</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;"
+								width="20%">
+								<strong>Buyer grid connection Voltage (KV)</strong>
+							</td>
+
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.opex_lines_site" t-as="line">
+							<tr>
+								<td style="border-style: solid;border-width:1px;" width="5%">
+									<span t-esc="i + 1" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.plant_name" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									
+											<span t-field="line.buyer_location" />
+										
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.solar_capacity" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.output_voltage" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.buyer_contract" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.buyer_grid" />
+								</td>
+							</tr>
+						</t>
+					</table>
+					
+					<t t-foreach="doc.opex_lines_site_rate" t-as="line">
+						<p>
+							<strong>SOLAR TARIFF FOR <span t-field="line.year"/> YEARS TENURE FOR BOTH PLANTS:</strong><br/>
+						</p>
+						<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr>
+							<br />
+							<br />
+							<td style="border-style: solid;border-width:1px;" width="10%">
+								<strong>S.No.</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Particular</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Rate (Rs. / Kwh)</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+								<strong>Tenure of agreement</strong>
+							</td>
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.opex_lines_site" t-as="line">
+							<tr>
+								<td style="border-style: solid;border-width:1px;" width="5%">
+									<span t-esc="i + 1" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.particular" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.rate" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.solar_capacity" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="10%">
+									<span t-field="line.year" />
+								</td>
+							</tr>
+						</t>
+					</table>
+					
+						
+					</t>
+
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
+								<h5>
+									<strong>
+										<U>SPECIAL TERMS AND CONDITIONS:</U>
+									</strong>
+								</h5>
+								<br/>
+							</td>
+						</tr>
+					</table>
+					
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr>
+							<br />
+							<br />
+							<td style="border-style: solid;border-width:1px;" width="10%">
+								<strong>S.No.</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Particular</strong>
+							</td>
+							<td
+								style="border-style: solid;border-width:1px;text-align:center;"
+								width="50%">
+								<strong>Offered</strong>
+							</td>
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.opex_lines" t-as="line">
+							<tr>
+								<td style="border-style: solid;border-width:1px;" width="5%">
+									<span t-esc="i + 1" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.offered" />
+								</td>
+							</tr>
+						</t>
+					</table>
+					
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
+								<h5>
+									<strong>
+										<U>SPECIAL TERMS AND CONDITIONS:</U>
+									</strong>
+								</h5>
+								<br/>
+							</td>
+						</tr>
+					</table>
+
+
+
+				</div>
+			</t>
+		</template>
+
+
+		<template id="materialsbill_report_report">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="oi_sale_novergy.report_materialsbill_report_template"
+						t-lang="doc.partner_id.lang" />
+				</t>
+			</t>
+		</template>
+	</data>
+</odoo>  

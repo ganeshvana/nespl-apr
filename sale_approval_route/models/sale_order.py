@@ -297,7 +297,7 @@ class SaleOrder(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order.line"    
     
-    unit = fields.Float("Unit", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
+    unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
     kw = fields.Integer(related='order_id.kw', store=True)
     
