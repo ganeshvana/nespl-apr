@@ -15,7 +15,9 @@
                 				<field name="payment_term_line_id"/>
                 				<field name="payment_term_id" invisible="1"/>
                 				<field name="payment_ids" widget="many2many_tags"/>
+                				<field name="actual_amount"/>
                 				<field name="payment_amount" string="Payment Amount"/>
+                				<field name="balance_amount"/>
                 			</tree>
                 		</field>
                 	</page>                    

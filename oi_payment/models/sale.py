@@ -116,6 +116,23 @@ class PaymentDetails(models.Model):
     payment_ids = fields.Many2many('account.payment', 'payment_sale_rel', 'pay_id', 'sale_id', "Payment")
     currency_id = fields.Many2one(related='sale_order_id.currency_id', string="Currency")
     payment_amount = fields.Monetary("Payment Amount")
+    actual_amount = fields.Monetary("Actual Amount", compute='compute_actual_amount', store=True)
+    balance_amount = fields.Monetary("Balance Amount", compute='compute_balance_amount', store=True)
+    amount_total = fields.Monetary(related='sale_order_id.amount_total', store=True)
+    
+    @api.depends('amount_total', 'payment_term_line_id', 'payment_term_line_id.value_amount')
+    def compute_actual_amount(self):
+        for rec in self:
+            if rec.payment_term_line_id and rec.payment_term_line_id.value_amount and rec.amount_total:
+                if rec.payment_term_line_id.value_amount > 0.0:
+                    rec.actual_amount = rec.amount_total * (rec.payment_term_line_id.value_amount / 100)
+                    
+    @api.depends('payment_amount', 'actual_amount', 'payment_term_line_id.value_amount')
+    def compute_balance_amount(self):
+        for rec in self:
+            rec.balance_amount = rec.actual_amount - rec.payment_amount
+                
+            
     
 class Payterm(models.Model):
     _inherit = "account.payment.term.line"    
