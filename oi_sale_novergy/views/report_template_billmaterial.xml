@@ -131,7 +131,7 @@
 										<t t-foreach="line.vendor_ids" t-as="l">
 											<span t-field="l.name" /> /
 										</t>
-										<span t-field="l.model" />
+										<span t-field="line.model" />
 									</t>
 								</td>
 								<td
@@ -149,7 +149,7 @@
 						</t>
 
 					</table>
-
+					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
