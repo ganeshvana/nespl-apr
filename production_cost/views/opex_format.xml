@@ -148,6 +148,7 @@
 							</tr>
 						</t>
 					</table>
+					<br/>
 					
 					<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 						<p>
@@ -175,7 +176,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.opex_lines_site" t-as="line">
+						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<tr>
 								<td style="border-style: solid;border-width:1px;" width="5%">
 									<span t-esc="i + 1" />
@@ -185,20 +186,16 @@
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.rate" />
-								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.solar_capacity" />
-								</td>
+								</td>								
 								<td style="border-style: solid;border-width:1px;" width="10%">
 									<span t-field="line.year" />
 								</td>
 							</tr>
 						</t>
 					</table>
-					
 						
 					</t>
-
+					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
@@ -242,7 +239,7 @@
 							</tr>
 						</t>
 					</table>
-					
+					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
@@ -252,25 +249,29 @@
 									</strong>
 								</h5>
 								<br/>
-								<span t-field="doc.offered" />
+								<span t-field="doc.sale_term" />
 							</td>
 						</tr>
 					</table>
-
-
-
 				</div>
 			</t>
 		</template>
 
 
-		<template id="materialsbill_report_report">
+		<template id="materialsbill_report_report1">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="doc">
-					<t t-call="oi_sale_novergy.report_materialsbill_report_template"
-						t-lang="doc.partner_id.lang" />
+					<t t-call="production_cost.report_materialsbill_report_template1" t-lang="doc.partner_id.lang" />
 				</t>
 			</t>
 		</template>
+		
+		<report id="action_report_materialsbill_report11"
+                string="OPEX Proposal"
+                model="sale.order.template"
+                report_type="qweb-pdf"
+                file="production_cost.materialsbill_report_report1"
+                name="production_cost.materialsbill_report_report1"
+        />
 	</data>
 </odoo>  

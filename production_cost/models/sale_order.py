@@ -184,7 +184,7 @@ class OpexLinesSite(models.Model):
     plant_name = fields.Char("Plant Name")
     buyer_location = fields.Char("Buyer Location")
     solar_capacity = fields.Char("Offered Solar Capacity KWp (DC)")
-    output_voltage = fields.Char("Buyer Location")
+    output_voltage = fields.Char("Solar System Output Voltage")
     buyer_contract = fields.Char("Buyer Contract Demand / Sanction Load (KVA)")
     buyer_grid = fields.Char("Buyer grid connection Voltage (KV)")
     

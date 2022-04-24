@@ -12,6 +12,7 @@
         'security/ir.model.access.csv',
         'security/security.xml',
         'data/product_entry_data.xml',
+        'views/opex_format.xml',
         'views/sale_order_view.xml',
         'views/product_entry_view.xml',
     ],

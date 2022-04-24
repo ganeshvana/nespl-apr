@@ -63,7 +63,7 @@
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Opex">
                 		<group>
-                			<field name="opex_description" required="1"/>
+                			<field name="opex_description"/>
                 		</group>
                 	
                 		<group string="Plants">
