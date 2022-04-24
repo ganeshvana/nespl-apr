@@ -248,10 +248,11 @@
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
 								<h5>
 									<strong>
-										<U>SPECIAL TERMS AND CONDITIONS:</U>
+										<U>GENERAL TERMS AND CONDITIONS:</U>
 									</strong>
 								</h5>
 								<br/>
+								<span t-field="doc.offered" />
 							</td>
 						</tr>
 					</table>

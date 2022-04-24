@@ -7,7 +7,7 @@
             <field name="arch" type="xml">            	       	
             	<xpath expr="//field[@name='payment_term_id']" position="attributes">
             		<attribute name="required">True</attribute>
-            		<attribute name="attrs">{'readonly': [('state', '!=', 'draft)]}</attribute>
+            		<!-- <attribute name="attrs">{'readonly': [('state', '!=', 'draft)]}</attribute> -->
             	</xpath>   
             	<xpath expr="//field[@name='payment_term_id']" position="after">
             		<field name="all_product_delivery" groups="sales_team.group_sale_manager"/>
