@@ -179,6 +179,7 @@ class OpexLines(models.Model):
 class OpexLinesSite(models.Model):
     _name = 'opex.lines.site'
     _description = "Opex Lines Site"
+    _rec_name = 'plant_name'
     
     template_id = fields.Many2one('sale.order.template', "Template")
     plant_name = fields.Char("Plant Name")

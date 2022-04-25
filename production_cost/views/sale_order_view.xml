@@ -82,7 +82,7 @@
                 		<group string="Solar Tariff">
                 			<field name="opex_lines_site_rate" nolabel="1">
 	                			<tree editable="top">
-	                				<field name="site_id"/>
+	                				<field name="site_id" required="1"/>
 	                				<field name="particular" required="1"/>
 	                				<field name="rate" required="1"/>
 	                				<field name="year" required="1"/>
