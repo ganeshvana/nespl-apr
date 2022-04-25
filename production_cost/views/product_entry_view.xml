@@ -144,4 +144,18 @@
         action="action_product_entry"
         id="menu_product_entry"
         sequence="3" groups="production_cost.group_project_costing"/>
+        
+    <menuitem
+        name="Payment Terms"
+        parent="sale.sale_order_menu"
+        action="account.action_payment_term_form"
+        id="menu_payment_term_sale"
+        sequence="4"/>
+    
+    <menuitem
+        name="BoM"
+        parent="sale.sale_order_menu"
+        action="sale_management.sale_order_template_action"
+        id="menu_bom_sale"
+        sequence="5"/>
 </odoo>
