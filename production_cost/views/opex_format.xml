@@ -122,16 +122,15 @@
 						<t t-set="i" t-value="0"/>
 						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
+								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="i + 1" />
+									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.plant_name" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									
 											<span t-field="line.buyer_location" />
-										
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="10%">
 									<span t-field="line.solar_capacity" />
@@ -150,11 +149,10 @@
 					</table>
 					<br/>
 					
-					
 						<p>
 							<strong>B) SOLAR TARIFF:</strong><br/>
 						</p>
-						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
+						
 						<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
 							<br />
@@ -202,16 +200,13 @@
 						</t>
 					</table>
 						
-					</t>
 					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
-								<h5>
 									<strong>
-										<U>SPECIAL TERMS AND CONDITIONS:</U>
+										C) SPECIAL TERMS AND CONDITIONS:
 									</strong>
-								</h5>
 								<br/>
 							</td>
 						</tr>
@@ -242,6 +237,9 @@
 									<span t-esc="i + 1" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.particular" />
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.offered" />
 								</td>
 							</tr>
@@ -251,11 +249,9 @@
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
-								<h5>
 									<strong>
-										<U>GENERAL TERMS AND CONDITIONS:</U>
+										D) GENERAL TERMS AND CONDITIONS:
 									</strong>
-								</h5>
 								<br/>
 								<span t-field="doc.sale_term" />
 							</td>
