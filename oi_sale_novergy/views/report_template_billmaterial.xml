@@ -86,8 +86,7 @@
 						</tr>
 					</table>
 
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
+					<table class="table table-sm o_main_table" width="100%">
 						<tr>
 
 							<br />
@@ -118,10 +117,14 @@
 
 
 						</tr>
+						<t t-set="i" t-value="0" />
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
-							<tr>
+							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+								
+								<t t-if="not line.display_type">
+									<t t-set="i" t-value="i + 1" />
 								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="line_index + 1" />
+									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.name" />
@@ -131,7 +134,7 @@
 										<t t-foreach="line.vendor_ids" t-as="l">
 											<span t-field="l.name" /> /
 										</t>
-										<span t-field="l.model" />
+										<span t-field="line.model" />
 									</t>
 								</td>
 								<td
@@ -144,12 +147,24 @@
 									width="10%">
 									<span t-field="line.product_uom_qty" />
 								</td>
-
+							</t>
+							<t t-if="line.display_type == 'line_section'">
+									<td name="td_section_line" colspan="99">
+										<span t-field="line.name" />
+									</td>
+									<t t-set="current_section" t-value="line" />
+									<t t-set="current_subtotal" t-value="0" />
+								</t>
+								<t t-if="line.display_type == 'line_note'">
+									<td name="td_note_line" colspan="99">
+										<span t-field="line.name" />
+									</td>
+								</t>
 							</tr>
 						</t>
 
 					</table>
-
+					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">

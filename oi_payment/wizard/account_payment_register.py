@@ -22,8 +22,7 @@ class AccountPaymentRegister(models.TransientModel):
         if self.sale_order_id:
             if self.sale_order_id.payment_detail_ids:
                 for line in self.sale_order_id.payment_detail_ids:
-                    if not line.payment_ids:
-                        pricelist_lines.append(line.payment_term_line_id.id)
+                    pricelist_lines.append(line.payment_term_line_id.id)
             res['domain'] = {'payment_term_line_ids': [('id','in',pricelist_lines)]}
         return res
     

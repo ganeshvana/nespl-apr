@@ -55,17 +55,13 @@
 
             </tr>
             </table>
-
-
               <table   style="border-style: solid;border-width:1px;" width="100%">
-
-            <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
-                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
-                 <td style="width:50%;text-align:center;solid;border-width:1px"><strong>Seller:</strong></td>
-                <td style="width:20%;text-align:right;solid;border-width:1px"></td>
-
-
-             </tr>   
+		            <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
+		                 <td style="width:30%;text-align:center;solid;border-width:1px"></td>
+		                 <td style="width:50%;text-align:center;solid;border-width:1px"><strong>Seller:</strong></td>
+		                <td style="width:20%;text-align:right;solid;border-width:1px"></td>
+	
+		             </tr>   
 
               <tr style="solid;border-width:1px;width:100%">
                  <td style="width:30%;text-align:center;solid;border-width:1px"></td>
@@ -74,44 +70,30 @@
                         <span t-field="doc.company_id.state_id"/></strong>
                 </td>
                  <td style="width:20%;text-align:right;solid;border-width:1px"></td>
-
-                 
-
              </tr>    
 
               <tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
-                 <td style="width:30%;text-align:center;text-align:left;solid;border-width:1px"><strong>BRC:<h4>u</h4></strong></td>
+                 <td style="width:30%;text-align:center;text-align:left;solid;border-width:1px"><strong>Br.C:<h4>U</h4></strong></td>
                  <td style="width:70%;text-align:center;text-align:right;solid;border-width:1px;text-align:center"> <strong>State Code:
                     <span t-field="doc.partner_id.state_id.code"/> &#160; GSTIN:<span t-field="doc.partner_id.vat"/></strong></td>
                  <td style="width:20%;text-align:right;solid;border-width:1px"><img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/></td>
-
-
-
              </tr>    
- 
-
             </table>
 
-             <table   style="border-style: solid;border-width:1px;" width="100%">
-
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;solid;border-width:1px;"><strong>Proforma Invoice No.</strong></td>
-                             <td style="width:50%;solid;border-width:1px;"><strong>Proforma invoice date:-</strong></td>
-
-
-                         </tr>
-
-
-
+             <table style="border-style: solid;border-width:1px;" width="100%">
+                  <tr style="border-style: solid;border-width:1px;width:100%;">
+                       <td style="width:25%;solid;border-width:1px;"><strong>Proforma Invoice No.</strong></td>
+                       <td style="width:25%;"></td>
+                       <td style="width:25%;solid;border-width:1px;"><strong>Proforma invoice date:-</strong></td>
+                       <td style="width:25%;solid;border-width:1px;"><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/></td>
+                   </tr>
                 </table>
 
 
              <table   style="border-style: solid;border-width:1px;" width="100%">
-
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;solid;border-width:1px;"><strong>Purchase Order No.:-</strong></td>
-                             <td style="width:50%;solid;border-width:1px;"><strong>Purchase Order date:-</strong></td>
-
+                        <tr style="border-style: solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;"><strong>Purchase Order No. &amp; Date:-</strong></td>
+                             <td style="width:50%;solid;border-width:1px;"><span t-field="doc.client_order_ref"/></td>
 
                          </tr>
 
@@ -121,20 +103,17 @@
                 
             <table   style="border-style: solid;border-width:1px;" width="100%">
 
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;solid;border-width:1px;"><strong>Consignee:-</strong><br/>
+                        <tr style="border-style: solid;border-width:1px;width:100%;">
+                             <td style="width:50%;solid;border-width:1px;border-right-width:1px;"><strong>Consignee:-</strong><br/>
 
                              <span t-field="doc.partner_id.street"/>, <span t-field="doc.partner_id.street2"/><br/>
                              <span t-field="doc.partner_id.city"/>-<span t-field="doc.partner_id.zip"/><br/>
                         <span t-field="doc.partner_id.state_id"/>, <span t-field="doc.partner_id.country_id"/><br/>
-                         <span t-field="doc.partner_id.vat"/>
                          </td>
                              <td style="width:50%;solid;border-width:1px;"><strong>Buyer(If Other than Consignee):-</strong><br/>
 
-                              <span t-field="doc.partner_id.street"/>, <span t-field="doc.partner_id.street2"/><br/>
-                             <span t-field="doc.partner_id.city"/>-<span t-field="doc.partner_id.zip"/><br/>
-                        <span t-field="doc.partner_id.state_id"/>, <span t-field="doc.partner_id.country_id"/><br/>
-                         <span t-field="doc.partner_id.vat"/>
+                              
+                         
                          </td>
 
                               
@@ -147,10 +126,12 @@
 
                 <table   style="border-style: solid;border-width:1px;" width="100%">
 
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;solid;border-width:1px;"><strong>Consignee State Code:</strong></td>
-                             <td style="width:50%;solid;border-width:1px;"><strong>Buyer State Code:</strong></td>
-
+                        <tr style="border-style: solid;border-width:1px;width:100%;">
+                             <td style="width:25%;solid;border-width:1px;"><strong>Consignee State Code:</strong></td>
+                             <td style="width:25%;"><strong><span t-field="doc.partner_id.state_id.code"/></strong></td>
+                             
+                             <td style="width:25%;solid;border-width:1px;"><strong>Buyer State Code:</strong></td>
+							<td style="width:25%;solid;border-width:1px;"></td>
 
                          </tr>
 
@@ -161,9 +142,12 @@
             
                 <table   style="border-style: solid;border-width:1px;" width="100%">
 
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;solid;border-width:1px;"><strong>Consingee GSTIN/Unique ID:</strong></td>
-                             <td style="width:50%;solid;border-width:1px;"><strong>Buyer GSTIN/Unique ID:</strong></td>
+                        <tr style="border-style: solid;border-width:1px;width:100%;">
+                             <td style="width:25%;solid;border-width:1px;"><strong>Consingee GSTIN/Unique ID:</strong></td>
+                             <td style="width:25%;solid;border-width:1px;"><strong><span t-field="doc.partner_id.vat"/></strong></td>
+                             
+                             <td style="width:25%;solid;border-width:1px;"><strong>Buyer GSTIN/Unique ID:</strong></td>
+                             <td style="width:25%;solid;border-width:1px;"></td>
 
 
                          </tr>
@@ -184,49 +168,19 @@
 
                     <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Rate</strong></td>
                     <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Amount</strong></td>
-<!--                     <td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%"><strong>Taxes value</strong></td>
- -->
 
             </tr>
-                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                <t t-foreach="doc.order_line" t-as="line">
                 <tr>
                     <td style="border-style: solid;border-width:1px;" width="5%"><span t-esc="line_index + 1"/>  </td>
-                    <td style="border-style: solid;border-width:1px;" width="50%"><span t-field="line.product_id"/></td>
+                    <td style="border-style: solid;border-width:1px;" width="50%"><span t-field="line.name"/></td>
                     <td style="border-style: solid;border-width:1px;" width="10%"><span t-field="line.product_id.l10n_in_hsn_code"/></td>
-                    <td style="border-style: solid;border-width:1px;text-align:right" width="5%"><span t-field="line.quantity"/></td>
-                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.product_id.name"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="5%"><span t-field="line.product_uom_qty"/></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.product_uom.name"/></td>
                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.price_unit"/></td>
                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-field="line.price_subtotal"/></td>
-<!--                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%"><span t-esc="(line.price_total-line.price_subtotal)"/></td>
- -->
-
                 </tr>
             </t>
-                    
-                    <!-- <tr>
-                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="5%"></td>
-                    <td style="border-style: solid;border-width:1px;text-align:center;border-right:hidden" width="40%"></td>
-                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="10%"></td>
-                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="5%"></td>
-                    <td style="border-style: solid;border-width:1px;border-right:hidden" width="10%"></td>
-                                        <td style="border-style: solid;border-width:1px;" width="10%"><strong>Total</strong></td>
-
-                     <td style="border-style: solid;border-width:1px;text-align:right" width="10%">
-                         <t t-set="i" t-value="0"/>
-                        <t t-foreach="doc.invoice_line_ids" t-as="l">
-                            <t t-set="i" t-value="i+l.price_subtotal"/>
-                        </t>
-                        <t t-esc="(i)" t-options='{"widget": "float", "precision": 2}'/>
-
-                     </td>
-                    <td style="border-style: solid;border-width:1px;text-align:right" width="10%">
-                        <t t-set="i" t-value="0"/>
-                        <t t-foreach="doc.invoice_line_ids" t-as="l">
-                            <t t-set="i" t-value="i+l.price_tax"/>
-                        </t>
-                        <t t-esc="(i)" t-options='{"widget": "float", "precision": 2}'/></td>
-          </tr> -->
-
 
                 <tr style="border-style: solid;border-width:1px;" width="100%">
                         <td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"></td>
@@ -321,7 +275,7 @@
                 
                  <table   style="border-style: solid;border-width:1px;" width="100%">
 
-                        <tr style="solid;border-width:1px;width:100%;border-bottom:hidden">
+                        <tr style="solid;border-width:1px;width:100%;">
                              <td style="width:100%;text-align:right">
                                  
                                  <br/>
@@ -335,9 +289,8 @@
 
 
                  <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
-
-                        <tr style="solid;border-width:1px;width:100%;">
-                             <td style="width:50%;text-align:left;border-bottom:hidden">
+                        <tr style="solid;border-width:1px;width:100%;border-top:hidden;">
+                             <td style="width:50%;text-align:left;border-top:hidden">
                                  <br/>
                                  
                                 <strong>Declaration</strong>
@@ -351,9 +304,9 @@
                 </table> 
 
 
-                 <table   style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden" width="100%">
+                 <table   style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden;border-top:hidden" width="100%">
 
-                        <tr style="solid;border-width:1px;width:100%;border-top:hidden;border-bottom:hidden">
+                        <tr style="solid;border-width:1px;width:100%;border-top:hidden;border-bottom:hidden;border-top:hidden">
                              <td style="width:50%;text-align:left;border-top:hidden;border-bottom:hidden">
                                  We declare that this invoice shows the actual price of the goods described and that all particulars true and correct.
 

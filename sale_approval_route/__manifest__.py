@@ -22,7 +22,7 @@
         'views/sale_approval_route.xml',
         # 'views/res_config_settings_views.xml',
     ],
-    'depends': ['sale'],
+    'depends': ['sale', 'sale_project'],
     'qweb': [],
     
     'installable': True,

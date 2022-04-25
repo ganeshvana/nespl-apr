@@ -10,8 +10,6 @@ class SaleOrder(models.Model):
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     
-    
-    
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
         if self.employee_pin and not self.employee_id:
@@ -139,7 +137,7 @@ class SaleOrderTemplate(models.Model):
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
-    opex_description = fields.Html("OPEX Description")
+    opex_description = fields.Html("OPEX Summary")
     
 
 class SaleOrderTemplateLine(models.Model):
@@ -186,7 +184,7 @@ class OpexLinesSite(models.Model):
     plant_name = fields.Char("Plant Name")
     buyer_location = fields.Char("Buyer Location")
     solar_capacity = fields.Char("Offered Solar Capacity KWp (DC)")
-    output_voltage = fields.Char("Buyer Location")
+    output_voltage = fields.Char("Solar System Output Voltage")
     buyer_contract = fields.Char("Buyer Contract Demand / Sanction Load (KVA)")
     buyer_grid = fields.Char("Buyer grid connection Voltage (KV)")
     

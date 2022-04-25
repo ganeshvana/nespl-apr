@@ -12,21 +12,21 @@ _logger = logging.getLogger(__name__)
 class Attachment(models.Model):
     _inherit = 'ir.attachment'
 
-    def create(self, vals):
-        record = super(Attachment, self).create(vals)   
-        decoded_file_size = tot_decoded_file_size = 0
-        if record.datas:
-            decoded = base64.b64decode(record.datas)
-            decoded_file_size = decoded_file_size + len(decoded)
-
-            tot_decoded_file_size = (decoded_file_size/1024/1024)
-            if tot_decoded_file_size > 5: 
-                user_ref_rec = self.env.user
-                notify_msg = 'The Attachment size exceeds. the max size is 5MB'
-                notify_title = "Data - Warning"
-                user_ref_rec.notify_info(notify_msg,notify_title,False)
-    
-        return record
+    # def create(self, vals):
+    #     record = super(Attachment, self).create(vals)   
+    #     decoded_file_size = tot_decoded_file_size = 0
+    #     if record.datas:
+    #         decoded = base64.b64decode(record.datas)
+    #         decoded_file_size = decoded_file_size + len(decoded)
+    #
+    #         tot_decoded_file_size = (decoded_file_size/1024/1024)
+    #         if tot_decoded_file_size > 5: 
+    #             user_ref_rec = self.env.user
+    #             notify_msg = 'The Attachment size exceeds. the max size is 5MB'
+    #             notify_title = "Data - Warning"
+    #             user_ref_rec.notify_info(notify_msg,notify_title,False)
+    #
+    #     return record
     
     # def _post_add_create(self):
     #     """ Overrides behaviour when the attachment is created through the controller

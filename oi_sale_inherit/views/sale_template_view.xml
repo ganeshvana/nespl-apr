@@ -8,7 +8,15 @@
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='location_id']" position="after">
 					<field name="project_number" />
+					<field name="material_insured"/>
+	                <field name="insurance_policy"/>
+	                <field name="insurance_number"/>
 				</xpath>
+				<xpath expr= "//field[@name='origin']" position ="after">
+	                <field name="reference_number"/>
+	                <field name="transport"/>
+	                <field name="loading"/>
+	            </xpath>
 			</field>
 		</record>
 	</data>
