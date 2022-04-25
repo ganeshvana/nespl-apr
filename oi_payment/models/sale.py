@@ -140,22 +140,25 @@ class PaymentDetails(models.Model):
 class Payterm(models.Model):
     _inherit = "account.payment.term.line"    
     
-    def name_get(self):
-        result = []
-        string = ''
-        for line in self:
-            if line.value:
-                if line.value == 'balance':
-                    string = 'Balance'
-                if line.value == 'percent':
-                    string = str(line.value_amount) + ' Percentage'                    
-                if line.value == 'fixed':
-                    string = str(line.value_amount) + ' Fixed'  
-                name =  string
-            else:
-                name =  'Payment Term Line'
-            result.append((line.id, name))
-        return result
+    # def name_get(self):
+    #     result = []
+    #     string = ''
+    #     for line in self:
+    #         if line.value:
+    #             if line.value == 'balance':
+    #                 string = 'Balance'
+    #             if line.value == 'percent':
+    #                 string = str(line.value_amount) + ' Percentage'                    
+    #             if line.value == 'fixed':
+    #                 string = str(line.value_amount) + ' Fixed'  
+    #             name =  string
+    #         else:
+    #             name =  'Payment Term Line'
+    #         result.append((line.id, name))
+    #     return result
+    
+    name = fields.Char("Percentage")
+    desc = fields.Char("Description")
     
 class BankGuarantee(models.Model):
     _name = "bank.guarantee" 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
 from odoo.tools import is_html_empty
-
+from datetime import datetime, timedelta
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'

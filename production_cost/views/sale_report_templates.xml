@@ -64,10 +64,10 @@
 
 				
 
-				<table class="table table-sm o_main_table">
+				<table style="border-style: solid;border-width:1px;">
 					<!-- In case we want to repeat the header, remove "display: table-row-group" -->
 					<thead style="display: table-row-group">
-						<tr>
+						<tr style="border-style: solid;border-width:1px;">
 							<th name="th_description" class="text-left">S. No</th>
 							<th name="th_description" class="text-left">Item Description</th>
 							<th name="th_description" class="text-left">Item Code / Make</th>
@@ -88,17 +88,17 @@
 							
 							
 
-							<tr
+							<tr style="border-style: solid;border-width:1px;"
 								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type">
 									<t t-set="i" t-value="i + 1" />
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<span t-esc="i" />
 									</td>
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<span t-field="line.name" />
 									</td>
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<t t-if="line.vendor_ids">
 										<t t-foreach="line.vendor_ids" t-as="l">
 											<span t-field="l.name" /> /
@@ -106,43 +106,42 @@
 										<span t-field="line.model" />
 									</t>
 									</td>
-									<td name="td_quantity" class="text-right">
+									<td style="border-style: solid;border-width:1px;" name="td_quantity" class="text-right">
 										<span t-field="line.product_uom_qty" />
 										
 									</td>
-									<td name="td_priceunit" class="text-right">
+									<td style="border-style: solid;border-width:1px;" name="td_priceunit" class="text-right">
 										<span t-field="line.product_uom_id" />
 									</td>
 									
-									<td name="td_subtotal" class="text-right o_price_total">
+									<td style="border-style: solid;border-width:1px;" name="td_subtotal" class="text-right o_price_total">
 										<span t-field="line.total" />
 									</td>
 								</t>
 								<t t-if="line.display_type == 'line_section'">
-									<td name="td_section_line" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_line" colspan="99">
 										<span t-field="line.name" />
 									</td>
 									<t t-set="current_section" t-value="line" />
 									<t t-set="current_subtotal" t-value="0" />
 								</t>
 								<t t-if="line.display_type == 'line_note'">
-									<td name="td_note_line" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
 										<span t-field="line.name" />
 									</td>
 								</t>
 							</tr>
 
-							<t
-								t-if="current_section and (line_last or doc.sale_order_template_line_ids[line_index+1].display_type == 'line_section')">
+							<t t-if="current_section and (line_last or doc.sale_order_template_line_ids[line_index+1].display_type == 'line_section')">
 								<tr class="is-subtotal text-right">
-									<td name="td_section_subtotal" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotal" colspan="99">
 										<strong class="mr16">Subtotal</strong>
 										<span t-esc="current_subtotal"
 											t-options='{"widget": "monetary", "display_currency": doc.sale_order_id.currency_id}' />
 									</td>
 								</tr>
 								<tr>
-									<td name="td_section_subtotalw" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotalw" colspan="99">
 										<strong class="mr16">Rs</strong>
 										<span t-esc="doc.sale_order_id.currency_id.amount_to_text(current_subtotal)"/>
 									</td>
@@ -151,9 +150,6 @@
 						</t>
 					</tbody>
 				</table>
-
-				
-
 				<p>
 					<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
 					<span t-field="doc.sale_term"/>

@@ -178,7 +178,7 @@ class ImportStage(models.Model):
 class PaymentTerm(models.Model):
     _inherit = 'account.payment.term'
     
-    team_id = fields.Many2one(comodel_name="purchase.team", string="Purchase Type")
+    # team_id = fields.Many2one(comodel_name="purchase.team", string="Purchase Type")
     
     
 class PurchaseReport(models.Model):
