@@ -160,9 +160,9 @@ class SaleOrder(models.Model):
                 continue
             if not order.so_team_id:
                 # Do default behaviour if PO Team is not set
-                super(SaleOrder, order).action_confirm()
+                super(SaleOrder, self).action_confirm()
             elif order.approval_required == False:
-                super(SaleOrder, order).action_confirm()
+                super().action_confirm()
             else:
                 # Generate approval route and send PO to approve
                 order.generate_approval_route()

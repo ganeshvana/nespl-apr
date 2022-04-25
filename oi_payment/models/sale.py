@@ -46,11 +46,13 @@ class SaleOrder(models.Model):
     project_number = fields.Char(string="Project No", copy=False, compute='compute_project_number')
     all_product_delivery = fields.Boolean("All product to be delivered at a time?")
     
-    @api.depends('project_ids')
+    @api.depends('project_ids', 'project_ids.project_number')
     def compute_project_number(self):
         for rec in self:
             if rec.project_ids:
                 rec.project_number = rec.project_ids[0].project_number
+            else:
+                rec.project_number = ''
             
                
     @api.model
