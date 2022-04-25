@@ -44,6 +44,8 @@
                 <xpath expr="//field[@name='active']" position="before">
                 	<field name="kw"/>
                 	<field name="sale_order_id"/>
+                	<field name="subject"/>
+                	<field name="content"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
@@ -65,7 +67,6 @@
                 		<group>
                 			<field name="opex_description"/>
                 		</group>
-                	
                 		<group string="Plants">
                 			<field name="opex_lines_site"  nolabel="1">
 	                			<tree editable="top">

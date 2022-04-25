@@ -68,7 +68,45 @@
 						}
 
 					</style>
-
+					<p>H.O. Office Add:- <br/>
+					3A Ground Floor, <br/>
+					Circle view apt.<br/>
+					Udaipur-313001 (Rajasthan)<br/>
+					GSTIN No. :- 08AACCN4908R1ZV<br/>
+					Email id : <span t-field="doc.sale_order_id.user_id.email" />
+					
+					</p>
+					<table style="border-style: none;" width="100%">
+						<tr style="border-style: none;" width="100%">
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
+						</tr>
+					</table>
+					<p>
+						<strong>To,<br/>
+							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
+							<span t-field="doc.sale_order_id.partner_id.city" />
+							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+						</strong>
+					</p>
+					<br/>
+					<p>
+						<strong><u>Reference:-<br/>
+						Subject: <span t-field="doc.subject" /><br/>
+						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
+						 </u></strong>
+					</p>
+					
+					<p><span t-field="doc.content" /></p>
+					<p><strong>For <span t-field="doc.company_id.name" /></strong>
+					<br></br>
+					<br/>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name" /><br/>
+					(Sales Engineer)</p>
+					<br/><br/>
+					
+					<p>Signature not required as this is a computer generated document.</p><br/>	
 					<p>
 						<h5>
 							<strong>

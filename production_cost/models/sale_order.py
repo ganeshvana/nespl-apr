@@ -3,6 +3,17 @@ from odoo import api, models, fields, _
 from odoo.tools import is_html_empty
 from datetime import datetime, timedelta
 
+default_content = '''
+<p>Dear Sir/Madam,<br/>
+With reference to your discussions with our team.<br/>
+We are pleased to quote our competitive offer for your requirements.<br/>
+Look forward to receiving your valuable business.<br/>
+Please feel free to revert in case of any queries.<br/>
+Thanking you and assuring you of our best service.<br/><br/>
+Yours faithfully,<br/></p>
+
+ '''
+
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
@@ -138,7 +149,8 @@ class SaleOrderTemplate(models.Model):
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
     opex_description = fields.Html("OPEX Summary")
-    
+    subject = fields.Char("Subject")
+    content = fields.Html("Content", default=default_content, copy=True)
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
