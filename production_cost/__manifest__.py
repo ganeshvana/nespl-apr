@@ -15,6 +15,8 @@
         'views/opex_format.xml',
         'views/sale_order_view.xml',
         'views/product_entry_view.xml',
+        'views/sale_report_templates.xml',
+        'views/sale_report.xml',
     ],
     'demo':[],
     'installable': True,

@@ -124,6 +124,7 @@ class ProductEntry(models.Model):
                         'product_uom_qty': line.product_uom_qty,
                         'product_id': line.product_id.id,
                         'product_uom_id': line.product_uom_id.id,
+                        'quotation_template_line_id' : line.id
                     }
                     order_lines.append((0, 0, data))
 
@@ -132,21 +133,26 @@ class ProductEntry(models.Model):
     
     def action_validate(self):
         for order in self:
-            if order.quotation_template_id: 
-                order.quotation_template_id.unlink()
-            template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
+            # if order.quotation_template_id: 
+            #     order.quotation_template_id.unlink()
+            # template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
             for line in order.order_line:
-                template_line = self.env['sale.order.template.line'].create({
-                    'sale_order_template_id': template.id,
-                    'product_id': line.product_id.id,
-                    'name': line.product_id.name,
-                    'product_uom_qty': line.product_uom_qty,
-                    'product_uom_id': line.product_uom_id.id,
-                    'cost': line.cost,
-                    'total': line.total
-                    })
-            order.quotation_template_id = template.id
-            template.state = 'validated'
+                if line.quotation_template_line_id:
+                    
+                    line.quotation_template_line_id.cost = line.cost
+                    line.quotation_template_line_id.total = line.total
+                    line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
+                    # template_line = self.env['sale.order.template.line'].create({
+                    #     'sale_order_template_id': template.id,
+                    #     'product_id': line.product_id.id,
+                    #     'name': line.product_id.name,
+                    #     'product_uom_qty': line.product_uom_qty,
+                    #     'product_uom_id': line.product_uom_id.id,
+                    #     'cost': line.cost,
+                    #     'total': line.total
+                    #     })
+            order.quotation_template_id.state = 'validated'
+            # template.state = 'validated'
             order.state = 'validate'
 
     def action_re_compute(self):
@@ -229,6 +235,7 @@ class ProductEntryLine(models.Model):
     material_cost = fields.Float(string='Material Cost', digits='Product Price', default=0.0, compute='get_material_cost', store=True, copy=True)
     remarks = fields.Char(string='Remarks', size=70, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total')
+    quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):

@@ -3,7 +3,7 @@
     <data>
         <report
                 id="action_report_novergydeliverychallan_report"
-                string="DELIVERY CHALLAN"
+                string="Delivery Challan"
                 model="stock.picking"
                 report_type="qweb-pdf"
                 file="oi_sale_novergy.novergydeliverychallan_report_report"
