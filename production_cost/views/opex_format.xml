@@ -4,10 +4,10 @@
 			<div t-attf-class="header" t-att-style="report_header_style">
                 <table style="border-style:none;" width="100%">
                 	<tr style="border-style:none;" width="100%">
-                		<td style="border-style:none;" width="50%">
-                			<h2><span t-field="doc.company_id.name" /></h2>
+                		<td style="border-style:none;" width="70%">
+                			<h3><span t-field="doc.company_id.name" /></h3>
                 		</td>
-                		<td style="border-style:none;text-align:right;" width="50%">
+                		<td style="border-style:none;text-align:right;" width="30%">
                 			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
                 		</td>
                 	</tr>
@@ -30,6 +30,15 @@
 			<t t-call="production_cost.manufacturing_report_external_layout">
 				<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
 				<div class="page">
+					<style>
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
 					<p>H.O. Office Add:- <br/>
 					3A Ground Floor, <br/>
 					Circle view apt.<br/>
@@ -164,22 +173,20 @@
 						
 						<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>S.No.</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;" width="30%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Plant Name</strong>
 							</td>
 							<td
 								style="border-style: solid;border-width:1px;text-align:center;"
-								width="30%">
+								width="35%">
 								<strong>Particular</strong>
 							</td>
 							<td
 								style="border-style: solid;border-width:1px;text-align:center;"
-								width="15%">
+								width="20%">
 								<strong>Rate (Rs. / Kwh)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -190,19 +197,19 @@
 						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
-								<td style="border-style: solid;border-width:1px;" width="5%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-esc="i" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.site_id.plant_name" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.particular" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.rate" />
 								</td>								
-								<td style="border-style: solid;border-width:1px;" width="10%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.year" />
 								</td>
 							</tr>
@@ -223,26 +230,24 @@
 					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
+							<th style="border-style: solid;border-width:1px;" width="10%">
 								<strong>S.No.</strong>
-							</td>
-							<td
+							</th>
+							<th
 								style="border-style: solid;border-width:1px;text-align:center;"
 								width="45%">
 								<strong>Particular</strong>
-							</td>
-							<td
+							</th>
+							<th
 								style="border-style: solid;border-width:1px;text-align:center;"
 								width="45%">
 								<strong>Offered</strong>
-							</td>
+							</th>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.opex_lines" t-as="line">
-						<t t-set="i" t-value="i+1"/>
+						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
+								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;" width="5%">
 									<span t-esc="i" />
 								</td>
@@ -253,7 +258,7 @@
 									<span t-field="line.offered" />
 								</td>
 							</tr>
-						</t>
+						</t></tbody>
 					</table>
 					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
@@ -295,6 +300,15 @@
 			<t t-call="production_cost.manufacturing_report_external_layout">
 				<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
 				<div class="page">
+					<style>
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
 					<p>H.O. Office Add:- <br/>
 					3A Ground Floor, <br/>
 					Circle view apt.<br/>
@@ -346,10 +360,7 @@
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
-
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>Sr.No.</strong>
 							</td>
 							<td
@@ -378,12 +389,13 @@
 						<t t-set="i" t-value="0" />
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
-								<t t-if="not line.display_type">
+								<t t-if="not line.display_type and line.hide == False">
 									<t t-set="i" t-value="i + 1" />
-								<td style="border-style: solid;border-width:1px;" width="5%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
 									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.product_id.name" /> <br/>
 									<span t-field="line.name" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
@@ -428,7 +440,6 @@
 									<strong>
 										<center>TERMS AND CONDITIONS:</center>
 									</strong>
-								
 							</td>
 						</tr>
 					</table>
@@ -549,22 +560,20 @@
 						
 						<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>S.No.</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;" width="30%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Plant Name</strong>
 							</td>
 							<td
 								style="border-style: solid;border-width:1px;text-align:center;"
-								width="30%">
+								width="35%">
 								<strong>Particular</strong>
 							</td>
 							<td
 								style="border-style: solid;border-width:1px;text-align:center;"
-								width="15%">
+								width="20%">
 								<strong>Rate (Rs. / Kwh)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -575,19 +584,19 @@
 						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
-								<td style="border-style: solid;border-width:1px;" width="5%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-esc="i" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.site_id.plant_name" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.particular" />
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.rate" />
 								</td>								
-								<td style="border-style: solid;border-width:1px;" width="10%">
+								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.year" />
 								</td>
 							</tr>
@@ -608,24 +617,22 @@
 					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
+							<th style="border-style: solid;border-width:1px;" width="10%">
 								<strong>S.No.</strong>
-							</td>
-							<td
+							</th>
+							<th
 								style="border-style: solid;border-width:1px;text-align:center;"
 								width="45%">
 								<strong>Particular</strong>
-							</td>
-							<td
+							</th>
+							<th
 								style="border-style: solid;border-width:1px;text-align:center;"
 								width="45%">
 								<strong>Offered</strong>
-							</td>
+							</th>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.opex_lines" t-as="line">
+						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;" width="5%">
@@ -638,7 +645,7 @@
 									<span t-field="line.offered" />
 								</td>
 							</tr>
-						</t>
+						</t></tbody>
 					</table>
 					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">

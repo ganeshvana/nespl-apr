@@ -7,8 +7,6 @@
             <form string="Quotation Details">
                 <header>
                     <button name="action_validate" string="Validate" type="object" class="oe_highlight" states="draft"/>
-                    <button name="compute_amount" string="Compute" type="object" class="oe_highlight" states="validate"/>
-                    <button name="action_re_compute" string="Reset to draft" type="object" class="oe_highlight" states="compute"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="draft,validate"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,validate,compute,cancel"/>
                 </header>
@@ -69,7 +67,7 @@
                                     <!-- <field name="remarks"/> -->
                                 </tree>
                             </field>
-                            <group name="note_group" col="6" class="mt-2 mt-md-0">
+                            <!-- <group name="note_group" col="6" class="mt-2 mt-md-0">
                                 <group colspan="4">
                                     <field name="quote_value"/>
                                     <field name="tax_value"/>
@@ -90,9 +88,20 @@
                                     <field name="net_profit_percent" nolabel="1" class="oe_subtotal_footer_separator"/> 
                                 </group>
                                 <div class="oe_clear"/>
+                            </group> -->
+                            
+                            <group string="Costing Structure">
+                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1">
+                            		<tree editable="bottom">
+                            			<field name="type" required="1" />
+                            			<field name="cost" sum="Total"/>
+                            			<field name="markup" />
+                            			<field name="markup_amt" sum="Total"/>
+                            			<field name="quoted_price" sum="Total"/>
+                            			<field name="kw_price" sum="Total"/>
+                            		</tree>
+                            	</field>
                             </group>
-                            
-                            
                         </page>
                         
                     </notebook>

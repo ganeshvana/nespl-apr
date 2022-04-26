@@ -10,10 +10,10 @@
                 <xpath expr="/form/header/field[@name='state']" position="replace">
                     <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale,proforma_invoice"/>
                 </xpath>
-                <xpath expr="//form/header/button[@name='action_confirm']" position="before">
+                <!-- <xpath expr="//form/header/button[@name='action_confirm']" position="before">
                     
                     <button name="action_send_proforma" string="Proforma Invoice" type="object" states="sale" class="btn-primary"/>
-                </xpath>
+                </xpath> -->
                 <xpath expr="//form/header/button[@name='action_quotation_send']" position="replace">
                     <button name="action_quotation_send" string="Send by Email" type="object" states="proforma_invoice"/>
                 </xpath>
