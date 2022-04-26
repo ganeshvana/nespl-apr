@@ -53,7 +53,7 @@
                 	<field name="model"/>
                 	<field name="unit"/>
                 	<field name="per_kw"/>
-                	
+                	<field name="per_kw"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_id']" position="attributes">
             		<attribute name="domain">[('sale_ok', '=', False),('purchase_ok', '=', False)]</attribute>    	
@@ -69,7 +69,7 @@
                 		</group>
                 		<group string="Plants">
                 			<field name="opex_lines_site"  nolabel="1">
-	                			<tree editable="top">
+	                			<tree editable="bottom">
 	                				<field name="plant_name" required="1"/>
 	                				<field name="buyer_location" required="1"/>
 	                				<field name="solar_capacity" required="1"/>
@@ -82,7 +82,7 @@
                 		
                 		<group string="Solar Tariff">
                 			<field name="opex_lines_site_rate" nolabel="1">
-	                			<tree editable="top">
+	                			<tree editable="bottom">
 	                				<field name="site_id" required="1"/>
 	                				<field name="particular" required="1"/>
 	                				<field name="rate" required="1"/>
@@ -93,7 +93,7 @@
                 		
                 		<group string="Special Terms and Condition">
                 			<field name="opex_lines"  nolabel="1">
-	                			<tree editable="top">
+	                			<tree editable="bottom">
 	                				<field name="particular" required="1"/>
 	                				<field name="offered" required="1"/>
 	                			</tree>

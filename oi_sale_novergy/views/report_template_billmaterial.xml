@@ -211,17 +211,18 @@
 					<t t-set="i" t-value="0" />
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
-							<td style="border-style: solid;border-width:1px;">S.No.</td>
+							<td style="border-style: solid;border-width:1px;">Heading</td>
 							<td style="border-style: solid;border-width:1px;">Percentage</td>
-							<td style="border-style: solid;border-width:1px;">Condition</td>
+							<td style="border-style: solid;border-width:1px;">Description</td>
 						</tr>
 						<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
+							<t t-if="line.name != ''">
 							<tr style="border-style: solid;border-width:1px;">
-								<t t-set="i" t-value="i + 1" />
-								<td style="border-style: solid;border-width:1px;"><span t-esc="i" /></td>
+								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply" /></td>
 								<td style="border-style: solid;border-width:1px;"><span t-field="line.name" /></td>
 								<td style="border-style: solid;border-width:1px;"><span t-field="line.desc"/></td>
 							</tr>
+							</t>
 						</t>
 					</table>
 

@@ -142,7 +142,7 @@ class SaleOrderTemplate(models.Model):
     _inherit = 'sale.order.template'
     
     kw = fields.Integer("KWP")
-    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False)
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
     partner_id = fields.Many2one('res.partner')
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
@@ -163,6 +163,8 @@ class SaleOrderTemplateLine(models.Model):
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make / Model")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make / Model")
     model = fields.Char("Model")
+    hide = fields.Boolean("Hide")
+    # type = fields.Selection([('')])
     
     @api.onchange('product_id')
     def onchange_product(self):
@@ -184,8 +186,8 @@ class OpexLines(models.Model):
     _description = "Opex Lines"
     
     template_id = fields.Many2one('sale.order.template', "Template")
-    particular = fields.Char("Particular")
-    offered = fields.Char("Offered")
+    particular = fields.Html("Particular")
+    offered = fields.Html("Offered")
     
     
 class OpexLinesSite(models.Model):

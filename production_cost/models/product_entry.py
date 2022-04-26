@@ -236,11 +236,18 @@ class ProductEntryLine(models.Model):
     remarks = fields.Char(string='Remarks', size=70, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total')
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
+    kwp = fields.Integer("KwP")
+    kw_cost = fields.Float("Kw Cost")
+    notes = fields.Char("Notes")
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):
         for rec in self:
             rec.total = rec.product_uom_qty * rec.cost
+            
+    @api.depends('kwp','kw_cost')
+    def compute_cost(self):
+        self.cost = self.kwp * rec.kw_cost
 
 class ProductEntryCost(models.Model):
     _name = 'product.entry.cost'

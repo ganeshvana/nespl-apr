@@ -140,22 +140,16 @@ class PaymentDetails(models.Model):
 class Payterm(models.Model):
     _inherit = "account.payment.term.line"    
     
-    # def name_get(self):
-    #     result = []
-    #     string = ''
-    #     for line in self:
-    #         if line.value:
-    #             if line.value == 'balance':
-    #                 string = 'Balance'
-    #             if line.value == 'percent':
-    #                 string = str(line.value_amount) + ' Percentage'                    
-    #             if line.value == 'fixed':
-    #                 string = str(line.value_amount) + ' Fixed'  
-    #             name =  string
-    #         else:
-    #             name =  'Payment Term Line'
-    #         result.append((line.id, name))
-    #     return result
+    def name_get(self):
+        result = []
+        string = ''
+        for line in self:
+            if line.name:
+                name = line.name
+            else:
+                name =  ''
+            result.append((line.id, name))
+        return result
     
     value = fields.Selection([
             ('balance', 'Balance'),
@@ -163,7 +157,7 @@ class Payterm(models.Model):
             ('fixed', 'Fixed Amount')
         ], string='Type', required=True, default='fixed',
         help="Select here the kind of valuation related to this payment terms line.")    
-    supply = fields.Char("Supply")
+    supply = fields.Char("Heading")
     name = fields.Char("Percentage")
     desc = fields.Char("Description")
     supply_amount = fields.Float("Amount")

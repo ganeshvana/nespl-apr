@@ -53,14 +53,17 @@
                     </group>
                     <notebook>
                        <page name='components' string='Components'>
-                            <field name="order_line" attrs="{'readonly':[('state','in',['compute'])]}">
+                            <field name="order_line" attrs="{'readonly':[('state','in',['compute'])]}" context="{'default_kwp': kw}">
                                 <tree editable="none">
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" required='1'/>
-                                    <field name="product_uom_id"/>                                    
+                                    <field name="product_uom_id"/>   
+                                    <field name="kwp"/>   
+                                    <field name="kw_cost"/>                                    
                                     <field name="cost"/>
                                     <field name="product_uom_qty" required='1'/>
                                     <field name="total"/>
+                                    <field name="notes" optional="hide"/>
                                     <field name="quotation_template_line_id" optional="hide"/>
                                     <!-- <field name="remarks"/> -->
                                 </tree>
