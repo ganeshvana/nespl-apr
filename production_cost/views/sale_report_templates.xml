@@ -1,9 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<template id="bom_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                <table style="border-style:none;" width="100%">
+                	<tr style="border-style:none;" width="100%">
+                		<td style="border-style:none;" width="50%">
+                			<h2><span t-field="doc.company_id.name" /></h2>
+                		</td>
+                		<td style="border-style:none;text-align:right;" width="50%">
+                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
+                		</td>
+                	</tr>
+                </table>
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center><span class="page"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
 	<template id="report_saleorder_document11">
-		<t t-call="web.basic_layout">
+		<t t-call="production_cost.bom_external_layout">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
-
 			<div class="page">
 				<p>H.O. Office Add:- <br/>
 					3A Ground Floor, <br/>
@@ -11,14 +34,15 @@
 					Udaipur-313001 (Rajasthan)<br/>
 					GSTIN No. :- 08AACCN4908R1ZV<br/>
 					Email id : <span t-field="doc.sale_order_id.user_id.email" />
-					
 					</p>
+					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
 							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
+					<br/>					
 					<p>
 						<strong>To,<br/>
 							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
@@ -28,13 +52,13 @@
 					</p>
 					<br/>
 					<p>
-						<strong><u>Reference:-<br/>
+						<strong><u>Reference:- <span t-field="doc.reference"/><br/>
 						Subject: <span t-field="doc.subject" /><br/>
 						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
 						 </u></strong>
 					</p>
-					
-					<p><span t-field="doc.content" /></p>
+					<br/>
+					<p><span style="line-height: 2;" t-field="doc.content" /></p>
 					<p><strong>For <span t-field="doc.company_id.name" /></strong>
 					<br></br>
 					<br/>
@@ -44,6 +68,7 @@
 					<br/><br/><br/>
 					
 					<p>Signature not required as this is a computer generated document.</p>
+					<p style="page-break-before:always;"> </p>
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr>
 						<td width="80%">
