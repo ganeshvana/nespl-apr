@@ -6,3 +6,4 @@ access_product_entry_cost_lines,access_product_entry_cost_lines,model_product_en
 access_opex_lines,access_opex_lines,model_opex_lines,base.group_user,1,1,1,1
 access_opex_lines_site,access_opex_lines.site,model_opex_lines_site,base.group_user,1,1,1,1
 access_opex_lines_site_year,access_opex_lines.site.year,model_opex_lines_site_year,base.group_user,1,1,1,1
+access_costing_structure,access_costing_structure,model_costing_structure,,1,1,1,0

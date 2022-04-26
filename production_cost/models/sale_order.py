@@ -20,6 +20,8 @@ class SaleOrder(models.Model):
     entry_count = fields.Integer(string='Entry Count', compute='count_entry')
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
+    project_costing_id = fields.Many2one('product.entry', "Costing")
+    costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
@@ -152,6 +154,8 @@ class SaleOrderTemplate(models.Model):
     subject = fields.Char("Subject")
     reference = fields.Char("Reference")
     content = fields.Html("Content", default=default_content, copy=True)
+    project_costing_id = fields.Many2one('product.entry', "Costing")
+    costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
