@@ -121,7 +121,7 @@
 						<t t-set="i" t-value="0" />
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
-								<t t-if="not line.display_type">
+								<t t-if="not line.display_type and line.hide">
 									<t t-set="i" t-value="i + 1" />
 								<td style="border-style: solid;border-width:1px;" width="5%">
 									<span t-esc="i" />
@@ -321,7 +321,7 @@
 						<t t-set="i" t-value="0" />
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
-								<t t-if="not line.display_type">
+								<t t-if="not line.display_type and line.hide">
 									<t t-set="i" t-value="i + 1" />
 								<td style="border-style: solid;border-width:1px;" width="5%">
 									<span t-esc="i" />
