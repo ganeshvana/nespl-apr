@@ -1,10 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<template id="bom_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                <table style="border-style:none;" width="100%">
+                	<tr style="border-style:none;" width="100%">
+                		<td style="border-style:none;" width="50%">
+                			<h2><span t-field="doc.company_id.name" /></h2>
+                		</td>
+                		<td style="border-style:none;text-align:right;" width="50%">
+                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
+                		</td>
+                	</tr>
+                </table>
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center><span class="page"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
 	<template id="report_saleorder_document11">
-		<t t-call="web.basic_layout">
+		<t t-call="production_cost.bom_external_layout">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
-
 			<div class="page">
+				<p>H.O. Office Add:- <br/>
+					3A Ground Floor, <br/>
+					Circle view apt.<br/>
+					Udaipur-313001 (Rajasthan)<br/>
+					GSTIN No. :- 08AACCN4908R1ZV<br/>
+					Email id : <span t-field="doc.sale_order_id.user_id.email" />
+					</p>
+					<br/>
+					<table style="border-style: none;" width="100%">
+						<tr style="border-style: none;" width="100%">
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
+						</tr>
+					</table>
+					<br/>					
+					<p>
+						<strong>To,<br/>
+							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
+							<span t-field="doc.sale_order_id.partner_id.city" />
+							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+						</strong>
+					</p>
+					<br/>
+					<p>
+						<strong><u>Reference:- <span t-field="doc.reference"/><br/>
+						Subject: <span t-field="doc.subject" /><br/>
+						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
+						 </u></strong>
+					</p>
+					<br/>
+					<p><span style="line-height: 2;" t-field="doc.content" /></p>
+					<p><strong>For <span t-field="doc.company_id.name" /></strong>
+					<br></br>
+					<br/>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name" /><br/>
+					(Sales Engineer)</p>
+					<br/><br/><br/>
+					
+					<p>Signature not required as this is a computer generated document.</p>
+					<p style="page-break-before:always;"> </p>
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr>
 						<td width="80%">
@@ -64,41 +128,34 @@
 
 				
 
-				<table class="table table-sm o_main_table">
+				<table style="border-style: solid;border-width:1px;" width="100%">
 					<!-- In case we want to repeat the header, remove "display: table-row-group" -->
 					<thead style="display: table-row-group">
-						<tr>
-							<th name="th_description" class="text-left">S. No</th>
-							<th name="th_description" class="text-left">Item Description</th>
-							<th name="th_description" class="text-left">Item Code / Make</th>
-							<th name="th_quantity" class="text-right">Quantity</th>
-							<th name="th_quantity" class="text-right">Unit</th>
-							<th name="th_subtotal" class="text-right">
-								<span>Amount</span>
-							</th>
+						<tr style="border-style: solid;border-width:1px;">
+							<th style="border-style: solid;border-width:1px;" width="10%" name="th_description" class="text-left">S. No</th>
+							<th style="border-style: solid;border-width:1px;" width="30%" name="th_description" class="text-left">Item Description</th>
+							<th style="border-style: solid;border-width:1px;" width="30%" name="th_description" class="text-left">Item Code / Make</th>
+							<th style="border-style: solid;border-width:1px;" width="10%" name="th_quantity" class="text-right">Quantity</th>
+							<th style="border-style: solid;border-width:1px;" width="10%" name="th_quantity" class="text-right">Unit</th>
+							<th style="border-style: solid;border-width:1px;" width="10%" name="th_subtotal" class="text-right">Amount</th>
 						</tr>
 					</thead>
 					<tbody class="sale_tbody">
 						<t t-set="i" t-value="0" />
 						<t t-set="current_subtotal" t-value="0" />
-
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
-
 							<t t-set="current_subtotal" t-value="current_subtotal + line.total" />
-							
-							
-
-							<tr
+							<tr style="border-style: solid;border-width:1px;"
 								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type">
 									<t t-set="i" t-value="i + 1" />
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<span t-esc="i" />
 									</td>
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<span t-field="line.name" />
 									</td>
-									<td name="td_name">
+									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<t t-if="line.vendor_ids">
 										<t t-foreach="line.vendor_ids" t-as="l">
 											<span t-field="l.name" /> /
@@ -106,43 +163,42 @@
 										<span t-field="line.model" />
 									</t>
 									</td>
-									<td name="td_quantity" class="text-right">
+									<td style="border-style: solid;border-width:1px;" name="td_quantity" class="text-right">
 										<span t-field="line.product_uom_qty" />
 										
 									</td>
-									<td name="td_priceunit" class="text-right">
+									<td style="border-style: solid;border-width:1px;" name="td_priceunit" class="text-right">
 										<span t-field="line.product_uom_id" />
 									</td>
 									
-									<td name="td_subtotal" class="text-right o_price_total">
+									<td style="border-style: solid;border-width:1px;" name="td_subtotal" class="text-right o_price_total">
 										<span t-field="line.total" />
 									</td>
 								</t>
 								<t t-if="line.display_type == 'line_section'">
-									<td name="td_section_line" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_line" colspan="99">
 										<span t-field="line.name" />
 									</td>
 									<t t-set="current_section" t-value="line" />
 									<t t-set="current_subtotal" t-value="0" />
 								</t>
 								<t t-if="line.display_type == 'line_note'">
-									<td name="td_note_line" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
 										<span t-field="line.name" />
 									</td>
 								</t>
 							</tr>
 
-							<t
-								t-if="current_section and (line_last or doc.sale_order_template_line_ids[line_index+1].display_type == 'line_section')">
+							<t t-if="current_section and (line_last or doc.sale_order_template_line_ids[line_index+1].display_type == 'line_section')">
 								<tr class="is-subtotal text-right">
-									<td name="td_section_subtotal" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotal" colspan="99">
 										<strong class="mr16">Subtotal</strong>
 										<span t-esc="current_subtotal"
 											t-options='{"widget": "monetary", "display_currency": doc.sale_order_id.currency_id}' />
 									</td>
 								</tr>
 								<tr>
-									<td name="td_section_subtotalw" colspan="99">
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotalw" colspan="99">
 										<strong class="mr16">Rs</strong>
 										<span t-esc="doc.sale_order_id.currency_id.amount_to_text(current_subtotal)"/>
 									</td>
@@ -151,9 +207,6 @@
 						</t>
 					</tbody>
 				</table>
-
-				
-
 				<p>
 					<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
 					<span t-field="doc.sale_term"/>
@@ -173,11 +226,220 @@
 	</template>
 
 	<record id="action_report_saleorder11" model="ir.actions.report">
-            <field name="name">OV DLR Proposal</field>
+            <field name="name">OV DLR Proposal with Amount</field>
             <field name="model">sale.order.template</field>
             <field name="report_type">qweb-pdf</field>
             <field name="report_name">production_cost.report_saleorder1</field>
             <field name="report_file">production_cost.report_saleorder1</field>
+            <field name="print_report_name">('OV DLR - %s' % (object.sale_order_id.name))</field>
+            <field name="binding_model_id" ref="model_sale_order_template"/>
+            <field name="binding_type">report</field>
+        </record>
+        
+        
+        
+   <template id="report_saleorder_document111">
+		<t t-call="web.basic_layout">
+			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
+
+			<div class="page">
+			<p>H.O. Office Add:- <br/>
+					3A Ground Floor, <br/>
+					Circle view apt.<br/>
+					Udaipur-313001 (Rajasthan)<br/>
+					GSTIN No. :- 08AACCN4908R1ZV<br/>
+					Email id : <span t-field="doc.sale_order_id.user_id.email" />
+					
+					</p>
+					<table style="border-style: none;" width="100%">
+						<tr style="border-style: none;" width="100%">
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
+						</tr>
+					</table>
+					<p>
+						<strong>To,<br/>
+							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
+							<span t-field="doc.sale_order_id.partner_id.city" />
+							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+						</strong>
+					</p>
+					<br/>
+					<p>
+						<strong><u>Reference:-<br/>
+						Subject: <span t-field="doc.subject" /><br/>
+						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
+						 </u></strong>
+					</p>
+					
+					<p><span t-field="doc.content" /></p>
+					<p><strong>For <span t-field="doc.company_id.name" /></strong>
+					<br></br>
+					<br/>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name" /><br/>
+					(Sales Engineer)</p>
+					<br/><br/><br/>
+					
+					<p>Signature not required as this is a computer generated document.</p>
+				<table style="border-style: solid;border-width:1px;" width="100%">
+					<tr>
+						<td width="80%">
+							<center><strong><h3>BILL OF MATERIAL</h3></strong></center>
+						</td>
+						<td><img t-att-src="image_data_uri(doc.company_id.logo)"
+								style="max-height: 4cm; max-width: 4cm;" align="right" /></td>
+					</tr>
+				</table>
+				<table style="border-style: solid;border-width:1px;" width="100%">
+					<tr>
+						<td width="50%">
+						<t t-set="address">
+							<div t-field="doc.sale_order_id.partner_id"
+								t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+							<p t-if="doc.sale_order_id.partner_id.vat">
+								<t
+									t-esc="doc.sale_order_id.company_id.account_fiscal_country_id.vat_label or 'Tax ID'" />
+								:
+								<span t-field="doc.sale_order_id.partner_id.vat" />
+							</p>
+						</t>
+						<t
+							t-if="doc.sale_order_id.partner_shipping_id == doc.sale_order_id.partner_invoice_id
+                             and doc.sale_order_id.partner_invoice_id != doc.sale_order_id.partner_id
+                             or doc.sale_order_id.partner_shipping_id != doc.sale_order_id.partner_invoice_id">
+							<t t-set="information_block">
+								<strong
+									t-if="doc.sale_order_id.partner_shipping_id == doc.sale_order_id.partner_invoice_id">Invoicing and Shipping Address:</strong>
+								<strong
+									t-if="doc.sale_order_id.partner_shipping_id != doc.sale_order_id.partner_invoice_id">Invoicing Address:</strong>
+								<div t-field="doc.sale_order_id.partner_invoice_id"
+									t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+								<t t-if="doc.sale_order_id.partner_shipping_id != doc.sale_order_id.partner_invoice_id">
+									<strong>Shipping Address:</strong>
+									<div t-field="doc.sale_order_id.partner_shipping_id"
+										t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
+								</t>
+							</t>
+						</t>
+					</td>
+					<td width="50%">
+						<t t-set="address">
+							<div t-field="doc.company_id.partner_id"
+								t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
+							<p t-if="doc.company_id.partner_id.vat">
+								<t
+									t-esc="doc.company_id.account_fiscal_country_id.vat_label or 'Tax ID'" />
+								:
+								<span t-field="doc.company_id.partner_id.vat" />
+							</p>
+						</t>
+					</td>
+					</tr>
+				</table>
+				<div class="oe_structure" />
+
+				
+
+				<table style="border-style: solid;border-width:1px;" width="100%">
+					<!-- In case we want to repeat the header, remove "display: table-row-group" -->
+					<thead style="display: table-row-group">
+						<tr style="border-style: solid;border-width:1px;">
+							<th style="border-style: solid;border-width:1px;" width="10%" name="th_description" class="text-left">S. No</th>
+							<th style="border-style: solid;border-width:1px;" width="30%" name="th_description" class="text-left">Item Description</th>
+							<th style="border-style: solid;border-width:1px;" width="30%" name="th_description" class="text-left">Item Code / Make</th>
+							<th style="border-style: solid;border-width:1px;" width="15%" name="th_quantity" class="text-right">Quantity</th>
+							<th style="border-style: solid;border-width:1px;" width="15%" name="th_quantity" class="text-right">Unit</th>
+						</tr>
+					</thead>
+					<tbody class="sale_tbody">
+						<t t-set="i" t-value="0" />
+						<t t-set="current_subtotal" t-value="0" />
+						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
+							<t t-set="current_subtotal" t-value="current_subtotal + line.total" />
+							<tr style="border-style: solid;border-width:1px;"
+								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+								<t t-if="not line.display_type">
+									<t t-set="i" t-value="i + 1" />
+									<td style="border-style: solid;border-width:1px;" name="td_name">
+										<span t-esc="i" />
+									</td>
+									<td style="border-style: solid;border-width:1px;" name="td_name">
+										<span t-field="line.name" />
+									</td>
+									<td style="border-style: solid;border-width:1px;" name="td_name">
+										<t t-if="line.vendor_ids">
+										<t t-foreach="line.vendor_ids" t-as="l">
+											<span t-field="l.name" /> /
+										</t>
+										<span t-field="line.model" />
+									</t>
+									</td>
+									<td style="border-style: solid;border-width:1px;" name="td_quantity" class="text-right">
+										<span t-field="line.product_uom_qty" />
+										
+									</td>
+									<td style="border-style: solid;border-width:1px;" name="td_priceunit" class="text-right">
+										<span t-field="line.product_uom_id" />
+									</td>
+									
+								</t>
+								<t t-if="line.display_type == 'line_section'">
+									<td style="border-style: solid;border-width:1px;" name="td_section_line" colspan="99">
+										<span t-field="line.name" />
+									</td>
+									<t t-set="current_section" t-value="line" />
+									<t t-set="current_subtotal" t-value="0" />
+								</t>
+								<t t-if="line.display_type == 'line_note'">
+									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
+										<span t-field="line.name" />
+									</td>
+								</t>
+							</tr>
+
+							<t t-if="current_section and (line_last or doc.sale_order_template_line_ids[line_index+1].display_type == 'line_section')">
+								<tr class="is-subtotal text-right">
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotal" colspan="99">
+										<strong class="mr16">Subtotal</strong>
+										<span t-esc="current_subtotal"
+											t-options='{"widget": "monetary", "display_currency": doc.sale_order_id.currency_id}' />
+									</td>
+								</tr>
+								<tr>
+									<td style="border-style: solid;border-width:1px;" name="td_section_subtotalw" colspan="99">
+										<strong class="mr16">Rs</strong>
+										<span t-esc="doc.sale_order_id.currency_id.amount_to_text(current_subtotal)"/>
+									</td>
+								</tr>
+							</t>
+						</t>
+					</tbody>
+				</table>
+				<p>
+					<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
+					<span t-field="doc.sale_term"/>
+				</p>
+			</div>
+		</t>
+	</template>
+
+
+	<template id="report_saleorder11">
+		<t t-call="web.html_container">
+			<t t-foreach="docs" t-as="doc">
+				<t t-call="production_cost.report_saleorder_document111"
+					t-lang="doc.partner_id.lang" />
+			</t>
+		</t>
+	</template>
+
+	<record id="action_report_saleorder111" model="ir.actions.report">
+            <field name="name">OV DLR Proposal without Amount</field>
+            <field name="model">sale.order.template</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">production_cost.report_saleorder11</field>
+            <field name="report_file">production_cost.report_saleorder11</field>
             <field name="print_report_name">('OV DLR - %s' % (object.sale_order_id.name))</field>
             <field name="binding_model_id" ref="model_sale_order_template"/>
             <field name="binding_type">report</field>

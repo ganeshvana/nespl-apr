@@ -144,18 +144,28 @@ class Payterm(models.Model):
         result = []
         string = ''
         for line in self:
-            if line.value:
-                if line.value == 'balance':
-                    string = 'Balance'
-                if line.value == 'percent':
-                    string = str(line.value_amount) + ' Percentage'                    
-                if line.value == 'fixed':
-                    string = str(line.value_amount) + ' Fixed'  
-                name =  string
+            if line.name:
+                name = line.name
             else:
-                name =  'Payment Term Line'
+                name =  ''
             result.append((line.id, name))
         return result
+    
+    value = fields.Selection([
+            ('balance', 'Balance'),
+            ('percent', 'Percent'),
+            ('fixed', 'Fixed Amount')
+        ], string='Type', required=True, default='fixed',
+        help="Select here the kind of valuation related to this payment terms line.")    
+    supply = fields.Char("Heading")
+    name = fields.Char("Percentage")
+    desc = fields.Char("Description")
+    supply_amount = fields.Float("Amount")
+    percentage = fields.Float("Percentage")
+    
+    @api.onchange('supply_amount', 'percentage')
+    def onchange_percentage(self):
+        self.value_amount = self.supply_amount * (self.percentage /100)
     
 class BankGuarantee(models.Model):
     _name = "bank.guarantee" 
@@ -219,6 +229,7 @@ class Warehouse(models.Model):
     _inherit='stock.warehouse'
 
     sale_sequence = fields.Many2one('ir.sequence','Sale Sequence')
+    rep_code = fields.Char("Report Code", size=1)
     
 class FixedDeposit(models.Model):
     _name = "fixed.deposit" 

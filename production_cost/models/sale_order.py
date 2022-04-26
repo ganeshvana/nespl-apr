@@ -1,7 +1,18 @@
 # -*- coding: utf-8 -*-
 from odoo import api, models, fields, _
 from odoo.tools import is_html_empty
+from datetime import datetime, timedelta
 
+default_content = '''
+<p>Dear Sir/Madam,<br/>
+With reference to your discussions with our team.<br/>
+We are pleased to quote our competitive offer for your requirements.<br/>
+Look forward to receiving your valuable business.<br/>
+Please feel free to revert in case of any queries.<br/>
+Thanking you and assuring you of our best service.<br/><br/>
+Yours faithfully,<br/></p>
+
+ '''
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
@@ -131,14 +142,16 @@ class SaleOrderTemplate(models.Model):
     _inherit = 'sale.order.template'
     
     kw = fields.Integer("KWP")
-    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft')
+    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False)
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
     partner_id = fields.Many2one('res.partner')
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
-    opex_description = fields.Html("OPEX Summary")
-    
+    opex_description = fields.Html("Summary")
+    subject = fields.Char("Subject")
+    reference = fields.Char("Reference")
+    content = fields.Html("Content", default=default_content, copy=True)
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
@@ -148,9 +161,40 @@ class SaleOrderTemplateLine(models.Model):
     kw = fields.Integer(related='sale_order_template_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
-    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make / Model")
-    vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make / Model")
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
+    hide = fields.Boolean("Hide")
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    
+    @api.onchange('product_id')
+    def onchange_product(self):
+        products = []
+        if self.product_id:
+            if self.product_id.seller_ids:
+                for line in self.product_id.seller_ids:
+                    products.append(line.name.id)
+            self.partner_ids = [(6, 0, products)]
+    
+    @api.depends('kw', 'unit')
+    def compute_per_kw(self):
+        for rec in self:
+            if rec.unit > 0.0:
+                rec.per_kw = (rec.kw * 1000)/rec.unit
+                
+class SaleOrderTemplateOption(models.Model):
+    _inherit = 'sale.order.template.option'
+    
+    unit = fields.Float("Unit")
+    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
+    kw = fields.Integer(related='sale_order_template_id.kw', store=True)
+    cost = fields.Float("Cost")
+    total = fields.Float("Total")
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel2', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel22', 'vendor_id', 'template_id', "Make")
+    model = fields.Char("Model")
+    hide = fields.Boolean("Hide")
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     
     @api.onchange('product_id')
     def onchange_product(self):
@@ -172,13 +216,14 @@ class OpexLines(models.Model):
     _description = "Opex Lines"
     
     template_id = fields.Many2one('sale.order.template', "Template")
-    particular = fields.Char("Particular")
-    offered = fields.Char("Offered")
+    particular = fields.Html("Particular")
+    offered = fields.Html("Offered")
     
     
 class OpexLinesSite(models.Model):
     _name = 'opex.lines.site'
     _description = "Opex Lines Site"
+    _rec_name = 'plant_name'
     
     template_id = fields.Many2one('sale.order.template', "Template")
     plant_name = fields.Char("Plant Name")

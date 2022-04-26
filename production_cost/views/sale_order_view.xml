@@ -44,15 +44,25 @@
                 <xpath expr="//field[@name='active']" position="before">
                 	<field name="kw"/>
                 	<field name="sale_order_id"/>
+                	<field name="subject"/>
+                	<field name="reference"/>
+                	<field name="content"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
                 	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
                 	<field name="model"/>
-                	<field name="unit"/>
-                	<field name="per_kw"/>
-                	
+                	<field name="hide" optional="hide"/>
+                	<field name="type" optional="hide"/>
                 </xpath>
+                <xpath expr="//page[@name='optional_products']/field[@name='sale_order_template_option_ids']/tree/field[@name='quantity']" position="before">
+                	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
+                	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
+                	<field name="model"/>
+                	<field name="hide" optional="hide"/>
+                	<field name="type" optional="hide"/>
+                </xpath>
+                
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_id']" position="attributes">
             		<attribute name="domain">[('sale_ok', '=', False),('purchase_ok', '=', False)]</attribute>    	
                 </xpath>
@@ -61,14 +71,13 @@
                 	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                	<page name="opex" string="Opex">
-                		<group>
-                			<field name="opex_description"/>
+                	<page name="opex" string="Opex/Open XS">
+                		<group string="Summary">
+                			<field name="opex_description" nolabel="1"/>
                 		</group>
-                	
                 		<group string="Plants">
                 			<field name="opex_lines_site"  nolabel="1">
-	                			<tree editable="top">
+	                			<tree editable="bottom">
 	                				<field name="plant_name" required="1"/>
 	                				<field name="buyer_location" required="1"/>
 	                				<field name="solar_capacity" required="1"/>
@@ -81,8 +90,8 @@
                 		
                 		<group string="Solar Tariff">
                 			<field name="opex_lines_site_rate" nolabel="1">
-	                			<tree editable="top">
-	                				<field name="site_id"/>
+	                			<tree editable="bottom">
+	                				<field name="site_id" required="1"/>
 	                				<field name="particular" required="1"/>
 	                				<field name="rate" required="1"/>
 	                				<field name="year" required="1"/>
@@ -92,7 +101,7 @@
                 		
                 		<group string="Special Terms and Condition">
                 			<field name="opex_lines"  nolabel="1">
-	                			<tree editable="top">
+	                			<tree editable="bottom">
 	                				<field name="particular" required="1"/>
 	                				<field name="offered" required="1"/>
 	                			</tree>

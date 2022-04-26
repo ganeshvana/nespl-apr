@@ -17,7 +17,7 @@
             <field name="header_spacing">35</field>
             <field name="dpi">90</field>
             </record>
-        <report
+        <!-- <report
                 id="report_proforma_invoice"
                 string="Proforma Invoice With Header"
                 model="sale.order"
@@ -26,7 +26,7 @@
                 name="oodu_abc_sale_extended_with_header.report_proforma_invoice_doc"
                 paperformat="oodu_abc_sale_extended_with_header.paperformat_lowmargin"
             
-        />
+        /> -->
 
 
     </data>

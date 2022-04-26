@@ -113,6 +113,7 @@ class ProductEntry(models.Model):
     with_tax = fields.Float("w GST", compute='_compute_with_tax', store=True)
     net_profit = fields.Float("Net Profit", compute='_compute_net_profit', store=True)
     net_profit_percent = fields.Float("Net Profit %", compute='_compute_net_profit_percent', store=True)
+    
 
     @api.onchange('quotation_template_id')
     def onchange_quotation_template_id(self):
@@ -138,10 +139,17 @@ class ProductEntry(models.Model):
             # template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
             for line in order.order_line:
                 if line.quotation_template_line_id:
-                    
                     line.quotation_template_line_id.cost = line.cost
                     line.quotation_template_line_id.total = line.total
                     line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
+                if not line.quotation_template_line_id:
+                    template_line = self.env['sale.order.template.line'].create({
+                        'product_id': line.product_id.id,
+                        'name': line.product_id.name,
+                        'product_uom_qty': line.product_uom_qty,
+                        'cost': line.cost,
+                        'total': line.total
+                        })
                     # template_line = self.env['sale.order.template.line'].create({
                     #     'sale_order_template_id': template.id,
                     #     'product_id': line.product_id.id,
@@ -236,11 +244,19 @@ class ProductEntryLine(models.Model):
     remarks = fields.Char(string='Remarks', size=70, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total')
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
+    kwp = fields.Integer("KwP")
+    kw_cost = fields.Float("Kw Cost")
+    notes = fields.Char("Notes")
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):
         for rec in self:
             rec.total = rec.product_uom_qty * rec.cost
+            
+    @api.depends('kwp','kw_cost')
+    def compute_cost(self):
+        self.cost = self.kwp * rec.kw_cost
 
 class ProductEntryCost(models.Model):
     _name = 'product.entry.cost'
