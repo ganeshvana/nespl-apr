@@ -31,7 +31,15 @@
 				<t t-set="doc"
 					t-value="doc.with_context(lang=doc.partner_id.lang)" />
 				<div class="page">
-					
+					<style>
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
 					<p>H.O. Office Add:- <br/>
 					3A Ground Floor, <br/>
 					Circle view apt.<br/>
@@ -262,6 +270,15 @@
 				<t t-set="doc"
 					t-value="doc.with_context(lang=doc.partner_id.lang)" />
 				<div class="page">
+					<style>
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
 					<p>
 						<h5>
 							<strong>
