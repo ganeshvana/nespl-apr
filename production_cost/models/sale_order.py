@@ -214,10 +214,12 @@ class SaleOrderTemplateOption(models.Model):
 class OpexLines(models.Model):
     _name = 'opex.lines'
     _description = "Opex Lines"
+    _order = 'sequence'
     
     template_id = fields.Many2one('sale.order.template', "Template")
     particular = fields.Html("Particular")
     offered = fields.Html("Offered")
+    sequence = fields.Integer("Sequence")
     
     
 class OpexLinesSite(models.Model):
@@ -240,5 +242,5 @@ class OpexLinesSiteYear(models.Model):
     template_id = fields.Many2one('sale.order.template', "Template")
     site_id = fields.Many2one('opex.lines.site', "Site")
     particular = fields.Char("Particular")
-    year = fields.Char("Years")
+    year = fields.Char("Tenure of Agreement")
     rate = fields.Float("Rate Rs. / Kwh")

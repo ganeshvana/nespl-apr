@@ -23,6 +23,7 @@
                 <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
                   <attribute name="string">Bill of Material</attribute>
                   <attribute name="domain">[('sale_order_id', '=', active_id)]</attribute>
+                  <attribute name="attrs">{'readonly': [('state','in',['done','cancel'])]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='user_id']" position="after">
                   <field name="employee_id"/>
@@ -102,6 +103,7 @@
                 		<group string="Special Terms and Condition">
                 			<field name="opex_lines"  nolabel="1">
 	                			<tree editable="bottom">
+	                				<field name="sequence" widget="handle"/>
 	                				<field name="particular" required="1"/>
 	                				<field name="offered" required="1"/>
 	                			</tree>
