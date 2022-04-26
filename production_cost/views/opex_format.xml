@@ -4,10 +4,10 @@
 			<div t-attf-class="header" t-att-style="report_header_style">
                 <table style="border-style:none;" width="100%">
                 	<tr style="border-style:none;" width="100%">
-                		<td style="border-style:none;" width="50%">
+                		<td style="border-style:none;" width="70%">
                 			<h3><span t-field="doc.company_id.name" /></h3>
                 		</td>
-                		<td style="border-style:none;text-align:right;" width="50%">
+                		<td style="border-style:none;text-align:right;" width="30%">
                 			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
                 		</td>
                 	</tr>
