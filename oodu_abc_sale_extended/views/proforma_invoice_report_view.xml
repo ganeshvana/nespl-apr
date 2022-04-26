@@ -18,7 +18,7 @@
             <field name="dpi">90</field>
         </record>
 
-        <report
+        <!-- <report
                 id="report_proforma_invoice"
                 string="Proforma Invoice"
                 model="sale.order"
@@ -27,7 +27,7 @@
                 name="oodu_abc_sale_extended.report_proforma_invoice_doc"
                 paperformat="oodu_abc_sale_extended.paperformat_lowmargin_pi"
 
-/>
+/> -->
     </data>
 
 

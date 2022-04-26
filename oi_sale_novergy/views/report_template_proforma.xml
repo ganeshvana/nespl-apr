@@ -71,98 +71,46 @@
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
-							<td style="width:10%;text-align:center;solid;border-width:1px"></td>
-							<td style="width:50%;text-align:center;solid;border-width:1px">
-								<strong>Seller:</strong>
-							</td>
-							<td style="width:20%;text-align:right;solid;border-width:1px"></td>
-						</tr>
-
-						<tr style="solid;border-width:1px;width:100%">
-							<td style="width:30%;text-align:center;solid;border-width:1px"></td>
-							<td style="width:50%;text-align:center;solid;border-width:1px">
+							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <h3><strong><span t-field="doc.warehouse_id.rep_code"/></strong></h3></td>
+							<td style="width:85%;text-align:center;solid;border-width:1px">
+								<strong>Seller:</strong><br></br>
 								<strong>
-									<span t-field="doc.company_id.street" />
-									,
-									<span t-field="doc.company_id.street2" />
-									,
-									<span t-field="doc.company_id.city" />
-									-
-									<span t-field="doc.company_id.zip" />
+									<span t-field="doc.company_id.street"/>,
+									<span t-field="doc.company_id.street2"/>,
+									<span t-field="doc.company_id.city"/>-
+									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id" />
 									<br />
-									<span t-field="doc.company_id.state_id" />
+									State Code: <span t-field="doc.partner_id.state_id.code"/> &#160;&#160;&#160;&#160; GSTIN: <span t-field="doc.partner_id.vat" />
 								</strong>
-							</td>
-							<td style="width:20%;text-align:right;solid;border-width:1px"></td>
-						</tr>
-
-						<tr
-							style="solid;border-width:1px;width:100%;solid;border-width:1px">
-							<td
-								style="width:30%;text-align:center;text-align:left;solid;border-width:1px">
-								<strong>
-									Br.C:
-									<h4>U</h4>
-								</strong>
-							</td>
-							<td
-								style="width:70%;text-align:center;text-align:right;solid;border-width:1px;text-align:center">
-								<strong>
-									State Code:
-									<span t-field="doc.partner_id.state_id.code" />
-									&#160; GSTIN:
-									<span t-field="doc.partner_id.vat" />
-								</strong>
-							</td>
-							<td style="width:20%;text-align:right;solid;border-width:1px">
-								
 							</td>
 						</tr>
 					</table>
 
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td style="width:25%;solid;border-width:1px;">
-								<strong>Proforma Invoice No.</strong>
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Proforma Invoice No.:</strong>
 							</td>
-							<td style="width:25%;"></td>
-							<td style="width:25%;solid;border-width:1px;">
-								<strong>Proforma invoice date:-</strong>
-							</td>
-							<td style="width:25%;solid;border-width:1px;">
-								<span
-									t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')" />
-							</td>
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Proforma invoice date:- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')" /></strong>
+							</td>							
 						</tr>
 					</table>
 
 
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td style="width:50%;solid;border-width:1px;">
-								<strong>Purchase Order No. &amp; Date:-</strong>
+							<td style="width:100%;border-style: solid;border-width:1px;">
+								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.client_order_ref" />
 							</td>
-							<td style="width:50%;solid;border-width:1px;">
-								<span t-field="doc.client_order_ref" />
-							</td>
-
 						</tr>
-
-
-
 					</table>
 
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
-
+					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td
-								style="width:50%;solid;border-width:1px;border-right-width:1px;">
+							<td style="width:50%;border-style: solid;border-width:1px;border-right-width:1px;">
 								<strong>Consignee:-</strong>
 								<br />
-
 								<span t-field="doc.partner_id.street" />
 								,
 								<span t-field="doc.partner_id.street2" />
@@ -179,43 +127,22 @@
 							<td style="width:50%;solid;border-width:1px;">
 								<strong>Buyer(If Other than Consignee):-</strong>
 								<br />
-
-
-
 							</td>
-
-
 						</tr>
-
-
-
-					</table>
-
-
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
-
-						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td style="width:25%;solid;border-width:1px;">
-								<strong>Consignee State Code:</strong>
+						<tr style="border-style:solid;border-width:1px;width:100%;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Consignee State Code:</strong><span t-field="doc.partner_id.state_id.code" />
 							</td>
-							<td style="width:25%;">
-								<strong>
-									<span t-field="doc.partner_id.state_id.code" />
-								</strong>
-							</td>
-
-							<td style="width:25%;solid;border-width:1px;">
+							<td style="width:50%;solid;border-width:1px;">
 								<strong>Buyer State Code:</strong>
 							</td>
 							<td style="width:25%;solid;border-width:1px;"></td>
 
 						</tr>
-
-
-
 					</table>
 
+
+					
 
 					<table style="border-style: solid;border-width:1px;"
 						width="100%">
