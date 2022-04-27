@@ -100,7 +100,7 @@ class ProductEntry(models.Model):
     unit_price = fields.Float(string='Unit Price')
     # subtotal_sum_b = fields.Float(string='Subtotal Sum B',compute='_compute_sum')
     date = fields.Date("Date", default=lambda self: fields.Date.today())
-    kw = fields.Integer("KWP")
+    kw = fields.Float("KWP")
     
     cost_per_wat = fields.Float("Cost / W", compute='compute_cost_per_wat', store=True)
     final_cost = fields.Float(string='Final Cost', digits='Product Price', default=0.0, compute='final_material_cost', copy=True)
@@ -283,10 +283,19 @@ class CostingStructure(models.Model):
             if rec.costing_id.kw > 0:
                 rec.kw_price = rec.quoted_price / rec.costing_id.kw
                 
+    @api.depends('quoted_price')        
+    def compute_print_type(self):
+        for rec in self:
+            if rec.quoted_price > 0.0:
+                rec.print_type = True
+            else:
+                rec.print_type = False
+                
            
     cost = fields.Float("Cost", compute='compute_cost', store=True)
     markup = fields.Float("Markup %")
     markup_amt = fields.Float("Markup Amount", compute='compute_markup_amt', store=True)
+    print_type = fields.Boolean('Print', compute='compute_print_type', store=True)
     quoted_price = fields.Float("Quoted Price", compute='compute_quoted_price', store=True)
     kw_price = fields.Float("Per Kwp Price", compute='compute_kw_price', store=True)
     costing_id = fields.Many2one('product.entry')
@@ -324,7 +333,7 @@ class ProductEntryLine(models.Model):
     remarks = fields.Char(string='Remarks', size=70, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total')
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
-    kwp = fields.Integer("KwP")
+    kwp = fields.Float("KwP")
     kw_cost = fields.Float("Kw Cost")
     notes = fields.Char("Notes")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
@@ -373,7 +382,7 @@ class ProductEntryCostLines(models.Model):
     price_unit = fields.Float(string='Unit Price', digits='Product Price', default=0.0, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total', store=True)
     quotation_template_line_id = fields.Many2one('sale.order.template.option', "Quotation Template")
-    kwp = fields.Integer("KwP")
+    kwp = fields.Float("KwP")
     kw_cost = fields.Float("Kw Cost")
     notes = fields.Char("Notes")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')

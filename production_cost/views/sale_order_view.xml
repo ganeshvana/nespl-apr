@@ -55,6 +55,7 @@
             <field name="arch" type="xml">
             	<xpath expr="//sheet" position="before">
                 	<header>
+                		<button name="action_quotation_send" string="Send Email" type="object" class="oe_highlight" states="validated"/>
                 		<field name="state" widget="statusbar" states_visible="draft,validated"/>
                 	</header>
                 </xpath>

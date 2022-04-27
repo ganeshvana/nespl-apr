@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <form string="Quotation Details">
                 <header>
+                	
                     <button name="action_validate" string="Validate" type="object" class="oe_highlight" states="draft"/>
                     <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="draft,validate"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,validate,compute,cancel"/>

@@ -143,7 +143,7 @@ class SaleOrder(models.Model):
 class SaleOrderTemplate(models.Model):
     _inherit = 'sale.order.template'
     
-    kw = fields.Integer("KWP")
+    kw = fields.Float("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False)
     sale_order_id = fields.Many2one('sale.order', "Sale Order")
     partner_id = fields.Many2one('res.partner')
@@ -156,13 +156,38 @@ class SaleOrderTemplate(models.Model):
     content = fields.Html("Content", default=default_content, copy=True)
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
+    
+    def action_quotation_send(self):
+        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+        self.ensure_one()
+        template_id = self.env.ref('production_cost.email_template_bom2')
+        lang = self.env.context.get('lang')
+        template = self.env['mail.template'].browse(template_id)
+        
+        ctx = {
+            'default_model': 'sale.order.template',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id.id),
+            'default_template_id': template_id.id,
+            'default_composition_mode': 'comment',
+            'force_email': True,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
 
 class SaleOrderTemplateLine(models.Model):
     _inherit = 'sale.order.template.line'
     
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
-    kw = fields.Integer(related='sale_order_template_id.kw', store=True)
+    kw = fields.Float(related='sale_order_template_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make")
@@ -191,7 +216,7 @@ class SaleOrderTemplateOption(models.Model):
     
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
-    kw = fields.Integer(related='sale_order_template_id.kw', store=True)
+    kw = fields.Float(related='sale_order_template_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel2', 'vendor_id', 'template_id', "Make")
