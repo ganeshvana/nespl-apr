@@ -5,7 +5,7 @@
                 <table style="border-style:none;" width="100%">
                 	<tr style="border-style:none;" width="100%">
                 		<td style="border-style:none;" width="70%">
-                			<h2><span t-field="doc.company_id.name" /></h2>
+                			<h2>Novergy Energy Solutions Pvt. Ltd.</h2>
                 		</td>
                 		<td style="border-style:none;text-align:right;" width="30%">
                 			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
@@ -40,13 +40,18 @@
 		              padding: 3px;
 		            }
 		            </style>
-					<p>H.O. Office Add:- <br/>
-					3A Ground Floor, <br/>
-					Circle view apt.<br/>
-					Udaipur-313001 (Rajasthan)<br/>
-					GSTIN No. :- 08AACCN4908R1ZV<br/>
-					Email id : <span t-field="doc.sale_order_id.user_id.email" />
-					</p>
+					<table style="border-style: none;" width="100%">
+						<td width="50%"></td>
+						<td style="border-style: none;" width="50%">
+							<p>H.O. Office Add:- <br/>
+							3A Ground Floor, <br/>
+							Circle view apt.<br/>
+							Udaipur-313001 (Rajasthan)<br/>
+							GSTIN No. :- 08AACCN4908R1ZV<br/>
+							Email id : <span t-field="doc.sale_order_id.user_id.email" />
+							</p>
+						</td>
+					</table>
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
@@ -64,22 +69,31 @@
 					</p>
 					<br/>
 					<p>
-						<strong><u>Reference:- <span t-field="doc.reference"/><br/>
-						Subject: <span t-field="doc.subject" /><br/>
-						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
-						 </u></strong>
+						
+						
+						<t t-if="doc.reference">
+							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
+						</t>
+						<u>
+						<strong>
+							Subject: <span t-field="doc.subject" /><br/>
+							Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
+						</strong>
+						</u>
+						
+						 
 					</p>
 					<br/>
 					<p><span style="line-height: 2;" t-field="doc.content" /></p>
-					<p><strong>For <span t-field="doc.company_id.name" /></strong>
+					<p><strong>For Novergy Energy Solutions Pvt. Ltd.</strong>
 					<br></br>
 					<br/>
 					<br/>
 					<span t-field="doc.sale_order_id.user_id.name" /><br/>
-					(Sales Engineer)</p>
+					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
 					
-					<p>Signature not required as this is a computer generated document.</p>
+					
 					<p style="page-break-before:always;"> </p>	
 					<p>
 						<h5>
@@ -127,7 +141,12 @@
 									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.name" />
+									<span t-field="line.product_id.name" />
+									<t t-if="line.name">
+										<br/>
+										<span t-field="line.name" />
+									</t>
+									
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<t t-if="line.vendor_ids">
@@ -165,7 +184,7 @@
 					</table>
 					<br/>
 					<t t-if="doc.sale_order_template_option_ids">
-					<p><strong>Extra Works:</strong></p>
+					<p><strong>EXTRA WORKS:</strong></p>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 
@@ -227,9 +246,55 @@
 						</t>
 					</table>
 					</t>
+					<br/>
+					<p><strong><u>COMMERCIAL OFFER:</u></strong></p>
+					<table style="border-style:none;" width="80%">
+					<t t-foreach="doc.costing_structure_ids" t-as="line">
+					<tr style="border-style:none;">
+						<t t-if="line.type == 'bom' and line.print_type">
+							<td style="border-style:none;">
+								Supply Main BoM
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+						<t t-if="line.type == 'optional' and line.print_type">
+							<td style="border-style:none;">
+								Extra works BoM
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+						<t t-if="line.type == 'ic' and line.print_type">
+							<td style="border-style:none;">
+								Installation and Commissioning
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+						<t t-if="line.type == 'amc' and line.print_type">
+							<td style="border-style:none;">
+								Annual Maintenance Charges
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+						
+						<t t-if="line.type == 'om' and line.print_type">
+							<td style="border-style:none;">
+								Operation and Maintenance
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+						<t t-if="line.type == 'camc' and line.print_type">
+							<td style="border-style:none;">
+								Comprehensive Annual Maintenance Charges
+							</td>
+							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+						</t>
+					</tr>
+					</t>
+					</table>				
+					<p style="page-break-before:always;"> </p>	
 					<p><center><strong>TERMS AND CONDITIONS:</strong></center></p>
 					<p>
-						Payment Terms:-
+						1. Payment Terms:-
 					</p>
 					<t t-set="i" t-value="0" />
 					<table style="border-style: solid;border-width:1px;" width="100%">
@@ -250,7 +315,9 @@
 					</table>
 					<p><span t-field="doc.sale_term" /></p>
 					
-					<p style="font-color:red;"><center><strong>We Look Forward To Your Valuable Orders</strong></center></p>
+					<p style="color:red;"><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p>
+					<br/>
+					<p>Signature not required as this is a computer generated document.</p>
 				</div>
 			</t>
 		</template>

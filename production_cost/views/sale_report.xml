@@ -1,5 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<data noupdate="1">
+		<record id="email_template_bom2" model="mail.template">
+            <field name="name">BoM: Send by email</field>
+            <field name="model_id" ref="sale_management.model_sale_order_template"/>
+            <field name="subject">Novergy Proposal for High Efficiency Solar PV system capacity {{ (object.kw or 'n/a')  }} KW</field>
+            <field name="partner_to">{{ object.sale_order_id.partner_id.id }}</field>
+            <field name="body_html" type="html">
+			<div style="margin: 0px; padding: 0px;">
+			    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+			        <t t-set="doc_name" t-value="'quotation' if object.state in ('draft', 'sent') else 'order'"/>
+			        Dear Mr.<t t-out="object.sale_order_id.partner_id.name or ''"/>
+			        <br/><br/>
+			        <b><i>Greetings from Novergy Solar!!</i></b><br/>
+			        With reference to your discussion with our team.<br/><br/>
+
+					A) We are pleased to submit our offer for SOLAR PV SYSTEM for your  plant.<br/><br/>
+
+					In our offer we are submitting proposal for two options as follows.<br/><br/>
+
+					<ul>Option - 1 : 400 kw capacity solar power system (With poly crystalline technology modules)</ul>
+					<ul>Option - 2 : 620 kw capacity solar power system (With very HIGH EFFICIENCY LATEST SOLAR TWIN CELL MODULES).</ul>
+					
+					You can choose the option which suits your requirement.<br/>
+
+
+					<b>B) Some key highlights :</b>
+					
+					<ul> In our option - 2 proposal we are using our Latest and advanced TWIN CELL MONO PERC technology .</ul>
+					<ul>Please note by using our twin-cell technology modules, we are pleased to inform you that we are able to install a HIGHER capacity system on limited available space.
+					</ul>
+					<ul>We have also included all relevant associated work such as fixing of structure, liasoning, etc.in both options.</ul>
+					
+					<ul>We follow best global safety practices while executing any project.</ul>
+
+
+					<strong>C) Some Highlights of our Solar Twin-Cell Technology:</strong><br/><br/>
+
+						1. Generates more solar power in lesser space.<br/><br/>
+						
+						2. Effect of dust effect is less as compared to normal modules. <br/><br/>
+						
+						3. Special Nano-coated surface of glass to have anti-reflection properties and better solar absorption.<br/><br/>
+						
+						4. The twin section reduces internal resistance and ensures continuous production of energy when partially shaded.<br/><br/>
+						
+						5. Having Low temperature Co-efficient  (hence more suited to Indian tropical conditions with higher temperatures).<br/><br/>
+						
+						6. Having MBB technology<br/><br/>
+						
+						7. PERC technology<br/><br/>
+						
+						8. Minimizes micro-cracks.<br/><br/>
+					<strong>D) Please watch a short video on our this technology :-</strong><br/><br/>
+					<a href="url">https://www.youtube.com/watch?v=v3CDEWcnRNQ</a><br/><br/>
+						Please feel free to contact us if you have any queries.<br/><br/>
+					<strong>
+					We look forward to your favourable response as we are confident that once you use Novergy product you will be highly satisfied with the performance.<br/>
+					</strong>
+			    </p>
+			</div>
+            </field>
+            <field name="report_template" ref="oi_sale_novergy.action_report_capex"/>
+            <field name="report_name">{{ (object.name or '').replace('/','_') }}</field>
+            <field name="lang">{{ object.partner_id.lang }}</field>
+            <field name="auto_delete" eval="True"/>
+        </record>
+	</data>
+
     <data>
         <record id="action_report_saleorder" model="ir.actions.report">
             <field name="name">Quotation / Order</field>
