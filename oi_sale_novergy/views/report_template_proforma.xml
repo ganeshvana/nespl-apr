@@ -69,6 +69,7 @@
 							</td>
 						</tr>
 					</table>
+					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
 							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <h3><strong><span t-field="doc.warehouse_id.rep_code"/></strong></h3></td>
