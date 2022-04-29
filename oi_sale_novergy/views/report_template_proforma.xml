@@ -56,7 +56,7 @@
 							<td style="width:80%;text-align:center;border-right:hidden;">
 								<h5>
 									<strong>
-										<span t-field="doc.company_id" />
+										Novergy Energy Solutions Pvt. Ltd.
 									</strong>
 								</h5>
 							</td>
