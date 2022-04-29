@@ -1,13 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <record model="ir.ui.view" id="view_inherit_from_pricelist_product">
+        <!-- <record model="ir.ui.view" id="view_inherit_from_pricelist_product">
         <field name="name">sale.template.form.pricelist</field>
         <field name="model">product.pricelist</field>
         <field name="inherit_id" ref="product.product_pricelist_view"/>
         <field name="arch" type="xml">
             <xpath expr="//form/sheet/group[1]/field[@name='company_id']" position ="after">
                  <field name="partner_id"/>              
+            </xpath>
+        </field>
+    </record> -->
+    
+    <record model="ir.ui.view" id="view_inherit_from_pricelist_product">
+        <field name="name">sale.order.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//page[@name='other_information']/group/group/field[@name='company_id']" position ="after">
+                 <field name="bank"/>              
+            </xpath>
+            <xpath expr="//page/field[@name='order_line']/tree/field[@name='product_id']" position ="after">
+                 <field name="pi" optional="hide"/>              
+            </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_res_bank_form_product">
+        <field name="name">res.bank.form</field>
+        <field name="model">res.bank</field>
+        <field name="inherit_id" ref="base.view_res_bank_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='bic']" position ="after">
+                 <field name="micr"/>              
             </xpath>
         </field>
     </record>

@@ -3,7 +3,6 @@
 		<template id="accounting_report_external_layout">
 			<div t-attf-class="header" t-att-style="report_header_style">
 
-
 			</div>
 			<div t-attf-class="article o_report_layout_standard "
 				t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
@@ -16,10 +15,7 @@
 					<tr>
 						<td>
 							<center>
-								Page:
-								<span class="page" />
-								/
-								<span class="topage" />
+								<span class="page" />								
 							</center>
 						</td>
 					</tr>
@@ -36,21 +32,18 @@
 					t-value="doc.with_context(lang=doc.partner_id.lang)" />
 				<div class="page">
 					<style>
-
-						table { page-break-inside:auto }
-						tr { page-break-inside:avoid; page-break-after:auto }
-						thead { display:table-header-group }
-
-						td{
-						padding-left:2px;
-						padding-right:2px;
-						}
-
-					</style>
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
-							<td style="width:80%;text-align:center;border-style: solid;border-width:1px;">
+							<td style="width:80%;text-align:center;border-style: solid;border-width:1px;border-right:hidden;">
 								<h5>
 									<strong>PROFORMA INVOICE</strong>
 								</h5>
@@ -59,8 +52,8 @@
 								<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right" />
 							</td>
 						</tr>
-						<tr style="border-style: solid;border-width:1px;" width="100%">
-							<td style="width:80%;text-align:center;">
+						<tr style="border-style: solid;border-width:1px;border-bottom:hidden;" width="100%">
+							<td style="width:80%;text-align:center;border-right:hidden;">
 								<h5>
 									<strong>
 										<span t-field="doc.company_id" />
@@ -70,45 +63,45 @@
 						</tr>
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px">
-							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <h3><strong><span t-field="doc.warehouse_id.rep_code"/></strong></h3></td>
+						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px;border-bottom:hidden;">
+							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <strong><span style="font-size:40px;" t-field="doc.warehouse_id.rep_code"/></strong></td>
 							<td style="width:85%;text-align:center;solid;border-width:1px">
 								<strong>Seller:</strong><br></br>
-								<strong>
+								<!-- <strong> -->
 									<span t-field="doc.company_id.street"/>,
 									<span t-field="doc.company_id.street2"/>,
 									<span t-field="doc.company_id.city"/>-
 									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id" />
 									<br />
 									State Code: <span t-field="doc.partner_id.state_id.code"/> &#160;&#160;&#160;&#160; GSTIN: <span t-field="doc.partner_id.vat" />
-								</strong>
+								<!-- </strong> -->
 							</td>
 						</tr>
 					</table>
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr style="border-style: solid;border-width:1px;width:100%;">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Proforma Invoice No.:</strong>
+								<strong>Proforma Invoice No.: </strong><span t-field="doc.name" />
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Proforma invoice date:- <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')" /></strong>
+								<strong>Proforma invoice date:- </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')" />
 							</td>							
 						</tr>
 					</table>
 
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr style="border-style: solid;border-width:1px;width:100%;">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:100%;border-style: solid;border-width:1px;">
 								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.client_order_ref" />
 							</td>
 						</tr>
 					</table>
-
+					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td style="width:50%;border-style: solid;border-width:1px;border-right-width:1px;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Consignee:-</strong>
 								<br />
 								<span t-field="doc.partner_id.street" />
@@ -124,98 +117,69 @@
 								<span t-field="doc.partner_id.country_id" />
 								<br />
 							</td>
-							<td style="width:50%;solid;border-width:1px;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Buyer(If Other than Consignee):-</strong>
 								<br />
-							</td>
+								<br />
+								<br />
+								<br />
+							</td>							
 						</tr>
-						<tr style="border-style:solid;border-width:1px;width:100%;">
+						<tr style="border-style:solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Consignee State Code:</strong><span t-field="doc.partner_id.state_id.code" />
 							</td>
-							<td style="width:50%;solid;border-width:1px;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Buyer State Code:</strong>
 							</td>
-							<td style="width:25%;solid;border-width:1px;"></td>
-
 						</tr>
 					</table>
-
-
-					
-
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
-
+					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
-							<td style="width:25%;solid;border-width:1px;">
-								<strong>Consingee GSTIN/Unique ID:</strong>
-							</td>
-							<td style="width:25%;solid;border-width:1px;">
-								<strong>
-									<span t-field="doc.partner_id.vat" />
-								</strong>
-							</td>
-
-							<td style="width:25%;solid;border-width:1px;">
+							<td style="width:50%;solid;border-width:1px;">
+								<strong>Consingee GSTIN/Unique ID:</strong> <span t-field="doc.partner_id.vat" />
+							</td>							
+							<td style="width:50%;solid;border-width:1px;">
 								<strong>Buyer GSTIN/Unique ID:</strong>
 							</td>
-							<td style="width:25%;solid;border-width:1px;"></td>
-
-
 						</tr>
-
-
-
 					</table>
-
-
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
 							<td
-								style="border-style: solid;border-width:1px;border-top:hidden"
-								width="5%">
+								style="border-style: solid;border-width:1px;border-top:hidden" width="5%">
 								<strong>Sr.No.</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="50%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%">
 								<strong>Description of Goods</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>HSN/SAC Code</strong>
 							</td>
 
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="5%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="5%">
 								<strong>Qty.</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>Unit</strong>
 							</td>
 
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>Rate</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
 								width="10%">
 								<strong>Amount</strong>
 							</td>
 
 						</tr>
+						<t t-set="i" t-value="0" />
 						<t t-foreach="doc.order_line" t-as="line">
+							<t t-if="line.pi">
+							<t t-set="i" t-value="i+1" />
 							<tr>
 								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="line_index + 1" />
+									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.name" />
@@ -244,6 +208,7 @@
 									<span t-field="line.price_subtotal" />
 								</td>
 							</tr>
+							</t>
 						</t>
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
@@ -332,21 +297,12 @@
 
 
 
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 
 						<tr style="solid;border-width:1px;width:100%;">
 							<td style="width:100%;">
-								<strong>Amount (In Words)</strong>
-								: Rs
-								<strong>
-									<span
-										t-esc="doc.currency_id.amount_to_text(doc.amount_total)" />
-									Only.
-								</strong>
+								<strong>Amount in words = </strong> Rs. <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)" /> Only.
 							</td>
-
 						</tr>
 					</table>
 
@@ -358,111 +314,42 @@
 							<td style="width:100%;">
 								<strong>Bank Details:</strong>
 								<br />
+								<strong>Bank Name: </strong><span t-field="doc.bank.bank_id.name" />
 								<br />
-								&#160;
-								<strong>Bank Name:ICICI Bank Limited</strong>
+								<strong>Bank Branch Address: </strong><span t-field="doc.bank.bank_id.street" />, <span t-field="doc.bank.bank_id.city" />- <span t-field="doc.bank.bank_id.zip" /><span t-field="doc.bank.bank_id.state.name" />
 								<br />
-								&#160;
-								<strong>Bank Branch Address:Madhuban,udaipur-313001,Rajasthan
-								</strong>
+								<strong>Account Type:</strong> Current Account
 								<br />
-								&#160;
-								<strong>Account Type:Current Account</strong>
+								<strong>Account No: </strong><span t-field="doc.bank.acc_number" />
 								<br />
-								&#160;
-								<strong>Account No:004505500170</strong>
+								<strong>MICR Code : </strong><span t-field="doc.bank.bank_id.micr" />
 								<br />
-								&#160;
-								<strong>MICR Code:313229002</strong>
+								<strong>IFSC Code: </strong><span t-field="doc.bank.bank_id.bic" />
 								<br />
-								&#160;
-								<strong>IFSC Code:ICIC0000045</strong>
-								<br />
-
 							</td>
-
 						</tr>
 					</table>
-
-
-
-					<table style="border-style: solid;border-width:1px;"
-						width="100%">
-
-						<tr style="solid;border-width:1px;width:100%;">
-							<td style="width:100%;text-align:right">
-
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+						<tr style="solid;border-width:1px;width:100%;border-top:hidden;">
+							<td style="width:50%;text-align:left;border-top:hidden;border-right:hidden" width="50%">
 								<br />
-								For
-								<strong>
-									<span t-field="doc.company_id.name" />
-								</strong>
-							</td>
-
-
-
-						</tr>
-					</table>
-
-
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
-						<tr
-							style="solid;border-width:1px;width:100%;border-top:hidden;">
-							<td style="width:50%;text-align:left;border-top:hidden">
-								<br />
-
 								<strong>Declaration</strong>
-
 								<br />
-
-							</td>
-
-
-						</tr>
-					</table>
-
-
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden;border-top:hidden"
-						width="100%">
-
-						<tr
-							style="solid;border-width:1px;width:100%;border-top:hidden;border-bottom:hidden;border-top:hidden">
-							<td
-								style="width:50%;text-align:left;border-top:hidden;border-bottom:hidden">
 								We declare that this invoice shows the actual price of the goods
 								described and that all particulars true and correct.
-
-
-								<br />
 							</td>
-							<td
-								style="width:50%;text-align:right;border-top:hidden;border-bottom:hidden">
-
-
-
+							<td style="width:100%;text-align:center" width="50%">
+								<strong>
+									For Novergy Energy Solutions Pvt. Ltd.
+								</strong>
 								<br />
-							</td>
-
-						</tr>
-
-					</table>
-
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden;"
-						width="100%">
-						<tr style="solid;border-width:1px;width:100%;">
-
-							<td style="width:50%;text-align:right">
-
+								<br />
+								<br />
+								<br />
+								<br />
 								<br />
 								<strong>Authorised Signatory</strong>
-
 							</td>
-
-
 						</tr>
 					</table>
 
