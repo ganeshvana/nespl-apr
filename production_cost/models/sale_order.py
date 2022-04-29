@@ -157,6 +157,7 @@ class SaleOrderTemplate(models.Model):
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
     
+    
     def action_quotation_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
         self.ensure_one()
@@ -195,6 +196,11 @@ class SaleOrderTemplateLine(models.Model):
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    name1 = fields.Char("Name")
+    
+    @api.onchange('name')
+    def onchange_name(self):
+        self.name1 = self.name
     
     @api.onchange('product_id')
     def onchange_product(self):
