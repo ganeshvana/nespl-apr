@@ -53,6 +53,14 @@ class PurchaseOrder(models.Model):
             'context': self._context,
         }
         
+class PRL(models.Model):
+    _inherit = 'purchase.requisition.line'
+    
+    product_tmpl_id = fields.Many2one('product.template', 'Product')
+    model = fields.Char("Make/Model")
+    product_id = fields.Many2one('product.product', "Product", required=False)
+
+        
 class Pricelist(models.Model):
     _inherit = 'product.pricelist.item'
     
