@@ -10,6 +10,7 @@
 	            </xpath>
 	            <xpath expr="//field[@name='origin']" position="after">
 	                <field name="cancel_reason_id" readonly="1" attrs="{'invisible':[('cancel_reason_id', '=', False)]}"/>
+	            	<field name="quote_media"/>
 	            	<field name="employee_id"/>
 	    			<field name="employee_pin" password="True"/> 
 	            </xpath>
