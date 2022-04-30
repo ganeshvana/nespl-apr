@@ -17,7 +17,6 @@ class PurchaseOrder(models.Model):
     employee_pin = fields.Char("Employee PIN")
     quote_media = fields.Char("Media")
     
-    
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
         if self.employee_pin and not self.employee_id:

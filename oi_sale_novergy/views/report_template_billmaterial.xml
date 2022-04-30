@@ -41,30 +41,49 @@
 		            }
 		            </style>
 					<table style="border-style: none;" width="100%">
+<<<<<<< HEAD
 						<td width="50%"></td>
 						<td style="border-style: none;" width="50%">
+=======
+						<td style="border-style: none;" width="70%"/>
+						<td style="border-style: none;" width="30%">
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 							<p>H.O. Office Add:- <br/>
 							3A Ground Floor, <br/>
 							Circle view apt.<br/>
 							Udaipur-313001 (Rajasthan)<br/>
 							GSTIN No. :- 08AACCN4908R1ZV<br/>
+<<<<<<< HEAD
 							Email id : <span t-field="doc.sale_order_id.user_id.email" />
+=======
+							Email id : <span t-field="doc.sale_order_id.user_id.email"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 							</p>
 						</td>
 					</table>
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
+<<<<<<< HEAD
 							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+=======
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
+<<<<<<< HEAD
 							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
 							<span t-field="doc.sale_order_id.partner_id.city" />
 							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+=======
+							Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.sale_order_id.partner_id.city"/>
+							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</strong>
 					</p>
 					<br/>
@@ -76,20 +95,34 @@
 						</t>
 						<u>
 						<strong>
+<<<<<<< HEAD
 							Subject: <span t-field="doc.subject" /><br/>
 							Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
+=======
+							Subject: <span t-field="doc.subject"/><br/>
+							Kind Attn.: Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</strong>
 						</u>
 						
 						 
 					</p>
 					<br/>
+<<<<<<< HEAD
 					<p><span style="line-height: 2;" t-field="doc.content" /></p>
 					<p><strong>For Novergy Energy Solutions Pvt. Ltd.</strong>
 					<br></br>
 					<br/>
 					<br/>
 					<span t-field="doc.sale_order_id.user_id.name" /><br/>
+=======
+					<p><span style="line-height: 2;" t-field="doc.content"/></p>
+					<p><strong>For Novergy Energy Solutions Pvt. Ltd.</strong>
+					<br/>
+					<br/>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name"/><br/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
 					
@@ -106,6 +139,7 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 
+<<<<<<< HEAD
 							<br />
 							<br />
 							<td style="border-style: solid;border-width:1px;" width="10%">
@@ -165,10 +199,72 @@
 									style="border-style: solid;border-width:1px;text-align:center;"
 									width="10%">
 									<span t-field="line.product_uom_qty" />
+=======
+							<br/>
+							<br/>
+							<td style="border-style: solid;border-width:1px;" width="10%">
+								<strong>Sr.No.</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
+								<strong>Particulars</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
+								<strong>Make/Model</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+								<strong>Units</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+								<strong>Quantity</strong>
+							</td>
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
+							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
+								<t t-if="not line.display_type and line.hide == False">
+									<t t-set="i" t-value="i + 1"/>
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
+									<span t-esc="i"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+								  
+								<span t-field="line.product_id.product_tmpl_id.name"/>	
+								<t t-if="line.name1">
+										<br/>
+										<span t-field="line.name1"/>
+									</t>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<t t-if="line.vendor_ids">
+									  <t t-set="aa" t-value="len(line.vendor_ids)"/>
+									  <t t-if="aa == 1">
+									    <t t-foreach="line.vendor_ids" t-as="l">
+  											<span t-field="l.name"/> 
+  										</t>
+									    
+									  </t>
+									  <t t-else="">
+									    <t t-foreach="line.vendor_ids" t-as="l">
+  											<span t-field="l.name"/> /
+  										</t>
+									    
+									  </t>
+										
+										
+										<span t-field="line.model"/>
+									</t>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.product_uom_id"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.product_uom_qty"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 								</td>
 							</t>
 							<t t-if="line.display_type == 'line_section'">
 									<td style="border-style: solid;border-width:1px;" name="td_section_line" colspan="99">
+<<<<<<< HEAD
 										<span t-field="line.name" />
 									</td>
 									<t t-set="current_section" t-value="line" />
@@ -177,6 +273,16 @@
 								<t t-if="line.display_type == 'line_note'">
 									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
 										<span t-field="line.name" />
+=======
+										<span t-field="line.name"/>
+									</td>
+									<t t-set="current_section" t-value="line"/>
+									<t t-set="current_subtotal" t-value="0"/>
+								</t>
+								<t t-if="line.display_type == 'line_note'">
+									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
+										<span t-field="line.name"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 									</td>
 								</t>
 							</tr>
@@ -188,6 +294,7 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 
+<<<<<<< HEAD
 							<br />
 							<br />
 							<td style="border-style: solid;border-width:1px;" width="10%">
@@ -223,10 +330,40 @@
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.name" />
+=======
+							<br/>
+							<br/>
+							<td style="border-style: solid;border-width:1px;" width="10%">
+								<strong>Sr.No.</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
+								<strong>Particulars</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
+								<strong>Make/Model</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+								<strong>Units</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+								<strong>Quantity</strong>
+							</td>
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.sale_order_template_option_ids" t-as="line">
+							<tr style="border-style: solid;border-width:1px;">
+								<t t-set="i" t-value="i + 1"/>
+								<td style="border-style: solid;border-width:1px;" width="5%">
+									<span t-esc="i"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.name"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<t t-if="line.vendor_ids">
 										<t t-foreach="line.vendor_ids" t-as="l">
+<<<<<<< HEAD
 											<span t-field="l.name" /> /
 										</t>
 										<span t-field="line.model" />
@@ -241,6 +378,18 @@
 									style="border-style: solid;border-width:1px;text-align:center;"
 									width="10%">
 									<span t-field="line.quantity" />
+=======
+											<span t-field="l.name"/> /
+										</t>
+										<span t-field="line.model"/>
+									</t>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.uom_id"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.quantity"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 								</td>
 							</tr>
 						</t>
@@ -250,17 +399,28 @@
 					<p><strong><u>COMMERCIAL OFFER:</u></strong></p>
 					<table style="border-style:none;" width="80%">
 					<t t-foreach="doc.costing_structure_ids" t-as="line">
+<<<<<<< HEAD
 					<tr style="border-style:none;">
 						<t t-if="line.type == 'bom' and line.print_type">
 							<td style="border-style:none;">
 								Supply Main BoM
 							</td>
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+=======
+					<tr style="border-style:solid;border-width:1px;">
+						<t t-if="line.type == 'bom' and line.print_type">
+						  <td style="border-style:solid;border-width:1px;">Supply</td>
+							<td style="border-style:solid;border-width:1px;">
+								Supply Main BOM
+							</td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="line.quoted_price" widget="float"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</t>
 						<t t-if="line.type == 'optional' and line.print_type">
 							<td style="border-style:none;">
 								Extra works BoM
 							</td>
+<<<<<<< HEAD
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
 						</t>
 						<t t-if="line.type == 'ic' and line.print_type">
@@ -268,25 +428,47 @@
 								Installation and Commissioning
 							</td>
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+=======
+							<td style="border-style:none;"><span t-esc="line.quoted_price"/></td>
+						</t>
+						<t t-if="line.type == 'ic' and line.print_type">
+							<td style="border-style:solid;border-width:1px;">Services</td>
+							<td style="border-style:solid;border-width:1px;">
+								Installation and Commissioning
+							</td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="line.quoted_price"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</t>
 						<t t-if="line.type == 'amc' and line.print_type">
 							<td style="border-style:none;">
 								Annual Maintenance Charges
 							</td>
+<<<<<<< HEAD
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+=======
+							<td style="border-style:none;"><span t-esc="line.quoted_price"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</t>
 						
 						<t t-if="line.type == 'om' and line.print_type">
 							<td style="border-style:none;">
 								Operation and Maintenance
 							</td>
+<<<<<<< HEAD
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+=======
+							<td style="border-style:none;"><span t-esc="line.quoted_price"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</t>
 						<t t-if="line.type == 'camc' and line.print_type">
 							<td style="border-style:none;">
 								Comprehensive Annual Maintenance Charges
 							</td>
+<<<<<<< HEAD
 							<td style="border-style:none;"><span t-esc="line.quoted_price" /></td>
+=======
+							<td style="border-style:none;"><span t-esc="line.quoted_price"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 						</t>
 					</tr>
 					</t>
@@ -296,7 +478,11 @@
 					<p>
 						1. Payment Terms:-
 					</p>
+<<<<<<< HEAD
 					<t t-set="i" t-value="0" />
+=======
+					<t t-set="i" t-value="0"/>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 							<td style="border-style: solid;border-width:1px;">Heading</td>
@@ -306,18 +492,31 @@
 						<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
 							<t t-if="line.name">
 							<tr style="border-style: solid;border-width:1px;">
+<<<<<<< HEAD
 								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply" /></td>
 								<td style="border-style: solid;border-width:1px;"><span t-field="line.name" /></td>
+=======
+								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply"/></td>
+								<td style="border-style: solid;border-width:1px;"><span t-field="line.name"/></td>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 								<td style="border-style: solid;border-width:1px;"><span t-field="line.desc"/></td>
 							</tr>
 							</t>
 						</t>
 					</table>
+<<<<<<< HEAD
 					<p><span t-field="doc.sale_term" /></p>
 					
 					<p style="color:red;"><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p>
 					<br/>
 					<p>Signature not required as this is a computer generated document.</p>
+=======
+					<p><span t-field="doc.sale_term"/></p>
+					<span style="color:red;font-color:red;">
+					<p><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p></span>
+					<br/>
+					<right><p>Signature not required as this is a computer generated document.</p></right>
+>>>>>>> 5858a03032d645028c348871f931820487b51e4b
 				</div>
 			</t>
 		</template>
