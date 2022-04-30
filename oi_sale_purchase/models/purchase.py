@@ -17,6 +17,7 @@ class PurchaseOrder(models.Model):
     employee_pin = fields.Char("Employee PIN")
     quote_media = fields.Char("Media")
     
+    
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
         if self.employee_pin and not self.employee_id:
@@ -51,6 +52,14 @@ class PurchaseOrder(models.Model):
             'target': 'new',
             'context': self._context,
         }
+        
+class PRL(models.Model):
+    _inherit = 'purchase.requisition.line'
+    
+    product_tmpl_id = fields.Many2one('product.template', 'Product')
+    model = fields.Char("Make/Model")
+    product_id = fields.Many2one('product.product', "Product", required=False)
+
         
 class Pricelist(models.Model):
     _inherit = 'product.pricelist.item'
