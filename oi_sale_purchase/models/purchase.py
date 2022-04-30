@@ -15,7 +15,7 @@ class PurchaseOrder(models.Model):
     cancel_reason_id = fields.Many2one('cancel.reason.purchase','Cancel Reason')
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
-    
+    quote_media = fields.Char("Media")
     
     
     @api.onchange('employee_pin', 'employee_id')
