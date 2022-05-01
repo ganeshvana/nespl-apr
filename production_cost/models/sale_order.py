@@ -141,7 +141,8 @@ class SaleOrder(models.Model):
         }
         
 class SaleOrderTemplate(models.Model):
-    _inherit = ['sale.order.template', 'mail.thread', 'mail.activity.mixin']
+    _name = 'sale.order.template'
+    _inherit = [ 'sale.order.template', 'mail.thread', 'mail.activity.mixin']
     
     kw = fields.Float("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False, track_visiblity='onchange')
@@ -232,6 +233,8 @@ class SaleOrderTemplateOption(models.Model):
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    kwpunit = fields.Float("KWp Unit")
+    printkwp = fields.Boolean("Print KWp Unit")
     
     @api.onchange('product_id')
     def onchange_product(self):

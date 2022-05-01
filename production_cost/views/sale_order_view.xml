@@ -72,6 +72,8 @@
                 	<field name="model"/>
                 	<field name="hide" optional="hide"/>
                 	<field name="type" optional="hide"/>
+                	<field name="kwpunit" optional="hide"/>
+                	<field name="printkwp" optional="hide"/>
                 </xpath>
                 <xpath expr="//page[@name='optional_products']/field[@name='sale_order_template_option_ids']/tree/field[@name='quantity']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
