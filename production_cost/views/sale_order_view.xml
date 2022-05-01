@@ -79,6 +79,8 @@
                 	<field name="model"/>
                 	<field name="hide" optional="hide"/>
                 	<field name="type" optional="hide"/>
+                	<field name="kwpunit" optional="hide"/>
+                	<field name="printkwp" optional="hide"/>
                 </xpath>
                 
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_id']" position="attributes">
@@ -89,7 +91,7 @@
                 	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                	<page name="opex" string="Opex/Open XS">
+                	<page name="opex" string="Capex / Opex / Open Access">
                 		<group string="Summary">
                 			<field name="opex_description" nolabel="1"/>
                 		</group>
@@ -132,15 +134,22 @@
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
                            		<tree editable="bottom">
                            			<field name="type" required="1" />
-                           			<field name="cost" sum="Total"/>
+                           			<field name="cost" sum="Total" invisible="1"/>
                            			<field name="markup" invisible="1"/>
-                           			<field name="markup_amt" sum="Total"/>
-                           			<field name="quoted_price" sum="Total"/>
-                           			<field name="kw_price" sum="Total"/>
+                           			<field name="markup_amt" sum="Total" invisible="1"/>
+                           			<field name="quoted_price" sum="Total" />
+                           			<field name="kw_price" sum="Total" invisible="1"/>
                            		</tree>
                            	</field>
                         </group>
                 	</page>
+                </xpath>
+                <xpath expr="//sheet" position="after">
+                	<div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
                 </xpath>
             </field>
         </record>

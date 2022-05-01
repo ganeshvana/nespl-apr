@@ -14,6 +14,54 @@
                  <field name="employee_id"/>  
                  <field name="employee_pin" password="True"/>  
              </xpath>
+             <xpath expr="//field[@name='tag_ids']" position="after">
+                 <field name="survey_id"/>  
+                 <field name="roof_type"/>  
+             </xpath>
+        </field>
+    </record>
+    
+    <record id="crm_case_tree_view_leads1" model = "ir.ui.view" >
+        <field name="name">crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref = "crm.crm_case_tree_view_leads"/>
+        <field name="arch" type="xml" >
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="mobile"/>  
+             </xpath>
+        </field>
+    </record>
+    
+    <record id="view_partner_tree1" model = "ir.ui.view" >
+        <field name="name">res.partner.tree.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref = "base.view_partner_tree"/>
+        <field name="arch" type="xml" >
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="mobile"/>  
+             </xpath>
+        </field>
+    </record>
+    
+    <record id="crm_case_tree_view_oppor1" model = "ir.ui.view" >
+        <field name="name">crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref = "crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml" >
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="mobile"/>  
+             </xpath>
+        </field>
+    </record>
+    
+    <record id="crm_case_tree_view_oppor1" model = "ir.ui.view" >
+        <field name="name">crm.lead.tree.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref = "crm.crm_case_tree_view_oppor"/>
+        <field name="arch" type="xml" >
+            <xpath expr="//field[@name='phone']" position="after">
+                 <field name="mobile"/>  
+             </xpath>
         </field>
     </record>
        

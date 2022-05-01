@@ -65,6 +65,8 @@ class Pricelist(models.Model):
     _inherit = 'product.pricelist.item'
     
     product_uom_id = fields.Many2one(related='product_tmpl_id.uom_id')
+    wp = fields.Float("Wp Price")
+    kwp = fields.Float("KWp Price")
     
     
     
