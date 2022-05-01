@@ -17,6 +17,7 @@ class Lead(models.Model):
     survey_id = fields.Many2one('survey.survey', "Questionnaire")
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
+    roof_type = fields.Many2one('roof.type', "Roof Type")
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
@@ -39,7 +40,7 @@ class Lead(models.Model):
     #     return res
     
     def need_analysis_form(self):
-        survey = self.env['survey.survey'].search([('title', '=', 'Questionnaire')])
+        survey = self.survey_id
         if survey:
             self.survey_id = survey.id
             survey.crm_id = self.id
@@ -94,13 +95,11 @@ class Lead(models.Model):
     
 class Partner(models.Model):
     _inherit = 'res.partner'
-    
 
     pan = fields.Char("PAN")
     
     @api.model_create_multi
     def create(self, vals_list):
-        print(vals_list, "vals_list----")
         result = super(Partner, self).create(vals_list)
         for res in result:
             if res.customer_rank > 0:
@@ -111,9 +110,17 @@ class Partner(models.Model):
                 res.ref = seq        
         return result
     
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.country_id = self.state_id.country_id.id
     
     
+
+class RoofType(models.Model):
+    _name = 'roof.type'   
     
+    name = fields.Char("Roof Type")
     
     
     

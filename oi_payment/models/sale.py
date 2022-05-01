@@ -128,7 +128,7 @@ class PaymentDetails(models.Model):
         for rec in self:
             if rec.payment_term_line_id and rec.payment_term_line_id.value_amount and rec.amount_total:
                 if rec.payment_term_line_id.value_amount > 0.0:
-                    rec.actual_amount = rec.amount_total * (rec.payment_term_line_id.value_amount / 100)
+                    rec.actual_amount = rec.payment_term_line_id.value_amount
                     
     @api.depends('payment_amount', 'actual_amount', 'payment_term_line_id.value_amount')
     def compute_balance_amount(self):

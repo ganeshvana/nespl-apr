@@ -40,6 +40,8 @@
             <field name="arch" type="xml">
 	            <xpath expr="//field[@name='product_tmpl_id']" position="after">
 	                <field name="product_uom_id" options="{'no_create':1}" attrs="{'invisible':[('product_uom_id', '=', False)]}"/>
+	            	<field name="wp"/>
+	            	<field name="kwp"/>
 	            </xpath>
             </field>
         </record>

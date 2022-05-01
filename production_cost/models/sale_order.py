@@ -141,11 +141,11 @@ class SaleOrder(models.Model):
         }
         
 class SaleOrderTemplate(models.Model):
-    _inherit = 'sale.order.template'
+    _inherit = ['sale.order.template', 'mail.thread', 'mail.activity.mixin']
     
     kw = fields.Float("KWP")
-    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False)
-    sale_order_id = fields.Many2one('sale.order', "Sale Order")
+    state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False, track_visiblity='onchange')
+    sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
     partner_id = fields.Many2one('res.partner')
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
@@ -197,6 +197,8 @@ class SaleOrderTemplateLine(models.Model):
     hide = fields.Boolean("Hide")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     name1 = fields.Char("Name")
+    kwpunit = fields.Float("KWp Unit")
+    printkwp = fields.Boolean("Print KWp Unit")
     
     @api.onchange('name')
     def onchange_name(self):
