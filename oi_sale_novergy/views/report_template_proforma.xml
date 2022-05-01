@@ -174,23 +174,23 @@
 
 						</tr>
 						<t t-set="i" t-value="0" />
-						<t t-foreach="doc.order_line" t-as="line">
-							<t t-if="line.pi">
+						<t t-foreach="doc.payment_detail_ids" t-as="line">
+							<t t-if="line.description">
 							<t t-set="i" t-value="i+1" />
 							<tr>
 								<td style="border-style: solid;border-width:1px;" width="5%">
 									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.name" />
+									<span t-field="line.description" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.product_id.l10n_in_hsn_code" />
+									<span t-field="line.hsn_code" />
 								</td>
 								<td
 									style="border-style: solid;border-width:1px;text-align:right"
 									width="5%">
-									<span t-field="line.product_uom_qty" />
+									1
 								</td>
 								<td
 									style="border-style: solid;border-width:1px;text-align:right"
@@ -200,12 +200,12 @@
 								<td
 									style="border-style: solid;border-width:1px;text-align:right"
 									width="10%">
-									<span t-field="line.price_unit" />
+									<span t-field="line.amount" />
 								</td>
 								<td
 									style="border-style: solid;border-width:1px;text-align:right"
 									width="10%">
-									<span t-field="line.price_subtotal" />
+									<span t-field="line.subtotal_price" />
 								</td>
 							</tr>
 							</t>
@@ -219,13 +219,13 @@
 								<span>Untaxed Amount</span>
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
-								<span t-field="doc.amount_untaxed" />
+								<span t-field="doc.proforma_untaxed" />
 
 							</td>
 						</tr>
 
-						<t t-if="json.loads(doc.tax_totals_json)" t-set="tax_totals"
-							t-value="json.loads(doc.tax_totals_json)" />
+						<t t-if="json.loads(doc.tax_totals_json1)" t-set="tax_totals"
+							t-value="json.loads(doc.tax_totals_json1)" />
 						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
 
 							<t t-if="subtotal" t-set="subtotal_to_show"
@@ -289,7 +289,7 @@
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.amount_total" />
+									<span t-field="doc.proforma_total" />
 								</strong>
 							</td>
 						</tr>
