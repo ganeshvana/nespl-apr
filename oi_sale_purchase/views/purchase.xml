@@ -14,6 +14,9 @@
 	            	<field name="employee_id"/>
 	    			<field name="employee_pin" password="True"/> 
 	            </xpath>
+	            <xpath expr="//field[@name='date_order']" position="before">
+	            	<field name="project_id"/>
+	            </xpath>
             </field>
         </record>
         

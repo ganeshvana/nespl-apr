@@ -63,6 +63,17 @@ class Project(models.Model):
     employee_pin = fields.Char("Employee PIN")
     project_number = fields.Char("Project Number")
     
+    def name_get(self):
+        result = []
+        string = ''
+        for line in self:
+            if line.project_number:
+                name = line.project_number
+            else:
+                name =  line.name
+            result.append((line.id, name))
+        return result
+    
 class ProjectTask(models.Model):
     _inherit = 'project.task'
     
