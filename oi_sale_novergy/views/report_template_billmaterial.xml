@@ -46,19 +46,19 @@
 		              padding: 3px;
 		            }
 		            </style>
-					<!-- <table style="border-style: none;" width="100%">
+					<table style="border-style: none;" width="100%">
 						<td style="border-style: none;" width="70%"/>
 						<td style="border-style: none;" width="30%">
-							<p>H.O. Office Add:- <br/>
+							<p><!-- H.O. Office Add:- <br/>
 							3A Ground Floor, <br/>
 							Circle view apt.<br/>
 							Udaipur-313001 (Rajasthan)<br/>
-							GSTIN No. :- 08AACCN4908R1ZV<br/>
+							GSTIN No. :- 08AACCN4908R1ZV --><br/>
 							Email id : <span t-field="doc.sale_order_id.user_id.email"/>
 							</p>
 						</td>
 					</table>
-					<br/> -->
+					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
 							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
@@ -248,7 +248,7 @@
 					<br/>
 					<t t-set="total" t-value="0"/>
 					<p><strong><u>COMMERCIAL OFFER:</u></strong></p>
-					<table style="border-style:none;" width="90%">
+					<table style="border-style:none;" width="100%">
 					<t t-foreach="doc.costing_structure_ids" t-as="line">
 					<tr style="border-style:solid;border-width:1px;">
 						<t t-if="line.type == 'bom' and line.print_type">
@@ -258,7 +258,7 @@
 								Supply Main BOM
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)" widget="float"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'optional' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -266,7 +266,7 @@
 								Extra works BoM
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'ic' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -275,7 +275,7 @@
 								Installation and Commissioning
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'amc' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -283,7 +283,7 @@
 								Annual Maintenance Charges
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						
 						<t t-if="line.type == 'om' and line.print_type">
@@ -292,7 +292,7 @@
 								Operation and Maintenance
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'camc' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -300,12 +300,12 @@
 								Comprehensive Annual Maintenance Charges
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;">Rs. <span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 					</tr>
 					</t>
 					</table>	
-					<p> <span t-esc="doc.sale_order_id.currency_id.amount_to_text(total)" /></p>			
+					<p><br/><strong>Amount in words:</strong> Rs.  <span t-esc="doc.sale_order_id.currency_id.amount_to_text(total)" /></p>			
 					<p style="page-break-before:always;"> </p>	
 					<p><center><strong>TERMS AND CONDITIONS:</strong></center></p>
 					<p>
@@ -531,7 +531,10 @@
 						</t>
 					</table>
 					<p><span t-field="doc.sale_term" /></p>
-					<p style="font-color:red;"><center><strong>We Look Forward To Your Valuable Orders</strong></center></p>
+					<span style="color:red;font-color:red;">
+					<p><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p></span>
+					<br/>
+					<right><p>Signature not required as this is a computer generated document.</p></right>
 				</div>
 			</t>
 		</template>

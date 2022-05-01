@@ -39,46 +39,58 @@
 		              padding: 3px;
 		            }
 		            </style>
-					<p>H.O. Office Add:- <br/>
-					3A Ground Floor, <br/>
-					Circle view apt.<br/>
-					Udaipur-313001 (Rajasthan)<br/>
-					GSTIN No. :- 08AACCN4908R1ZV<br/>
-					Email id : <span t-field="doc.sale_order_id.user_id.email" />
-					</p>
+					<table style="border-style: none;" width="100%">
+						<td style="border-style: none;" width="70%"/>
+						<td style="border-style: none;" width="30%">
+							<p><!-- H.O. Office Add:- <br/>
+							3A Ground Floor, <br/>
+							Circle view apt.<br/>
+							Udaipur-313001 (Rajasthan)<br/>
+							GSTIN No. :- 08AACCN4908R1ZV --><br/>
+							Email id : <span t-field="doc.sale_order_id.user_id.email"/>
+							</p>
+						</td>
+					</table>
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
-							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
-							<span t-field="doc.sale_order_id.partner_id.city" />
-							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+							Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.sale_order_id.partner_id.city"/>
+							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						<strong><u>Reference:- <span t-field="doc.reference"/><br/>
-						Subject: <span t-field="doc.subject" /><br/>
-						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
-						 </u></strong>
+						
+						
+						<t t-if="doc.reference">
+							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
+						</t>
+						<u>
+						<strong>
+							Subject: <span t-field="doc.subject"/><br/>
+							Kind Attn.: Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+						</strong>
+						</u>
+						
+						 
 					</p>
 					<br/>
-					<p><span style="line-height: 2;" t-field="doc.content" /></p>
-					<p><strong>For <span t-field="doc.company_id.name" /></strong>
-					<br></br>
+					<p><span style="line-height: 2;" t-field="doc.content"/></p>
+					<p><strong>For Novergy Energy Solutions Pvt. Ltd.</strong>
 					<br/>
 					<br/>
-					<span t-field="doc.sale_order_id.user_id.name" /><br/>
-					(Sales Engineer)</p>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name"/><br/>
+					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					
-					<p>Signature not required as this is a computer generated document.</p>
 					<p style="page-break-before:always;"> </p>
 					<table
 						style="border-style: solid;border-width:1px;border-top:hidden"
@@ -272,7 +284,10 @@
 							</td>
 						</tr>
 					</table>
-					<p style="font-color:red;"><center><strong>We Look Forward To Your Valuable Orders</strong></center></p>
+					<span style="color:red;font-color:red;">
+					<p><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p></span>
+					<br/>
+					<right><p>Signature not required as this is a computer generated document.</p></right>
 				</div>
 			</t>
 		</template>
@@ -309,46 +324,58 @@
 		              padding: 3px;
 		            }
 		            </style>
-					<p>H.O. Office Add:- <br/>
-					3A Ground Floor, <br/>
-					Circle view apt.<br/>
-					Udaipur-313001 (Rajasthan)<br/>
-					GSTIN No. :- 08AACCN4908R1ZV<br/>
-					Email id : <span t-field="doc.sale_order_id.user_id.email" />
-					</p>
+					<table style="border-style: none;" width="100%">
+						<td style="border-style: none;" width="70%"/>
+						<td style="border-style: none;" width="30%">
+							<p><!-- H.O. Office Add:- <br/>
+							3A Ground Floor, <br/>
+							Circle view apt.<br/>
+							Udaipur-313001 (Rajasthan)<br/>
+							GSTIN No. :- 08AACCN4908R1ZV --><br/>
+							Email id : <span t-field="doc.sale_order_id.user_id.email"/>
+							</p>
+						</td>
+					</table>
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
-							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name" /></td>
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							<span t-field="doc.sale_order_id.partner_id.name" /><br/>
-							<span t-field="doc.sale_order_id.partner_id.city" />
-							<span t-field="doc.sale_order_id.partner_id.state_id.name" />
+							Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.sale_order_id.partner_id.city"/>
+							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						<strong><u>Reference:- <span t-field="doc.reference"/><br/>
-						Subject: <span t-field="doc.subject" /><br/>
-						Kind Attn.: Mr/Ms. <span t-field="doc.sale_order_id.partner_id.name" /><br/>
-						 </u></strong>
+						
+						
+						<t t-if="doc.reference">
+							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
+						</t>
+						<u>
+						<strong>
+							Subject: <span t-field="doc.subject"/><br/>
+							Kind Attn.: Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+						</strong>
+						</u>
+						
+						 
 					</p>
 					<br/>
-					<p><span style="line-height: 2;" t-field="doc.content" /></p>
-					<p><strong>For <span t-field="doc.company_id.name" /></strong>
-					<br></br>
+					<p><span style="line-height: 2;" t-field="doc.content"/></p>
+					<p><strong>For Novergy Energy Solutions Pvt. Ltd.</strong>
 					<br/>
 					<br/>
-					<span t-field="doc.sale_order_id.user_id.name" /><br/>
-					(Sales Engineer)</p>
+					<br/>
+					<span t-field="doc.sale_order_id.user_id.name"/><br/>
+					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					
-					<p>Signature not required as this is a computer generated document.</p>
 					<p style="page-break-before:always;"> </p>
 					<p>
 						<h5>
@@ -659,7 +686,10 @@
 							</td>
 						</tr>
 					</table>
-					<p style="font-color:red;"><center><strong>We Look Forward To Your Valuable Orders</strong></center></p>
+					<span style="color:red;font-color:red;">
+					<p><center><strong><i><h5>We Look Forward To Your Valuable Orders</h5></i></strong></center></p></span>
+					<br/>
+					<right><p>Signature not required as this is a computer generated document.</p></right>
 				</div>
 			</t>
 		</template>

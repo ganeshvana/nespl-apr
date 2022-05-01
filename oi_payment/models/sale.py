@@ -144,8 +144,8 @@ class Payterm(models.Model):
         result = []
         string = ''
         for line in self:
-            if line.name:
-                name = line.name
+            if line.name and line.desc:
+                name = line.name + line.desc
             else:
                 name =  ''
             result.append((line.id, name))
