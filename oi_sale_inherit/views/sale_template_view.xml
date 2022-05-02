@@ -16,6 +16,7 @@
 	                <field name="reference_number"/>
 	                <field name="transport"/>
 	                <field name="loading"/>
+	                <field name="truck_number"/>
 	            </xpath>
 			</field>
 		</record>

@@ -14,6 +14,7 @@ class stock_picking(models.Model):
     insurance_number = fields.Char(string="Insurance Number", copy=False)
     transport = fields.Selection([('road', 'Road'), ('air', 'Air'), ('sea', 'Sea')], string="Mode Of Transport", copy=False)
     loading = fields.Char(string="Place Of Loading", copy=False)
+    truck_number = fields.Char("Truck Number")
     
     def button_validate(self):
         res = super(stock_picking, self).button_validate()
