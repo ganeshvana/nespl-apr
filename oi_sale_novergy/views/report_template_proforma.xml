@@ -66,7 +66,7 @@
 									<span t-field="doc.company_id.street"/>
 									<span t-field="doc.company_id.street2"/>
 									<span t-field="doc.company_id.city"/>-
-									<span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.state_id"/>
+									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
 									<br/>
 									State Code: <span t-field="doc.company_id.partner_id.state_id.code"/> GSTIN: <span t-field="doc.company_id.partner_id.vat"/>
 							</td>
@@ -107,7 +107,7 @@
 								-
 								<span t-field="doc.partner_id.zip"/>
 								<br/>
-								<span t-field="doc.partner_id.state_id"/>
+								<span t-field="doc.partner_id.state_id.name"/>
 								,
 								<span t-field="doc.partner_id.country_id"/>
 								<br/>
@@ -188,7 +188,7 @@
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<span t-field="line.hsn_code"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;text-align:right" width="5%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
 									<span t-field="line.qty"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center" width="10%">
@@ -266,7 +266,7 @@
 							<td colspan="3" style="border-style: solid;border-width:1px;" width="55%"/>
 							<td colspan="3" style="width:25%;">
 								<span>
-									<strong>Net Amount</strong>
+									<strong>Gross Amount</strong>
 								</span>
 							</td>
 							<td colspan="2" style="width:30%;text-align:right">
@@ -307,13 +307,30 @@
 							</td>
 						</tr>
 					</table>
-					<br/>
-					<strong style="font-size:12px;">Declaration:</strong>
-					<br/>
-					<ul>
-						<li style="font-size:12px;">We declare that this proforma invoice shows the actual price of the goods described and that all particulars true and correct.</li>
-						<li style="font-size:12px;">Signature not required as this is a computer generated document.</li>
-					</ul>
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+          	<tr style="solid;border-width:1px;width:100%;border-top:hidden;">
+          		<td style="width:50%;text-align:left;border-top:hidden;border-right:hidden" width="50%">
+          			<br/>
+          			<strong>Declaration:</strong>
+          			<br/>
+						   We declare that this proforma invoice shows the actual price of the goods described and that all particulars true and correct.
+          		</td>
+          		<td style="width:100%;text-align:center" width="50%">
+          			<strong>
+          				For Novergy Energy Solutions Pvt. Ltd.
+          			</strong>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<strong>Authorised Signatory</strong>
+          		</td>
+          	</tr>
+          </table>
+          <br/>
+          <p style="font-size:12px;">Signature not required as this is a computer generated document.</p>
 				</div>
 			</t>
 		</template>
