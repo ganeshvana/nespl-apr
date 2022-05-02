@@ -28,6 +28,7 @@
         <field name="arch" type="xml" >
             <xpath expr="//field[@name='phone']" position="after">
                  <field name="mobile"/>  
+                 <field name="employee_id"/>  
              </xpath>
         </field>
     </record>
@@ -49,7 +50,8 @@
         <field name="inherit_id" ref = "crm.crm_case_tree_view_oppor"/>
         <field name="arch" type="xml" >
             <xpath expr="//field[@name='phone']" position="after">
-                 <field name="mobile"/>  
+                 <field name="mobile"/> 
+                 <field name="employee_id"/>   
              </xpath>
         </field>
     </record>

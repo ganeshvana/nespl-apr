@@ -300,6 +300,17 @@ class SaleOrder(models.Model):
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
     kw = fields.Integer(related='order_id.kw', store=True)
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1e', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_rele', 'vendor_id', 'template_id', "Make")
+    
+    @api.onchange('product_id')
+    def onchange_product(self):
+        products = []
+        if self.product_id:
+            if self.product_id.seller_ids:
+                for line in self.product_id.seller_ids:
+                    products.append(line.name.id)
+            self.partner_ids = [(6, 0, products)]
     
     @api.depends('kw', 'unit')
     def compute_per_kw(self):

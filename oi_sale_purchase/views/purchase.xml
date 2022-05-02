@@ -14,6 +14,9 @@
 	            	<field name="employee_id"/>
 	    			<field name="employee_pin" password="True"/> 
 	            </xpath>
+	            <xpath expr="//field[@name='date_order']" position="before">
+	            	<field name="project_id"/>
+	            </xpath>
             </field>
         </record>
         
@@ -22,7 +25,9 @@
             <field name="model">purchase.requisition</field>
             <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
             <field name="arch" type="xml">
-            	
+            	<xpath expr="//field[@name='ordering_date']" position="attributes">
+	            	<attribute name="string">Indent Ordering Date</attribute>
+	            </xpath>
 	            <xpath expr="//page/field/tree/field[@name='product_id']" position="attributes">
 	            	<attribute name="invisible">True</attribute>
 	            </xpath>
@@ -40,7 +45,8 @@
             <field name="arch" type="xml">
 	            <xpath expr="//field[@name='product_tmpl_id']" position="after">
 	                <field name="product_uom_id" options="{'no_create':1}" attrs="{'invisible':[('product_uom_id', '=', False)]}"/>
-	            	<field name="product_uom_id"/>
+	            	<field name="wp"/>
+	            	<field name="kwp"/>
 	            </xpath>
             </field>
         </record>

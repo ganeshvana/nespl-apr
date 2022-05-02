@@ -10,12 +10,14 @@
 					<field name="project_number" />
 					<field name="material_insured"/>
 	                <field name="insurance_policy"/>
-	                <field name="insurance_number"/>
+	                <field name="price_basis"/>
+	                <field name="discharge"/>
 				</xpath>
 				<xpath expr= "//field[@name='origin']" position ="after">
 	                <field name="reference_number"/>
 	                <field name="transport"/>
 	                <field name="loading"/>
+	                <field name="truck_number"/>
 	            </xpath>
 			</field>
 		</record>

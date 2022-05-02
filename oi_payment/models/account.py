@@ -53,6 +53,16 @@ class Move(models.Model):
             'target': 'new',
             'type': 'ir.actions.act_window',
         }
+        
+    delivery_challan_no = fields.Char("Delivery Challan No")
+    delivery_challan_date = fields.Date("Delivery Challan Date")
+    courier = fields.Char("Dispatch through Carrier")
+    awb = fields.Char("LR / GR / Docket ? AWB No")
+    friegt = fields.Char("Freight Term")
+    insurance = fields.Char("Insurance")
+    rep_code = fields.Char("Report Code")
+    po_ref = fields.Char("PO Ref")
+    project_id = fields.Char("Project")
 
 class Incoterm(models.Model):
     _inherit = "account.incoterms"

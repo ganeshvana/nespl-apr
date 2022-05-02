@@ -11,19 +11,37 @@
             	</xpath>   
             	<xpath expr="//field[@name='payment_term_id']" position="after">
             		<field name="all_product_delivery" groups="sales_team.group_sale_manager"/>
+            		<field name="price_basis"/>
             	</xpath>            	
                 <xpath expr="//page[@name='other_information']" position="after">
                 	<page string="Payment">
-                		<field name="payment_detail_ids" editable="1" readonly="1">
+                		<field name="payment_detail_ids" editable="1">
                 			<tree editable="bottom">
-                				<field name="payment_term_line_id"/>
+                				<field name="payment_term_line_id" readonly="1"/>
                 				<field name="payment_term_id" invisible="1"/>
-                				<field name="payment_ids" widget="many2many_tags"/>
+                				<field name="payment_ids" widget="many2many_tags" readonly="1"/>
                 				<field name="actual_amount"/>
                 				<field name="payment_amount" string="Payment Amount"/>
                 				<field name="balance_amount"/>
+                				<field name="description"/>
+                				<field name="hsn_code"/>
+                				<field name="qty"/>
+                				<field name="product_uom"/>
+                				<field name="amount"/>
+                				<field name="tax_id" widget="many2many_tags"/>
+                				<field name="total_price"/>
+                				
                 			</tree>
                 		</field>
+                		<group name="note_group" col="6" class="mt-2 mt-md-0">
+                                <group colspan="4">
+                                    <field name="note" nolabel="1" placeholder="Terms and conditions..."/>
+                                </group>
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="tax_totals_json1" widget="account-tax-totals-field" nolabel="1" colspan="2"/>
+                                </group>
+                                <div class="oe_clear"/>
+                            </group>
                 	</page>                    
                 </xpath>
             </field>

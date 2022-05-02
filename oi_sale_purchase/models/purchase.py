@@ -16,6 +16,7 @@ class PurchaseOrder(models.Model):
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     quote_media = fields.Char("Media")
+    project_id = fields.Many2one('project.project', "Project")
     
     
     @api.onchange('employee_pin', 'employee_id')

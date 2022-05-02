@@ -19,6 +19,11 @@ class Lead(models.Model):
     employee_pin = fields.Char("Employee PIN")
     roof_type = fields.Many2one('roof.type', "Roof Type")
     
+    @api.onchange('state_id')
+    def onchange_state_id(self):
+        if self.state_id:
+            self.country_id = self.state_id.country_id.id
+    
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
         if self.employee_pin and not self.employee_id:
