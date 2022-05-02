@@ -405,6 +405,25 @@
         </record>
         
         
+    <template id="bom_external_layout1">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                <table style="border-style:none;" width="100%">
+                	<tr style="border-style:none;" width="100%">
+                		<td style="border-style:none;" width="50%">
+                		</td>
+                		<td style="border-style:none;text-align:right;" width="50%">
+                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
+                		</td>
+                	</tr>
+                </table>
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+            </div>
+        </template>
+        
     <template id="report_saleorder_document11q">
 		<t t-call="production_cost.bom_external_layout">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
@@ -429,49 +448,39 @@
 					</tr>
 				</table>
 				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr>
-						<td width="50%">
-						<t t-set="address">
-							<div t-field="doc.partner_id"
-								t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-							<p t-if="doc.partner_id.vat">
-								<t
-									t-esc="doc.company_id.account_fiscal_country_id.vat_label or 'Tax ID'" />
-								:
-								<span t-field="doc.partner_id.vat" />
-							</p>
-						</t>
-						<t
-							t-if="doc.partner_shipping_id == doc.partner_invoice_id
-                             and doc.partner_invoice_id != doc.partner_id
-                             or doc.partner_shipping_id != doc.partner_invoice_id">
-							<t t-set="information_block">
-								<strong
-									t-if="doc.partner_shipping_id == doc.partner_invoice_id">Invoicing and Shipping Address:</strong>
-								<strong
-									t-if="doc.partner_shipping_id != doc.partner_invoice_id">Invoicing Address:</strong>
-								<div t-field="doc.partner_invoice_id"
-									t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-								<t t-if="doc.partner_shipping_id != doc.partner_invoice_id">
-									<strong>Shipping Address:</strong>
-									<div t-field="doc.partner_shipping_id"
-										t-options='{"widget": "contact", "fields": ["address", "name", "phone"], "no_marker": True, "phone_icons": True}' />
-								</t>
-							</t>
-						</t>
-					</td>
-					<td width="50%">
-						<t t-set="address">
-							<div t-field="doc.company_id.partner_id"
-								t-options='{"widget": "contact", "fields": ["address", "name"], "no_marker": True}' />
-							<p t-if="doc.company_id.partner_id.vat">
-								<t
-									t-esc="doc.company_id.account_fiscal_country_id.vat_label or 'Tax ID'" />
-								:
-								<span t-field="doc.company_id.partner_id.vat" />
-							</p>
-						</t>
-					</td>
+					<tr style="border-style: solid;border-width:1px;" width="100%">
+						<td style="border-style: solid;border-width:1px;" width="50%">
+							<strong>To:</strong><br/>
+								<span t-field="doc.partner_id.name"/><br/>
+								<span t-field="doc.partner_id.street"/>
+								,
+								<span t-field="doc.partner_id.street2"/>
+								<br/>
+								<span t-field="doc.partner_id.city"/>
+								-
+								<span t-field="doc.partner_id.zip"/>
+								<br/>
+								<span t-field="doc.partner_id.state_id"/>
+								,
+								<span t-field="doc.partner_id.country_id"/>
+								<br/>
+						</td>
+						<td style="border-style: solid;border-width:1px;" width="50%">
+							<strong>From:</strong><br/>
+								<span t-field="doc.company_id.partner_id.name"/><br/>
+								<span t-field="doc.company_id.partner_id.street"/>
+								,
+								<span t-field="doc.company_id.partner_id.street2"/>
+								<br/>
+								<span t-field="doc.company_id.partner_id.city"/>
+								-
+								<span t-field="doc.company_id.partner_id.zip"/>
+								<br/>
+								<span t-field="doc.company_id.partner_id.state_id"/>
+								,
+								<span t-field="doc.company_id.partner_id.country_id"/>
+								<br/>
+						</td>
 					</tr>
 				</table>
 				<div class="oe_structure" />

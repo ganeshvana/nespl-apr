@@ -74,6 +74,7 @@ class SaleOrder(models.Model):
     proforma_total = fields.Float("Proforma Total", compute='_amount_all_proforma')
     proforma_untaxed = fields.Float("Proforma SubTotal", compute='_amount_all_proforma')
     tax_totals_json1 = fields.Char(compute='_compute_tax_totals_json1')
+    price_basis = fields.Char("Price Basis")
     
     @api.depends('payment_detail_ids.tax_id', 'payment_detail_ids.amount', 'proforma_total', 'proforma_untaxed')
     def _compute_tax_totals_json1(self):

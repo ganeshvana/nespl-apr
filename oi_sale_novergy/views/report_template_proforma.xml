@@ -2,7 +2,13 @@
 	<data>
 		<template id="accounting_report_external_layout">
 			<div t-attf-class="header" t-att-style="report_header_style">
-
+				<table style="border-style:none;" width="100%">
+					<td style="border-style:none;"  width="50%">
+					</td>
+					<td style="border-style:none;"  width="50%">
+						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 1.5cm; max-width: 4cm; height:1.5cm; width:3cm;" align="right"/>
+					</td>
+				</table>
 			</div>
 			<div t-attf-class="article o_report_layout_standard "
 				t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
@@ -15,7 +21,6 @@
 					<tr>
 						<td>
 							<center>
-								<span class="page" />								
 							</center>
 						</td>
 					</tr>
@@ -45,31 +50,25 @@
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
-							<td style="width:80%;text-align:center;border-style: solid;border-width:1px;border-right:hidden;vertical-align: middle;">
+							<td style="width:100%;text-align:center;border-style: solid;border-width:1px;vertical-align: middle;">
 								<h5>
 									<strong>PROFORMA INVOICE</strong>
 								</h5>
 							</td>
-							<td style="border-style: solid;border-width:1px;">
-								<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 1.5cm; max-width: 4cm; height:1.5cm; width:3cm;" align="right"/>
-							</td>
 						</tr>
 						<tr style="border-style: solid;border-width:1px;border-bottom:hidden;" width="100%">
-							<td style="width:80%;text-align:center;border-right:hidden;">
+							<td style="width:100%;text-align:center;">
 								<h5>
 									<strong>
 										Novergy Energy Solutions Pvt. Ltd.
 									</strong>
 								</h5>
 							</td>
-							<td style="width:80%;text-align:center;">
-							</td>
 						</tr>
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px;border-bottom:hidden;">
-							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <strong><span style="font-size:40px;" t-field="doc.warehouse_id.rep_code"/></strong></td>
-							<td style="width:85%;text-align:center;solid;border-width:1px;vertical-align:top;">
+							<td style="width:100%;text-align:center;solid;border-width:1px;vertical-align:top;">
 								<strong>Seller:</strong><br/>
 								<!-- <strong> -->
 									Novergy Energy Solutions Pvt. Ltd,<br/>
@@ -78,7 +77,7 @@
 									<span t-field="doc.company_id.city"/>-
 									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
 									<br/>
-									State Code: <span t-field="doc.partner_id.state_id.code"/>      GSTIN: <span t-field="doc.partner_id.vat"/>
+									State Code: <span t-field="doc.company_id.partner_id.state_id.code"/> GSTIN: <span t-field="doc.company_id.partner_id.vat"/>
 								<!-- </strong> -->
 							</td>
 						</tr>
@@ -90,7 +89,7 @@
 								<strong>Proforma Invoice No.: </strong><span t-field="doc.name"/>
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Proforma invoice date:- </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
+								<strong>Proforma Invoice date:- </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
 							</td>							
 						</tr>
 					</table>
@@ -129,6 +128,7 @@
 								<br/>
 								<br/>
 								<br/>
+								<br/>
 							</td>							
 						</tr>
 						<tr style="border-style:solid;border-width:1px;width:100%;border-bottom:hidden;">
@@ -147,6 +147,11 @@
 							</td>							
 							<td style="width:50%;solid;border-width:1px;">
 								<strong>Buyer GSTIN/Unique ID:</strong>
+							</td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;width:100%;">
+							<td style="width:100%;border-style: solid;border-width:1px;" colspan="2">
+								<strong>Price Basis:</strong> <span t-field="doc.price_basis"/>
 							</td>
 						</tr>
 					</table>
@@ -168,12 +173,14 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>Unit</strong>
 							</td>
-
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
-								<strong>Rate</strong>
+								<strong>Rate <span t-field="doc.currency_id.symbol"/></strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
-								<strong>Amount</strong>
+								<strong>Tax</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>Amount <span t-field="doc.currency_id.symbol"/></strong>
 							</td>
 
 						</tr>
@@ -194,11 +201,19 @@
 								<td style="border-style: solid;border-width:1px;text-align:right" width="5%">
 									<span t-field="line.qty"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+								<td style="border-style: solid;border-width:1px;text-align:center" width="10%">
 									<span t-field="line.product_uom.name"/>
 								</td>
+								
 								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
 									<span t-field="line.amount"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:left" width="10%">
+									<t t-if="line.tax_id">
+										<t t-foreach="line.tax_id" t-as="t">
+											<span t-field="t.name"/>
+										</t>
+									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
 									<span t-field="line.subtotal_price"/>
@@ -208,11 +223,11 @@
 						</t>
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
-							<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+							<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 							<td colspan="3" style="width:25%;border:1px solid black">
 								<span>Untaxed Amount</span>
 							</td>
-							<td colspan="2" style="width:20%;text-align:right">
+							<td colspan="2" style="width:30%;text-align:right">
 								<span t-field="doc.proforma_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
 
 							</td>
@@ -220,7 +235,6 @@
 
 						<t t-if="json.loads(doc.tax_totals_json1)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json1)"/>
 						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
-
 							<t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
 
 						</t>
@@ -228,7 +242,7 @@
 							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
 								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
 									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
-										<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+										<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 
 										<td colspan="3" style="width:25%;border:1px solid black">
 											<span t-esc="amount_by_group['tax_group_name']"/>
@@ -237,37 +251,35 @@
 												<t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
 											</span>
 										</td>
-										<td colspan="2" style="width:20%;text-align:right">
+										<td colspan="2" style="width:30%;text-align:right">
 											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
 
 										</td>
 
 									</t>
 									<t t-else="">
-										<td colspan="2" style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+										<td colspan="3" style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
 										</td>
 										<td colspan="3" style="width:25%;border:1px solid black">
 											<span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/>
 										</td>
 
-										<td colspan="2" style="width:20%;text-align:right">
+										<td colspan="2" style="width:30%;text-align:right">
 											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
-
 										</td>
 									</t>
-
 								</tr>
 							</t>
 						</t>
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
-							<td colspan="2" style="border-style: solid;border-width:1px;" width="55%"/>
+							<td colspan="3" style="border-style: solid;border-width:1px;" width="55%"/>
 							<td colspan="3" style="width:25%;">
 								<span>
 									<strong>Net</strong>
 								</span>
 							</td>
-							<td colspan="2" style="width:20%;text-align:right">
+							<td colspan="2" style="width:30%;text-align:right">
 								<strong>
 									<span t-field="doc.proforma_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
 								</strong>
@@ -278,16 +290,14 @@
 
 
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
-
 						<tr style="solid;border-width:1px;width:100%;">
 							<td style="width:100%;">
-								<strong>Amount in words = </strong> Rs. <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/> Only.
+								<strong>Amount in words = </strong>  <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/> <span> only.</span> 
 							</td>
 						</tr>
 					</table>
 
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
-
 						<tr style="solid;border-width:1px;width:100%;">
 							<td style="width:100%;">
 								<strong>Bank Details:</strong>
@@ -307,29 +317,14 @@
 							</td>
 						</tr>
 					</table>
-					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
-						<tr style="solid;border-width:1px;width:100%;border-top:hidden;">
-							<td style="width:50%;text-align:left;border-top:hidden;border-right:hidden" width="50%">
-								<br/>
-								<strong>Declaration</strong>
-								<br/>
-								We declare that this invoice shows the actual price of the goods
-								described and that all particulars true and correct.
-							</td>
-							<td style="width:100%;text-align:center" width="50%">
-								<strong>
-									For Novergy Energy Solutions Pvt. Ltd.
-								</strong>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
-								<br/>
-								<strong>Authorised Signatory</strong>
-							</td>
-						</tr>
-					</table>
+					<br/>
+					<br/>
+					<strong>Declaration:</strong>
+					<br/>
+					<ul>
+						<li>We declare that this invoice shows the actual price of the goods described and that all particulars true and correct.</li>
+						<li>Signature not required as this is a computer generated document.</li>
+					</ul>
 				</div>
 			</t>
 		</template>

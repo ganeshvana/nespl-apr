@@ -81,7 +81,7 @@
 	        		<field name="awb" />
 	        		<field name="friegt"/>
 	        		<field name="insurance"/>
-	        		<field name="rep_code"/>
+	        		<field name="project_id"/>
         		</group>
         	</xpath>
         </field>
