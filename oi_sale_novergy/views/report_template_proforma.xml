@@ -35,21 +35,23 @@
 		            table, th, td {
 		              border: 1px solid black;
 		              border-collapse: collapse;
+		              font-size:10px;
 		            }
 		            th, td {
 		              padding: 3px;
+		              font-size:12px;
 		            }
 		            </style>
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
-							<td style="width:80%;text-align:center;border-style: solid;border-width:1px;border-right:hidden;">
+							<td style="width:80%;text-align:center;border-style: solid;border-width:1px;border-right:hidden;vertical-align: middle;">
 								<h5>
 									<strong>PROFORMA INVOICE</strong>
 								</h5>
 							</td>
-							<td style="border-style: solid;border-width:1px;" rowspan="2">
-								<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right" />
+							<td style="border-style: solid;border-width:1px;">
+								<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 1.5cm; max-width: 4cm; height:1.5cm; width:3cm;" align="right"/>
 							</td>
 						</tr>
 						<tr style="border-style: solid;border-width:1px;border-bottom:hidden;" width="100%">
@@ -60,20 +62,22 @@
 									</strong>
 								</h5>
 							</td>
+							<td style="width:80%;text-align:center;">
+							</td>
 						</tr>
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px;border-bottom:hidden;">
 							<td style="width:15%;text-align:left;solid;border-width:1px">Br.C.: <strong><span style="font-size:40px;" t-field="doc.warehouse_id.rep_code"/></strong></td>
-							<td style="width:85%;text-align:center;solid;border-width:1px">
-								<strong>Seller:</strong><br></br>
+							<td style="width:85%;text-align:center;solid;border-width:1px;vertical-align:top;">
+								<strong>Seller:</strong><br/>
 								<!-- <strong> -->
 									<span t-field="doc.company_id.street"/>,
 									<span t-field="doc.company_id.street2"/>,
 									<span t-field="doc.company_id.city"/>-
-									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id" />
-									<br />
-									State Code: <span t-field="doc.partner_id.state_id.code"/> &#160;&#160;&#160;&#160; GSTIN: <span t-field="doc.partner_id.vat" />
+									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
+									<br/>
+									State Code: <span t-field="doc.partner_id.state_id.code"/>      GSTIN: <span t-field="doc.partner_id.vat"/>
 								<!-- </strong> -->
 							</td>
 						</tr>
@@ -82,10 +86,10 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Proforma Invoice No.: </strong><span t-field="doc.name" />
+								<strong>Proforma Invoice No.: </strong><span t-field="doc.name"/>
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Proforma invoice date:- </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')" />
+								<strong>Proforma invoice date:- </strong><span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d-%m-%Y')"/>
 							</td>							
 						</tr>
 					</table>
@@ -94,7 +98,7 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:100%;border-style: solid;border-width:1px;">
-								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.client_order_ref" />
+								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.client_order_ref"/>
 							</td>
 						</tr>
 					</table>
@@ -103,31 +107,31 @@
 						<tr style="border-style: solid;border-width:1px;width:100%;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Consignee:-</strong>
-								<br />
-								<span t-field="doc.partner_id.street" />
+								<br/>
+								<span t-field="doc.partner_id.street"/>
 								,
-								<span t-field="doc.partner_id.street2" />
-								<br />
-								<span t-field="doc.partner_id.city" />
+								<span t-field="doc.partner_id.street2"/>
+								<br/>
+								<span t-field="doc.partner_id.city"/>
 								-
-								<span t-field="doc.partner_id.zip" />
-								<br />
-								<span t-field="doc.partner_id.state_id" />
+								<span t-field="doc.partner_id.zip"/>
+								<br/>
+								<span t-field="doc.partner_id.state_id"/>
 								,
-								<span t-field="doc.partner_id.country_id" />
-								<br />
+								<span t-field="doc.partner_id.country_id"/>
+								<br/>
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Buyer(If Other than Consignee):-</strong>
-								<br />
-								<br />
-								<br />
-								<br />
+								<br/>
+								<br/>
+								<br/>
+								<br/>
 							</td>							
 						</tr>
 						<tr style="border-style:solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Consignee State Code:</strong><span t-field="doc.partner_id.state_id.code" />
+								<strong>Consignee State Code:</strong><span t-field="doc.partner_id.state_id.code"/>
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Buyer State Code:</strong>
@@ -137,7 +141,7 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
 							<td style="width:50%;solid;border-width:1px;">
-								<strong>Consingee GSTIN/Unique ID:</strong> <span t-field="doc.partner_id.vat" />
+								<strong>Consingee GSTIN/Unique ID:</strong> <span t-field="doc.partner_id.vat"/>
 							</td>							
 							<td style="width:50%;solid;border-width:1px;">
 								<strong>Buyer GSTIN/Unique ID:</strong>
@@ -146,8 +150,7 @@
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<td
-								style="border-style: solid;border-width:1px;border-top:hidden" width="5%">
+							<td style="border-style: solid;border-width:1px;border-top:hidden" width="5%">
 								<strong>Sr.No.</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%">
@@ -167,110 +170,86 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>Rate</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>Amount</strong>
 							</td>
 
 						</tr>
-						<t t-set="i" t-value="0" />
+						<t t-set="i" t-value="0"/>
 						<t t-foreach="doc.payment_detail_ids" t-as="line">
 							<t t-if="line.description">
-							<t t-set="i" t-value="i+1" />
+							<t t-set="i" t-value="i+1"/>
 							<tr>
 								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="i" />
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.description" />
+									<span t-field="line.description"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.hsn_code" />
+									<span t-field="line.hsn_code"/>
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:right"
-									width="5%">
+								<td style="border-style: solid;border-width:1px;text-align:right" width="5%">
 									1
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:right"
-									width="10%">
-									<span t-field="line.product_uom.name" />
+								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+									<span t-field="line.product_uom.name"/>
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:right"
-									width="10%">
-									<span t-field="line.amount" />
+								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+									<span t-field="line.amount"/>
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:right"
-									width="10%">
-									<span t-field="line.subtotal_price" />
+								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+									<span t-field="line.subtotal_price"/>
 								</td>
 							</tr>
 							</t>
 						</t>
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
-							<td colspan="2"
-								style="border-style: solid;border-width:1px;border-bottom:hidden"
-								width="55%"></td>
+							<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 							<td colspan="3" style="width:25%;border:1px solid black">
 								<span>Untaxed Amount</span>
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
-								<span t-field="doc.proforma_untaxed" />
+								<span t-field="doc.proforma_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
 
 							</td>
 						</tr>
 
-						<t t-if="json.loads(doc.tax_totals_json1)" t-set="tax_totals"
-							t-value="json.loads(doc.tax_totals_json1)" />
+						<t t-if="json.loads(doc.tax_totals_json1)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json1)"/>
 						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
 
-							<t t-if="subtotal" t-set="subtotal_to_show"
-								t-value="subtotal['name']" />
+							<t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
 
 						</t>
 						<t t-if="subtotal_to_show">
-							<t
-								t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]"
-								t-as="amount_by_group">
-								<tr t-if="amount_by_group"
-									style="border-style: solid;border-width:1px;" width="100%">
-									<t
-										t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) > 1">
-										<td colspan="2"
-											style="border-style: solid;border-width:1px;border-bottom:hidden"
-											width="55%"></td>
+							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
+									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
+										<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 
 										<td colspan="3" style="width:25%;border:1px solid black">
-											<span t-esc="amount_by_group['tax_group_name']" />
+											<span t-esc="amount_by_group['tax_group_name']"/>
 											<span class="text-nowrap">
 												on
-												<t
-													t-esc="amount_by_group['formatted_tax_group_base_amount']" />
+												<t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
 											</span>
 										</td>
 										<td colspan="2" style="width:20%;text-align:right">
-											<span class="text-nowrap"
-												t-esc="amount_by_group['formatted_tax_group_amount']" />
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
 
 										</td>
 
 									</t>
 									<t t-else="">
-										<td colspan="2"
-											style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+										<td colspan="2" style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
 										</td>
 										<td colspan="3" style="width:25%;border:1px solid black">
-											<span class="text-nowrap"
-												t-esc="amount_by_group['tax_group_name']" />
+											<span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/>
 										</td>
 
 										<td colspan="2" style="width:20%;text-align:right">
-											<span class="text-nowrap"
-												t-esc="amount_by_group['formatted_tax_group_amount']" />
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
 
 										</td>
 									</t>
@@ -280,8 +259,7 @@
 						</t>
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
-							<td colspan="2" style="border-style: solid;border-width:1px;"
-								width="55%"></td>
+							<td colspan="2" style="border-style: solid;border-width:1px;" width="55%"/>
 							<td colspan="3" style="width:25%;">
 								<span>
 									<strong>Net</strong>
@@ -289,7 +267,7 @@
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.proforma_total" />
+									<span t-field="doc.proforma_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
 								</strong>
 							</td>
 						</tr>
@@ -301,40 +279,38 @@
 
 						<tr style="solid;border-width:1px;width:100%;">
 							<td style="width:100%;">
-								<strong>Amount in words = </strong> Rs. <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)" /> Only.
+								<strong>Amount in words = </strong> Rs. <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/> Only.
 							</td>
 						</tr>
 					</table>
 
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 
 						<tr style="solid;border-width:1px;width:100%;">
 							<td style="width:100%;">
 								<strong>Bank Details:</strong>
-								<br />
-								<strong>Bank Name: </strong><span t-field="doc.bank.bank_id.name" />
-								<br />
-								<strong>Bank Branch Address: </strong><span t-field="doc.bank.bank_id.street" />, <span t-field="doc.bank.bank_id.city" />- <span t-field="doc.bank.bank_id.zip" /><span t-field="doc.bank.bank_id.state.name" />
-								<br />
+								<br/>
+								<strong>Bank Name: </strong><span t-field="doc.bank.bank_id.name"/>
+								<br/>
+								<strong>Bank Branch Address: </strong><span t-field="doc.bank.bank_id.street"/>, <span t-field="doc.bank.bank_id.city"/>- <span t-field="doc.bank.bank_id.zip"/><span t-field="doc.bank.bank_id.state.name"/>
+								<br/>
 								<strong>Account Type:</strong> Current Account
-								<br />
-								<strong>Account No: </strong><span t-field="doc.bank.acc_number" />
-								<br />
-								<strong>MICR Code : </strong><span t-field="doc.bank.bank_id.micr" />
-								<br />
-								<strong>IFSC Code: </strong><span t-field="doc.bank.bank_id.bic" />
-								<br />
+								<br/>
+								<strong>Account No: </strong><span t-field="doc.bank.acc_number"/>
+								<br/>
+								<strong>MICR Code : </strong><span t-field="doc.bank.bank_id.micr"/>
+								<br/>
+								<strong>IFSC Code: </strong><span t-field="doc.bank.bank_id.bic"/>
+								<br/>
 							</td>
 						</tr>
 					</table>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;border-top:hidden;">
 							<td style="width:50%;text-align:left;border-top:hidden;border-right:hidden" width="50%">
-								<br />
+								<br/>
 								<strong>Declaration</strong>
-								<br />
+								<br/>
 								We declare that this invoice shows the actual price of the goods
 								described and that all particulars true and correct.
 							</td>
@@ -342,17 +318,16 @@
 								<strong>
 									For Novergy Energy Solutions Pvt. Ltd.
 								</strong>
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
-								<br />
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
 								<strong>Authorised Signatory</strong>
 							</td>
 						</tr>
 					</table>
-
 				</div>
 			</t>
 		</template>
