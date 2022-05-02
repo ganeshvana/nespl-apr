@@ -67,47 +67,49 @@
 							</td>
 						</tr>
 					</table>
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr>
-							<td rowspan="2" style="width:40%;border:1px solid black">
+							<td style="width:40%;border:1px solid black">
 								<strong>Consignee:</strong>
-								<br />
-								<span t-field="doc.partner_id.name" />
-								<br />
-								<span t-field="doc.partner_id.street" />
+								<br/>
+								<span t-field="doc.partner_id.name"/>
+								<br/>
+								<span t-field="doc.partner_id.street"/>
 								,
-								<span t-field="doc.partner_id.street2" />
-								<br />
-								<span t-field="doc.partner_id.city" />
+								<span t-field="doc.partner_id.street2"/>
+								<br/>
+								<span t-field="doc.partner_id.city"/>
 								-
-								<span t-field="doc.partner_id.zip" />
-								<span t-field="doc.partner_id.state_id" />
+								<span t-field="doc.partner_id.zip"/>
+								<span t-field="doc.partner_id.state_id"/>
 								-
-								<span t-field="doc.partner_id.zip" />
-								<br />								
+								<span t-field="doc.partner_id.zip"/>
+								<br/>								
 							</td>
 
 							<td style="width:60%;border:1px solid black">
-								<strong>Delivery challan no:</strong><span t-field="doc.name" /><br />
-								<strong>Date :</strong> <span t-field="doc.scheduled_date" t-options='{"widget": "date"}' />
-								<br />
-								<strong>Client PO No. &amp;Date :</strong><span t-field="doc.sale_id.client_order_ref" />
-								<br />
+								<strong>Delivery challan no:</strong><span t-field="doc.name"/><br/>
+								<strong>Date :</strong> <span t-field="doc.scheduled_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
+								<br/>
+								<strong>Client PO No. &amp;Date :</strong><span t-field="doc.sale_id.client_order_ref"/>
+								<br/>
 								<strong>EWay Bill No.:</strong>
-								<br /><span t-field="doc.l10n_in_ewaybill_number" />
+								<br/><span t-field="doc.l10n_in_ewaybill_number"/>
 								<strong>Material Insured:</strong>
-								<span t-field="doc.material_insured" />
-								<br />
+								<span t-field="doc.material_insured"/>
+								<br/>
 								<strong>Insurence policy:</strong><span t-field="doc.insurance_policy"/>
 							</td>
 						</tr>
-						<tr style="width:100%;border:1px solid black">
-							<td style="width:60%;border:1px solid black">
-								<table style="border:hidden;" width="">
+					</table>
+					<table style="border:1px solid black;border-top:hidden;" width="100%">
 									<tr>
-										<td><strong>Consignee GSTIN: </strong><span t-field="doc.partner_id.vat" /></td>
+										<td width="40%"><strong>Consignee GSTIN: </strong><span t-field="doc.partner_id.vat"/></td>
+										<td width="60%" rowspan="2">
+											<span>
+												<strong>Project No :</strong><span t-esc="doc.project_number"/>
+											</span>
+										</td>
 									</tr>
 									<tr>
 										<t t-set="contact" t-value=""/>
@@ -116,37 +118,27 @@
 										    	<t t-set="contact" t-value="l"/>
 										    </t>										
 										</t>
-										<t t-set="contact" t-value="doc.partner_id.child_ids" />
-										<td><strong>Contact Person Name: </strong><span t-esc="contact[0].name" /><br/>
-										<strong>Mob. No. : </strong><span t-esc="contact[0].mobile" />
-										</td>
-									</tr>
-									<tr rowspan="2">
-										<td>
-											<span>
-												<strong>Project No :</strong><span t-esc="doc.project_number" />
-											</span>
+										<t t-set="contact" t-value="doc.partner_id.child_ids"/>
+										<td width="40%"><strong>Contact Person Name: </strong><span t-esc="contact[0].name"/><br/>
+										<strong>Mob. No. : </strong><span t-esc="contact[0].mobile"/>
 										</td>
 									</tr>
 								</table>
-							</td>
-						</tr>
-					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%">
 							<td style="border-style: solid;border-width:1px;border-top:hidden" width="10%">
-								<strong>Price Basis:</strong> <span t-field="doc.price_basis" />
+								<strong>Price Basis:</strong> <span t-field="doc.price_basis"/>
 							</td>
 							<td style="border-style: solid;border-width:1px;border-top:hidden" width="30%">
 								<strong>Place Of Discharge:</strong>
-								<span t-field="doc.discharge" />
+								<span t-field="doc.discharge"/>
 							</td>
 							<td style="border-style: solid;border-width:1px;border-top:hidden" width="30%">
-								<strong>Place of Loading:</strong><span t-field="doc.loading" />
+								<strong>Place of Loading:</strong><span t-field="doc.loading"/>
 							</td>
 							<td style="border-style: solid;border-width:1px;border-top:hidden" width="30%">
 								<strong>Mode of transport:</strong>
-								<span t-field="doc.transport" />
+								<span t-field="doc.transport"/>
 							</td>
 						</tr>
 					</table>
@@ -177,7 +169,6 @@
 						<t t-foreach="set(product_category)" t-as="category">	
 							<t t-set="qty" t-value="0"/>	
 							<t t-set="unit" t-value=""/>					
-						    <div><strong t-esc="category.name"/></div>
 							<t t-foreach="doc.move_ids_without_package" t-as="package">
 								<t t-if="package.product_id.categ_id == category">
 									<t t-set="qty" t-value="qty+package.quantity_done"/>		
@@ -186,22 +177,22 @@
 							</t>
 							<t t-set="i" t-value="i+1"/>	
 							<tr style="solid;border-width:1px;width:100%">
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="60%">
-									<span t-esc="category" />
+									<span t-esc="category.name"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
-									<span t-esc="unit" />
+									<span t-esc="unit"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<span t-esc="qty" />
+									<span t-esc="qty"/>
 								</td>
 							</tr>
 						</t>
 					</table>
-					<t t-set="total" t-value="0.0" />
+					<t t-set="total" t-value="0.0"/>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%">
 							<td style="border-style: solid;border-width:1px;border-top:hidden;text-align:right" width="90%">
@@ -209,7 +200,7 @@
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>
-									<t t-esc="(total)" t-options='{"widget": "float", "precision": 2}' />
+									<t t-esc="(total)" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
 								</strong>
 							</td>
 						</tr>
@@ -217,23 +208,22 @@
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%">
-							<td style="border-style: solid;border-width:1px;border-top:hidden"
-								width="100%">
+							<td style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 								<strong>NOTE:</strong><br/>
-								<span t-field="doc.note" />
+								<span t-field="doc.note"/>
 							</td>
 						</tr>						
 					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">	
-							<td width="50%" style="border-style: solid;border-width:1px;border-right:hidden"></td>						
+							<td width="50%" style="border-style: solid;border-width:1px;border-top:hidden;border-right:hidden"/>						
 							<td style="border-style: solid;border-width:1px;border-top:hidden;text-align:center" width="50%">
 								 <strong> For Novergy Energy Solutions Pvt. Ltd.</strong>
-									<br />
-									<br />
-									<br />
-									<br />
-									<br />
+									<br/>
+									<br/>
+									<br/>
+									<br/>
+									<br/>
 									<strong>Authorised Signatory</strong>
 							</td>
 						</tr>
