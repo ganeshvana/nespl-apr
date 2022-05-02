@@ -72,6 +72,7 @@
 							<td style="width:85%;text-align:center;solid;border-width:1px;vertical-align:top;">
 								<strong>Seller:</strong><br/>
 								<!-- <strong> -->
+									Novergy Energy Solutions Pvt. Ltd,<br/>
 									<span t-field="doc.company_id.street"/>,
 									<span t-field="doc.company_id.street2"/>,
 									<span t-field="doc.company_id.city"/>-
@@ -108,6 +109,7 @@
 							<td style="width:50%;border-style: solid;border-width:1px;">
 								<strong>Consignee:-</strong>
 								<br/>
+								<span t-field="doc.partner_id.name"/><br/>
 								<span t-field="doc.partner_id.street"/>
 								,
 								<span t-field="doc.partner_id.street2"/>
@@ -190,7 +192,7 @@
 									<span t-field="line.hsn_code"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:right" width="5%">
-									1
+									<span t-field="line.qty"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
 									<span t-field="line.product_uom.name"/>

@@ -78,14 +78,13 @@ class SaleOrder(models.Model):
     @api.depends('payment_detail_ids.tax_id', 'payment_detail_ids.amount', 'proforma_total', 'proforma_untaxed')
     def _compute_tax_totals_json1(self):
         def compute_taxes1(payment_detail_ids):
-            price = payment_detail_ids.amount 
+            price = payment_detail_ids.amount * payment_detail_ids.qty
             order = payment_detail_ids.sale_order_id
             return payment_detail_ids.tax_id._origin.compute_all(price, order.currency_id, 1, product=False, partner=order.partner_shipping_id)
 
         account_move = self.env['account.move']
         for order in self:
             tax_lines_data = account_move._prepare_tax_lines_data_for_totals_from_object(order.payment_detail_ids, compute_taxes1)
-            print(tax_lines_data, "tax_lines_data----")
             tax_totals = account_move._get_tax_totals(order.partner_id, tax_lines_data, order.proforma_total, order.proforma_untaxed, order.currency_id)
             
             order.tax_totals_json1 = json.dumps(tax_totals)
@@ -170,6 +169,7 @@ class PaymentDetails(models.Model):
     balance_amount = fields.Monetary("Balance Amount", compute='compute_balance_amount', store=True)
     amount_total = fields.Monetary(related='sale_order_id.amount_total', store=True)
     description = fields.Char("Description")
+    qty = fields.Float("Qty")
     tax_id = fields.Many2many('account.tax', string='Taxes', domain=['|', ('active', '=', False), ('active', '=', True)])
     amount = fields.Float("Amount")
     tax_price = fields.Float("Tax Price", compute='_compute_tax')
@@ -181,7 +181,7 @@ class PaymentDetails(models.Model):
     @api.depends('amount', 'tax_id')
     def _compute_tax(self):
         for line in self:
-            taxes = line.tax_id.compute_all(line.amount, line.sale_order_id.currency_id, 1, product=False, partner=line.sale_order_id.partner_shipping_id)
+            taxes = line.tax_id.compute_all(line.qty * line.amount, line.sale_order_id.currency_id, 1, product=False, partner=line.sale_order_id.partner_shipping_id)
             line.update({
                 'tax_price': taxes['total_included'] - taxes['total_excluded'],
                 'total_price': taxes['total_included'],

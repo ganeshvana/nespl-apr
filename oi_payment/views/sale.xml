@@ -24,6 +24,7 @@
                 				<field name="balance_amount"/>
                 				<field name="description"/>
                 				<field name="hsn_code"/>
+                				<field name="qty"/>
                 				<field name="product_uom"/>
                 				<field name="amount"/>
                 				<field name="tax_id" widget="many2many_tags"/>
