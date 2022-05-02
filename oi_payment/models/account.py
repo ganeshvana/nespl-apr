@@ -62,7 +62,7 @@ class Move(models.Model):
     insurance = fields.Char("Insurance")
     rep_code = fields.Char("Report Code")
     po_ref = fields.Char("PO Ref")
-    project_id = fields.Many2one('project.project',"Project")
+    project_id = fields.Char("Project")
 
 class Incoterm(models.Model):
     _inherit = "account.incoterms"

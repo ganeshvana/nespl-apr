@@ -3,22 +3,26 @@
 		<template id="accounting_report_external_layout">
 			<div t-attf-class="header" t-att-style="report_header_style">
 				<table style="border-style:none;" width="100%">
-					<td style="border-style:none;"  width="50%">
+					<td style="border-style:none;" width="50%">
 					</td>
-					<td style="border-style:none;"  width="50%">
-						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 1.5cm; max-width: 4cm; height:1.5cm; width:3cm;" align="right"/>
+					<td style="border-style:none;" width="50%">
+						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
 					</td>
 				</table>
-
 			</div>
-			<div t-attf-class="article o_report_layout_standard "
-				t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id"
-				t-att-data-oe-lang="o and o.env.context.get('lang')">
+			<div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
 
-				<t t-raw="0" />
+				<t t-raw="0"/>
 			</div>
 			<div t-attf-class="footer o_standard_footer ">
-				
+				<table width="100%" style="border:none;">
+					<tr>
+						<td>
+							<center>
+							</center>
+						</td>
+					</tr>
+				</table>
 			</div>
 		</template>
 

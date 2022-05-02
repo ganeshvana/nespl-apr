@@ -61,28 +61,18 @@
 								<h5>
 									<strong>
 										Novergy Energy Solutions Pvt. Ltd.
-									</strong>
-								</h5>
-							</td>
-						</tr>
-					</table>
-					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr style="solid;border-width:1px;width:100%;solid;border-width:1px;border-bottom:hidden;">
-							<td style="width:100%;text-align:center;solid;border-width:1px;vertical-align:top;">
-								<strong>Seller:</strong><br/>
-								<!-- <strong> -->
-									Novergy Energy Solutions Pvt. Ltd,<br/>
-									<span t-field="doc.company_id.street"/>,
-									<span t-field="doc.company_id.street2"/>,
+									</strong> 
+									</h5>
+									<span t-field="doc.company_id.street"/>
+									<span t-field="doc.company_id.street2"/>
 									<span t-field="doc.company_id.city"/>-
-									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
+									<span t-field="doc.company_id.zip"/> <span t-field="doc.company_id.state_id"/>
 									<br/>
 									State Code: <span t-field="doc.company_id.partner_id.state_id.code"/> GSTIN: <span t-field="doc.company_id.partner_id.vat"/>
-								<!-- </strong> -->
 							</td>
 						</tr>
 					</table>
-
+					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
@@ -123,7 +113,7 @@
 								<br/>
 							</td>
 							<td style="width:50%;border-style: solid;border-width:1px;">
-								<strong>Buyer(If Other than Consignee):-</strong>
+								<strong>Buyer (If Other than Consignee):-</strong>
 								<br/>
 								<br/>
 								<br/>
@@ -195,7 +185,7 @@
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.description"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<span t-field="line.hsn_code"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:right" width="5%">
@@ -208,10 +198,10 @@
 								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
 									<span t-field="line.amount"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;text-align:left" width="10%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<t t-if="line.tax_id">
 										<t t-foreach="line.tax_id" t-as="t">
-											<span t-field="t.name"/>
+											<span t-field="t.description"/>
 										</t>
 									</t>
 								</td>
@@ -228,7 +218,7 @@
 								<span>Untaxed Amount</span>
 							</td>
 							<td colspan="2" style="width:30%;text-align:right">
-								<span t-field="doc.proforma_untaxed" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+								<span t-field="doc.proforma_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 
 							</td>
 						</tr>
@@ -276,12 +266,12 @@
 							<td colspan="3" style="border-style: solid;border-width:1px;" width="55%"/>
 							<td colspan="3" style="width:25%;">
 								<span>
-									<strong>Net</strong>
+									<strong>Net Amount</strong>
 								</span>
 							</td>
 							<td colspan="2" style="width:30%;text-align:right">
 								<strong>
-									<span t-field="doc.proforma_total" t-options='{"widget": "monetary", "display_currency": doc.currency_id}'/>
+									<span t-field="doc.proforma_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 								</strong>
 							</td>
 						</tr>
@@ -318,12 +308,11 @@
 						</tr>
 					</table>
 					<br/>
-					<br/>
-					<strong>Declaration:</strong>
+					<strong style="font-size:12px;">Declaration:</strong>
 					<br/>
 					<ul>
-						<li>We declare that this invoice shows the actual price of the goods described and that all particulars true and correct.</li>
-						<li>Signature not required as this is a computer generated document.</li>
+						<li style="font-size:12px;">We declare that this proforma invoice shows the actual price of the goods described and that all particulars true and correct.</li>
+						<li style="font-size:12px;">Signature not required as this is a computer generated document.</li>
 					</ul>
 				</div>
 			</t>
