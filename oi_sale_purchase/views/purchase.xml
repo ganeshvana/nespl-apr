@@ -57,6 +57,8 @@
             <field name="inherit_id" ref="product.product_pricelist_view_inherit"/>
             <field name="arch" type="xml">
 	            <xpath expr="//field[@name='compute_price']" position="after">
+	            	<field name="wp"/>
+	            	<field name="kwp"/>
 	                <button name="copy" type="object" icon="fa-copy" string="Copy"/>
 	            </xpath>
             </field>
