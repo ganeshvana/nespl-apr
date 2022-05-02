@@ -6,7 +6,7 @@
 					<td style="border-style:none;"  width="50%">
 					</td>
 					<td style="border-style:none;"  width="50%">
-						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 1.5cm; max-width: 4cm; height:1.5cm; width:3cm;" align="right"/>
+						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
 					</td>
 				</table>
 			</div>
