@@ -152,8 +152,8 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         for order in self:
-            if order.amount_total  > order.so_team_id.max_amount:
-                raise UserError(_('Sale order Total exceeds maximum amount of Sale Type.'))
+            # if order.amount_total  > order.so_team_id.max_amount:
+            #     raise UserError(_('Sale order Total exceeds maximum amount of Sale Type.'))
             # if order.incoterm and order.amount_total  > order.incoterm.amount:
             #     raise UserError(_('Sale order Total exceeds Incoterm amount.'))
             if order.state not in ['draft', 'sent']:
