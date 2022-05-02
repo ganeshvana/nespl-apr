@@ -193,7 +193,8 @@
                     <field name="kw" required="1"/>
                 </field>
 				<xpath expr="//page[@name='order_lines']/field[@name='order_line']/tree/field[@name='product_uom_qty']" position="after">
-					<field name="unit" required="1"/>
+					<field name="partner_ids" widget="many2many_tags" invisible="1"/>
+                	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
 				</xpath>
                 <notebook position="inside">
                     <page name="approval_route" string="Approval Route"

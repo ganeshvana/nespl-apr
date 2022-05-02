@@ -427,9 +427,18 @@
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<t t-if="line.vendor_ids">
-										<t t-foreach="line.vendor_ids" t-as="l">
-											<span t-field="l.name" /> /
-										</t>
+										  <t t-set="aa" t-value="len(line.vendor_ids)"/>
+										  <t t-if="aa == 1">
+										    <t t-foreach="line.vendor_ids" t-as="l">
+	  											<span t-field="l.name"/> 
+	  										</t>
+										    
+										  </t>
+										  <t t-else="">
+										    <t t-foreach="line.vendor_ids" t-as="l">
+	  											<span t-field="l.name"/> /
+	  										</t>										    
+										  </t>
 										<span t-field="line.model" />
 									</t>
 								</td>
