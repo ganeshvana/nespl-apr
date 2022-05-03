@@ -168,6 +168,7 @@ class ProductEntry(models.Model):
                         'product_id': line.product_id.id,
                         'name': line.product_id.name,
                         'product_uom_qty': line.product_uom_qty,
+                        'product_uom_id': line.product_uom_id.id,
                         'cost': line.cost,
                         'total': line.total,
                         'sale_order_template_id': order.quotation_template_id.id

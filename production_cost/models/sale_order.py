@@ -2,6 +2,7 @@
 from odoo import api, models, fields, _
 from odoo.tools import is_html_empty
 from datetime import datetime, timedelta
+import base64
 
 default_content = '''
 <p>Dear Sir/Madam,<br/>
@@ -142,6 +143,95 @@ class SaleOrder(models.Model):
             'domain': [('id', 'in', entry_ids.ids)],
         }
         
+    def action_quotation_send(self):
+        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+        self.ensure_one()
+        template_id = self._find_mail_template()
+        lang = self.env.context.get('lang')
+        if not self.sale_order_template_id:
+            template = self.env['mail.template'].browse(template_id)
+            if template.lang:
+                lang = template._render_lang(self.ids)[self.id]
+            ctx = {
+                'default_model': 'sale.order',
+                'default_res_id': self.ids[0],
+                'default_use_template': bool(template_id),
+                'default_template_id': template_id,
+                'default_composition_mode': 'comment',
+                'mark_so_as_sent': True,
+                'custom_layout': "mail.mail_notification_paynow",
+                'proforma': self.env.context.get('proforma', False),
+                'force_email': True,
+                'model_description': self.with_context(lang=lang).type_name,
+            }
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mail.compose.message',
+                'views': [(False, 'form')],
+                'view_id': False,
+                'target': 'new',
+                'context': ctx,
+            }
+        if self.sale_order_template_id:
+            new_attachments = attachments = []
+            ATTACHMENT_NAME = self.name + '.pdf'
+            if self.sale_order_template_id.capex_opex == 'capex':
+                template_id = self.env.ref('production_cost.email_template_sale_quote_capex')
+            if self.sale_order_template_id.capex_opex == 'opex':
+                template_id = self.env.ref('production_cost.email_template_sale_quote_opex')
+            # if self.sale_order_template_id.capex_opex == 'capex':
+            #     pdf = self.env.ref('oi_sale_novergy.action_report_capex').sudo()._render_qweb_pdf([self.sale_order_template_id.id])[0]
+            #     # print(pdf, "=d===", type(pdf))
+            #     isr_pdf = base64.b64encode(pdf)
+            #     new_attachments.append((ATTACHMENT_NAME, isr_pdf))
+            # if self.sale_order_template_id.capex_opex == 'opex':
+            #     pdf = request.env.ref('production_cost.action_opex_with_bom_report').sudo()._render_qweb_pdf([self.sale_order_template_id.id])
+            #     # print(pdf, "====", type(pdf))
+            #     b64_pdf = base64.b64encode(pdf)
+            #
+            # file_name = ''                    
+            #
+            # # print(new_attachments, "new_attachments")
+            # pdf_file =  self.env['ir.attachment'].create({
+            #     'name': ATTACHMENT_NAME,
+            #     'type': 'binary',
+            #     'datas': isr_pdf,
+            #     'res_model': self._name,
+            #     'res_id': self.id,
+            #     'mimetype': 'application/pdf',
+            # })
+            # print(pdf_file, "pdf_file---")
+            # attachments.append(pdf_file.id)
+            # template_id.attachment_ids = [(6,0, attachments)]
+            
+            # template = self.env['mail.template'].browse(template_id)
+            # if template.lang:
+            #     lang = template._render_lang(self.ids)[self.id]
+            ctx = {
+                'default_model': 'sale.order.template',
+                'default_res_id': self.sale_order_template_id.id,
+                'default_use_template': bool(template_id.id),
+                'default_template_id': template_id.id,
+                'default_composition_mode': 'comment',
+                'mark_so_as_sent': True,
+                'custom_layout': "mail.mail_notification_paynow",
+                'proforma': self.env.context.get('proforma', False),
+                'force_email': True,
+                'model_description': self.with_context(lang=lang).type_name,
+                # 'default_attachment_ids': [(6,0, attachments)]
+            }
+            return {
+                'type': 'ir.actions.act_window',
+                'view_mode': 'form',
+                'res_model': 'mail.compose.message',
+                'views': [(False, 'form')],
+                'view_id': False,
+                'target': 'new',
+                'context': ctx,
+            }
+            
+        
 class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'
     _inherit = [ 'sale.order.template', 'mail.thread', 'mail.activity.mixin']
@@ -149,7 +239,7 @@ class SaleOrderTemplate(models.Model):
     kw = fields.Float("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False, track_visiblity='onchange')
     sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
-    partner_id = fields.Many2one('res.partner')
+    partner_id = fields.Many2one(related='sale_order_id.partner_id', store=True)
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
@@ -159,7 +249,7 @@ class SaleOrderTemplate(models.Model):
     content = fields.Html("Content", default=default_content, copy=True)
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
-    
+    capex_opex = fields.Selection([('capex', 'Capex'), ('opex', 'Opex/ Open Access')], default='capex')
     
     def action_quotation_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''

@@ -60,11 +60,13 @@
                 	</header>
                 </xpath>
                 <xpath expr="//field[@name='active']" position="before">
+                	<field name="capex_opex" widget="radio" options="{'horizontal': true}"/>
                 	<field name="kw"/>
                 	<field name="sale_order_id"/>
                 	<field name="subject"/>
                 	<field name="reference"/>
                 	<field name="content"/>
+                	
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>

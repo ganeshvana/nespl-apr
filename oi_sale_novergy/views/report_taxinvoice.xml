@@ -72,7 +72,7 @@
 					</table>
 					<table style="width:100%;">
 					  <tr style="padding-top:2px;">
-					    <td style="padding-top:8px;" width="100%"> 
+					    <td style="padding-top:12px;" width="100%"> 
 					      <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>
 					       <p><strong>IRN:</strong> <t t-esc="l10n_in_einvoice_json.get('Irn')"></t></p>
 					    </td>
