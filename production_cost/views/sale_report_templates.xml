@@ -552,7 +552,7 @@
 								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type">
 									<t t-set="i" t-value="i + 1" />
-									<td style="border-style: solid;border-width:1px;" name="td_name">
+									<td style="border-style: solid;border-width:1px;text-align:center;" name="td_name">
 										<span t-esc="i" />
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_name">
@@ -560,7 +560,7 @@
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
-											<span t-field="line.name" /> <br/>
+											<span t-field="line.product_id.name" /> <br/>
 											<t t-foreach="line.product_id.product_template_variant_value_ids" t-as="l">
 												<strong><span t-field="l.attribute_id.name"/></strong> : <span t-field="l.name"/> <br/>
 												
@@ -825,7 +825,7 @@
 								t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type">
 									<t t-set="i" t-value="i + 1" />
-									<td style="border-style: solid;border-width:1px;" name="td_name">
+									<td style="border-style: solid;border-width:1px;text-align:center;" name="td_name">
 										<span t-esc="i" />
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_name">
@@ -833,7 +833,7 @@
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
-											<span t-field="line.name" /> <br/>
+											<span t-field="line.product_id.name" /> <br/>
 											<t t-foreach="line.product_id.product_template_variant_value_ids" t-as="l">
 												<strong><span t-field="l.attribute_id.name"/></strong> : <span t-field="l.name"/> <br/>
 												
