@@ -1016,15 +1016,7 @@
 							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
 						</td>
 					</tr>
-				</table>		
-				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr width="100%">
-						<td style="border-style: solid;border-width:1px;" width="100%">
-								<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
-								<span t-field="doc.sale_term"/>
-						</td>
-					</tr>
-				</table>			
+				</table>
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr width="100%">
 						<td style="border-style: solid;border-width:1px;" width="100%">
