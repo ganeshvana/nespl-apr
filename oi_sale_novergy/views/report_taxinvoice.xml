@@ -70,11 +70,11 @@
 							</td>
 						</tr>
 					</table>
-					<table style="width:100%;border-top:hidden;">
+					<table style="width:100%;">
 					  <tr style="padding-top:2px;">
 					    <td style="padding-top:2px;" width="100%"> 
 					      <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>
-					      <strong>IRN:</strong> <p class="m-0" t-esc="l10n_in_einvoice_json.get('Irn')"/>
+					       <p><strong>IRN:</strong> <t t-esc="l10n_in_einvoice_json.get('Irn')"></t></p>
 					    </td>
 					  </tr>
 					</table>
@@ -171,13 +171,9 @@
 								<strong>Dated:</strong> <t t-if="doc.delivery_challan_date"> <span t-esc="doc.delivery_challan_date.strftime('%d-%m-%Y')"/></t>
 							</td>
 							<td style="border-style: solid;border-width:1px;" width="30%" rowspan="5">
-								
-								<td>
-					      <t t-if="l10n_in_einvoice_json">
-		                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', l10n_in_einvoice_json.get('SignedQRCode'), 130, 130)"/>
-		            </t>
-					      
-					    </td>
+					      		<t t-if="l10n_in_einvoice_json">
+		                			<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', l10n_in_einvoice_json.get('SignedQRCode'), 130, 130)"/>
+		           				</t>
 							</td>
 						</tr>
 

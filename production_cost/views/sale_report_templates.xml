@@ -579,9 +579,7 @@
 									    <t t-foreach="line.vendor_ids" t-as="l">
   											<span t-field="l.name"/> /
   										</t>
-									    
 									  </t>
-										
 										
 									</t>
 								
@@ -634,27 +632,80 @@
 				</table>
 				
 				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr style="border-style: solid;border-width:1px;">
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>Total in Figures</strong>
-						</td>
-						<td style="border-style: solid;border-width:1px;text-align:right" width="50%">
-							<span t-field="doc.amount_untaxed"/>
+					<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
+							<td style="width:30%;border:1px solid black">
+								<span>Untaxed Amount</span>
+							</td>
+							<td style="width:20%;text-align:right">
+								<span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+
+							</td>
+						</tr>
+
+						<t t-if="json.loads(doc.tax_totals_json)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+
+							<t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
+
+						</t>
+						<t t-if="subtotal_to_show">
+							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
+									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
+										<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
+
+										<td style="width:30%;border:1px solid black">
+											<span t-esc="amount_by_group['tax_group_name']"/>
+											<span class="text-nowrap">
+												on
+												<t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
+											</span>
+										</td>
+										<td style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+										</td>
+									</t>
+									<t t-else="">
+										<td style="width:50%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+										</td>
+										<td  style="width:30%;border:1px solid black">
+											<span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/>
+										</td>
+										<td style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+										</td>
+									</t>
+
+								</tr>
+							</t>
+						</t>
+
+						<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td style="border-style: solid;border-width:1px;" width="50%"/>
+							<td style="width:30%;">
+								<span>
+									<strong>Total Amount</strong>
+								</span>
+							</td>
+							<td style="width:20%;text-align:right">
+								<strong>
+									<span t-field="doc.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+								</strong>
+							</td>
+						</tr>
+				</table>	
+				<table width="100%">
+					<tr style="border-style: solid;border-width:1px;" width="100%">
+						<td style="border-style: solid;border-width:1px;" width="100%">
+							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
 						</td>
 					</tr>
-					<tr style="border-style: solid;border-width:1px;">
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>Total in Words</strong>
-						</td>
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<span t-esc="doc.currency_id.amount_to_text(doc.amount_untaxed)"/>
-						</td>
-					</tr>
-				</table>				
+				</table>	
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr width="100%">
 						<td style="border-style: solid;border-width:1px;" width="100%">
-								<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
+								<strong><h5>Terms &amp; Conditions:</h5></strong><br/>
 								<span t-field="doc.sale_term"/>
 						</td>
 					</tr>
@@ -896,27 +947,88 @@
 				</table>
 				
 				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr style="border-style: solid;border-width:1px;">
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>Total in Figures</strong>
-						</td>
-						<td style="border-style: solid;border-width:1px;text-align:right" width="50%">
-							<span t-field="doc.amount_untaxed"/>
+					<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
+							<td style="width:30%;border:1px solid black">
+								<span>Untaxed Amount</span>
+							</td>
+							<td style="width:20%;text-align:right">
+								<span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+
+							</td>
+						</tr>
+
+						<t t-if="json.loads(doc.tax_totals_json)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+
+							<t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
+
+						</t>
+						<t t-if="subtotal_to_show">
+							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
+									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
+										<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
+
+										<td style="width:30%;border:1px solid black">
+											<span t-esc="amount_by_group['tax_group_name']"/>
+											<span class="text-nowrap">
+												on
+												<t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
+											</span>
+										</td>
+										<td style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+										</td>
+									</t>
+									<t t-else="">
+										<td style="width:50%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+										</td>
+										<td  style="width:30%;border:1px solid black">
+											<span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/>
+										</td>
+										<td style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+										</td>
+									</t>
+
+								</tr>
+							</t>
+						</t>
+
+						<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td style="border-style: solid;border-width:1px;" width="50%"/>
+							<td style="width:30%;">
+								<span>
+									<strong>Total Amount</strong>
+								</span>
+							</td>
+							<td style="width:20%;text-align:right">
+								<strong>
+									<span t-field="doc.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+								</strong>
+							</td>
+						</tr>
+				</table>	
+				<table width="100%">
+					<tr style="border-style: solid;border-width:1px;" width="100%">
+						<td style="border-style: solid;border-width:1px;" width="100%">
+							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
 						</td>
 					</tr>
-					<tr style="border-style: solid;border-width:1px;">
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>Total in Words</strong>
-						</td>
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<span t-esc="doc.currency_id.amount_to_text(doc.amount_untaxed)"/>
-						</td>
-					</tr>
-				</table>				
+				</table>		
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr width="100%">
 						<td style="border-style: solid;border-width:1px;" width="100%">
 								<strong><h4>Terms &amp; Conditions:</h4></strong><br/>
+								<span t-field="doc.sale_term"/>
+						</td>
+					</tr>
+				</table>			
+				<table style="border-style: solid;border-width:1px;" width="100%">
+					<tr width="100%">
+						<td style="border-style: solid;border-width:1px;" width="100%">
+								<strong><h5>Terms &amp; Conditions:</h5></strong><br/>
 								<span t-field="doc.sale_term"/>
 						</td>
 					</tr>
