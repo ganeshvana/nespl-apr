@@ -9,7 +9,7 @@ class AccountEdiFormat(models.Model):
 
     double_check_on_web_service = fields.Boolean(
         "Double Check",
-        help="Tick this if you need EDI web service confrim before call\n"
+        help="Tick this if you need EDI web service confirm before call\n"
         "This is use full when EDI web service is not accepting re-submition or it's chargeable :p \n"
-        "So before submit invoice to goverment user confrim it.\n",
+        "So before submit invoice to goverment user confirm it.\n",
     )

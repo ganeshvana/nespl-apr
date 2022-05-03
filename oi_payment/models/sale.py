@@ -111,6 +111,9 @@ class SaleOrder(models.Model):
                 seq = self.env['ir.sequence'].next_by_code(warehouse.sale_sequence.code, sequence_date=seq_date) or _('New')
                 vals['name'] = seq        
         res = super(SaleOrder, self).create(vals)
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
         if res.payment_term_id:
             payterm_vals = []
             if res.payment_detail_ids:
@@ -127,6 +130,9 @@ class SaleOrder(models.Model):
     def write(self, vals):
         result = super(SaleOrder, self).write(vals)
         res = self
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
         if 'payment_term_id' in vals:
             if res.payment_term_id:
                 payterm_vals = []

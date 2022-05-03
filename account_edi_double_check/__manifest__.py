@@ -10,7 +10,7 @@ EDI is the electronic interchange of business information using a standardized f
 
 This module for double-check before send to any API.
     """,
-    "version": "1.0",
+    "version": "1.1",
     "category": "Accounting/Accounting",
     "depends": ["account_edi"],
     "data": [

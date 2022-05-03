@@ -4,12 +4,12 @@
     {
         <t t-if="move.is_purchase_document(include_receipts=True)">
             <t t-set="seller_details" t-value="move.partner_id"/>
-            <t t-set="dispatch_details " t-value="'partner_shipping_id' in move and move.partner_shipping_id or move.partner_id"/>
-            <t t-set="buyer_details" t-value="move.journal_id.l10n_in_gstin_partner_id or move.journal_id.company_id.partner_id"/>
+            <t t-set="dispatch_details" t-value="'partner_shipping_id' in move and move.partner_shipping_id or move.partner_id"/>
+            <t t-set="buyer_details" t-value="move.journal_id.company_id.partner_id"/>
             <t t-set="ship_to_details" t-value="move.company_shipping_id or buyer_details"/>
         </t>
         <t t-else="">
-            <t t-set="seller_details" t-value="move.journal_id.l10n_in_gstin_partner_id or move.journal_id.company_id.partner_id"/>
+            <t t-set="seller_details" t-value="move.journal_id.company_id.partner_id"/>
             <t t-set="dispatch_details" t-value="move.company_shipping_id or seller_details"/>
             <t t-set="buyer_details" t-value="move.partner_id"/>
             <t t-set="ship_to_details" t-value="'partner_shipping_id' in move and move.partner_shipping_id or move.partner_id"/>
@@ -73,7 +73,7 @@
         <t t-set="cess_non_advol_value" t-value="0.00"/>
         <t t-set="other_value" t-value="0.00"/>
         <t t-set="amount_total" t-value="0.00"/>
-        <t t-set="lines" t-value="move.invoice_line_ids"/>
+        <t t-set="lines" t-value="move.invoice_line_ids.filtered(lambda l: not l.is_rounding_line)"/>
 
         "itemList": [
         <t t-foreach="lines" t-as="line">

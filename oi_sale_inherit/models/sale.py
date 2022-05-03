@@ -27,5 +27,20 @@ class stock_picking(models.Model):
                     raise UserError(_('All Items should be shipped at once for this Delivery.'))
         return res
     
-
+    @api.model
+    def create(self, vals):     
+        res = super(stock_picking, self).create(vals)
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
+        return res
+    
+    @api.model
+    def write(self, vals):     
+        res = super(stock_picking, self).write(vals)
+        res = self
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
+        return res
 

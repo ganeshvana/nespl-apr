@@ -3,7 +3,7 @@
 
 {
     "name": "Indian - Accounting extend",
-    "version": "2.0",
+    "version": "3.0",
     "description": """
 Indian Accounting extend.
 ====================================

@@ -18,7 +18,7 @@ Step 4: Repeat step 1,2,3 for all GSTIN you have in odoo. If you have multi-comp
     "author": "Odoo",
     "website": "http://www.odoo.com",
     "category": "Accounting/Accounting",
-    "version": "1.0",
+    "version": "1.1",
     "depends": ["l10n_in_extend"],
     "data": [
         "security/ir.model.access.csv",
