@@ -4,11 +4,11 @@
             <div t-attf-class="header" t-att-style="report_header_style">
                 <table style="border-style:none;" width="100%">
                 	<tr style="border-style:none;" width="100%">
-                		<td style="border-style:none;" width="50%">
-                			<h3>Novergy Energy Solutions Pvt. Ltd</h3>
+                		<td style="border-style:none;vertical-align:middle;" width="50%">
+                			<h3>NOVERGY SOLAR</h3>
                 		</td>
                 		<td style="border-style:none;text-align:right;" width="50%">
-                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 3cm; max-width: 6cm;" align="right"/>
+                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 5cm; max-width: 6cm;" align="right"/>
                 		</td>
                 	</tr>
                 </table>

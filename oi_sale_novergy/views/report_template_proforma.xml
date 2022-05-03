@@ -83,16 +83,13 @@
 							</td>							
 						</tr>
 					</table>
-
-
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:100%;border-style: solid;border-width:1px;">
 								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.client_order_ref"/>
 							</td>
 						</tr>
-					</table>
-					
+					</table>					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
 							<td style="width:50%;border-style: solid;border-width:1px;">

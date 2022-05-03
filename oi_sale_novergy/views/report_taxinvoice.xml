@@ -70,6 +70,14 @@
 							</td>
 						</tr>
 					</table>
+					<table style="width:100%;border-top:hidden;">
+					  <tr style="padding-top:2px;">
+					    <td style="padding-top:2px;" width="100%"> 
+					      <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>
+					      <strong>IRN:</strong> <p class="m-0" t-esc="l10n_in_einvoice_json.get('Irn')"/>
+					    </td>
+					  </tr>
+					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
@@ -92,6 +100,18 @@
 							</td>
 						</tr>
 					</table>
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:100%;border-style: solid;border-width:1px;">
+								<strong>Novergy Project No: </strong>
+								<t t-if="doc.project_id">
+								<h3><span t-field="doc.project_id"/></h3>
+								</t>
+							</td>
+						</tr>
+					</table>
+					
+					
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
@@ -142,7 +162,6 @@
 						</tr>
 					</table>
 
-
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 							<td style="border-style: solid;border-width:1px;" width="35%">
@@ -152,9 +171,13 @@
 								<strong>Dated:</strong> <t t-if="doc.delivery_challan_date"> <span t-esc="doc.delivery_challan_date.strftime('%d-%m-%Y')"/></t>
 							</td>
 							<td style="border-style: solid;border-width:1px;" width="30%" rowspan="5">
-								Novergy Project No: <t t-if="doc.project_id">
-								<h3><span t-field="doc.project_id.project_number"/></h3>
-								</t>
+								
+								<td>
+					      <t t-if="l10n_in_einvoice_json">
+		                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', l10n_in_einvoice_json.get('SignedQRCode'), 130, 130)"/>
+		            </t>
+					      
+					    </td>
 							</td>
 						</tr>
 
@@ -192,7 +215,7 @@
 								<strong>Sr.No.</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%">
-								<strong>Description of Goods</strong>
+								<strong>Description of Goods / Services</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>HSN/SAC Code</strong>
@@ -273,7 +296,7 @@
 							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
 								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
 									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
-										<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+										<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 
 										<td colspan="3" style="width:25%;border:1px solid black">
 											<span t-esc="amount_by_group['tax_group_name']"/>
