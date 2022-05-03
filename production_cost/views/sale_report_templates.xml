@@ -560,6 +560,7 @@
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
+											<span t-field="line.name" /> <br/>
 											<t t-foreach="line.product_id.product_template_variant_value_ids" t-as="l">
 												<strong><span t-field="l.attribute_id.name"/></strong> : <span t-field="l.name"/> <br/>
 												
@@ -832,6 +833,7 @@
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
+											<span t-field="line.name" /> <br/>
 											<t t-foreach="line.product_id.product_template_variant_value_ids" t-as="l">
 												<strong><span t-field="l.attribute_id.name"/></strong> : <span t-field="l.name"/> <br/>
 												
