@@ -7,17 +7,23 @@
 			<field name="inherit_id" ref="stock.view_picking_form" />
 			<field name="arch" type="xml">
 				<xpath expr="//field[@name='location_id']" position="after">
-					<field name="project_number" />
-					<field name="material_insured"/>
+					<field name="project_number"/>
+					<field name="material_insured1"/>
 	                <field name="insurance_policy"/>
 	                <field name="price_basis"/>
 	                <field name="discharge"/>
 				</xpath>
 				<xpath expr= "//field[@name='origin']" position ="after">
 	                <field name="reference_number"/>
-	                <field name="transport"/>
 	                <field name="loading"/>
+	                <field name="transport"/>
+	                <field name="transporter" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
+	                <field name="lr" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
+	                <field name="vehicle_type" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
 	                <field name="truck_number"/>
+	                <field name="booked_by" attrs="{'invisible' : [('transport', 'not in', ['truck', 'courier'])]}"/>
+	                <field name="courier" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>
+	                <field name="tracking" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>	                
 	            </xpath>
 			</field>
 		</record>

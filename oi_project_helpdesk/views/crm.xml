@@ -16,7 +16,7 @@
              </xpath>
              <xpath expr="//field[@name='tag_ids']" position="after">
                  <field name="survey_id"/>  
-                 <field name="roof_type"/>  
+                 <field name="roof_type" widget="many2many_tags"/>  
              </xpath>
         </field>
     </record>

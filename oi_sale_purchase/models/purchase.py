@@ -68,6 +68,7 @@ class Pricelist(models.Model):
     product_uom_id = fields.Many2one(related='product_tmpl_id.uom_id')
     wp = fields.Float("Wp Price", compute='compute_wp', store=True)
     kwp = fields.Float("KWp Price", compute='compute_wp', store=True)
+    kilow = fields.Float("KWp", compute='compute_wp', store=True)
     
     @api.depends('product_id.product_template_attribute_value_ids', 'product_id.product_template_attribute_value_ids.attribute_id', 'min_quantity', 'fixed_price')
     def compute_wp(self):
@@ -80,12 +81,15 @@ class Pricelist(models.Model):
                         if watt > 0.0:
                             rec.wp = float(rec.fixed_price) / int(watt)
                             rec.kwp = float(rec.min_quantity * rec.fixed_price) / int(watt)
+                            rec.kilow = (int(watt) * rec.min_quantity) / 1000
                         else:
                             rec.wp = 0.0
                             rec.kwp = 0.0
+                            rec.kilow = 0.0
                     else:
                         rec.wp = 0.0
                         rec.kwp = 0.0
+                        rec.kilow = 0.0
     
     
     

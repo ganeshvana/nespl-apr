@@ -9,14 +9,21 @@ class stock_picking(models.Model):
     reference_number = fields.Char(string="Reference", copy=False)
     client_po_no = fields.Char(string="Client PO No ", copy=False)
     client_date = fields.Char(string="Clinet PO Date ", copy=False)
-    material_insured = fields.Selection([('Yes', 'Yes'), ('No', 'NO')], string="Material Insured", copy=False)
+    material_insured1 = fields.Selection([('Yes', 'Yes'), ('No', 'NO')], string="Material Insured", copy=False)
     insurance_policy = fields.Char(string="Insurance Policy ", copy=False)
     insurance_number = fields.Char(string="Insurance Number", copy=False)
-    transport = fields.Selection([('road', 'Road'), ('air', 'Air'), ('sea', 'Sea')], string="Mode Of Transport", copy=False)
+    transport = fields.Selection([('road', 'Road'), ('air', 'Air'), ('sea', 'Sea'),('courier', 'Courier'),('truck', 'Truck')], string="Mode Of Transport", copy=False)
     loading = fields.Char(string="Place Of Loading", copy=False)
     discharge = fields.Char(string="Place Of Discharge", copy=False)
     truck_number = fields.Char("Truck Number")
     price_basis = fields.Char("Price Basis")
+    transporter = fields.Char("Transporter")
+    lr = fields.Char("LR No.")
+    booked_by = fields.Char("Booked by")
+    vehicle_type = fields.Char("Vehicle Type")
+    courier = fields.Char("Courier Name")
+    tracking = fields.Char("Tracking ID")
+    
     
     def button_validate(self):
         res = super(stock_picking, self).button_validate()

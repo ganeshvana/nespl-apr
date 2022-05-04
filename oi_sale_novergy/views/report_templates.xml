@@ -97,7 +97,7 @@
 								<strong>EWay Bill No.:</strong>
 								<br/><span t-field="doc.l10n_in_ewaybill_number"/>
 								<strong>Material Insured:</strong>
-								<span t-field="doc.material_insured"/>
+								<span t-field="doc.material_insured1"/>
 								<br/>
 								<strong>Insurence policy:</strong><span t-field="doc.insurance_policy"/>
 							</td>
