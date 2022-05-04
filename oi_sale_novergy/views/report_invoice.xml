@@ -9,5 +9,14 @@
                 file="oi_sale_novergy.invoice_report_report"
                 name="oi_sale_novergy.invoice_report_report"
         />
+        
+        <report
+                id="action_report_invoice_report1"
+                string="Tax Invoice without QR"
+                model="account.move"
+                report_type="qweb-pdf"
+                file="oi_sale_novergy.invoice_report_report_without_qr"
+                name="oi_sale_novergy.invoice_report_report_without_qr"
+        />
     </data>
 </odoo>
