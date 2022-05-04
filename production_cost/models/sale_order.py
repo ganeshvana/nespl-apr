@@ -237,7 +237,7 @@ class SaleOrderLine(models.Model):
     
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
-    kw = fields.Float(related='order_id.kw', store=True)
+    # kw = fields.Float(related='order_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1w', 'vendor_id', 'template_id', "Make")
