@@ -61,26 +61,22 @@
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.sale_order_id.partner_id.name"/><br/>
 							<span t-field="doc.sale_order_id.partner_id.city"/>
 							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						
-						
 						<t t-if="doc.reference">
 							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
 						</t>
 						<u>
 						<strong>
 							Subject: <span t-field="doc.subject"/><br/>
-							Kind Attn.: Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							Kind Attn.:  <span t-field="doc.kind_attn"/><br/>
 						</strong>
 						</u>
-						
-						 
 					</p>
 					<br/>
 					<p><span style="line-height: 2;" t-field="doc.content"/></p>
@@ -346,26 +342,22 @@
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.sale_order_id.partner_id.name"/><br/>
 							<span t-field="doc.sale_order_id.partner_id.city"/>
 							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						
-						
 						<t t-if="doc.reference">
 							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
 						</t>
 						<u>
 						<strong>
 							Subject: <span t-field="doc.subject"/><br/>
-							Kind Attn.: Mr. <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							Kind Attn.:  <span t-field="doc.kind_attn"/><br/>
 						</strong>
 						</u>
-						
-						 
 					</p>
 					<br/>
 					<p><span style="line-height: 2;" t-field="doc.content"/></p>

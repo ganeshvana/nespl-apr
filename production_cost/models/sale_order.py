@@ -264,6 +264,7 @@ class SaleOrderTemplate(models.Model):
     opex_description = fields.Html("Summary")
     subject = fields.Char("Subject")
     reference = fields.Char("Reference")
+    kind_attn = fields.Char("Kind Attn.")
     content = fields.Html("Content", default=default_content, copy=True)
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)

@@ -64,6 +64,7 @@
                 	<field name="kw"/>
                 	<field name="sale_order_id"/>
                 	<field name="subject"/>
+                	<field name="kind_attn"/>
                 	<field name="reference"/>
                 	<field name="content"/>
                 	
