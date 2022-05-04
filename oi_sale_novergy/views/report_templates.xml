@@ -89,17 +89,17 @@
 							</td>
 
 							<td style="width:60%;border:1px solid black">
-								<strong>Delivery challan no:</strong><span t-field="doc.name"/><br/>
+								<strong>Delivery Challan No: </strong><span t-field="doc.name"/><br/>
 								<strong>Date :</strong> <span t-field="doc.scheduled_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
 								<br/>
-								<strong>Client PO No. &amp;Date :</strong><span t-field="doc.sale_id.client_order_ref"/>
+								<strong>Client PO No. &amp; Date : </strong><span t-field="doc.sale_id.client_order_ref"/>
 								<br/>
-								<strong>EWay Bill No.:</strong>
-								<br/><span t-field="doc.l10n_in_ewaybill_number"/>
-								<strong>Material Insured:</strong>
+								<strong>EWay Bill No.: </strong>
+								<span t-field="doc.l10n_in_ewaybill_number"/><br/>
+								<strong>Material Insured: </strong>
 								<span t-field="doc.material_insured1"/>
 								<br/>
-								<strong>Insurence policy:</strong><span t-field="doc.insurance_policy"/>
+								<strong>Insurence Policy: </strong><span t-field="doc.insurance_policy"/>
 							</td>
 						</tr>
 					</table>
@@ -108,20 +108,13 @@
 										<td width="40%"><strong>Consignee GSTIN: </strong><span t-field="doc.partner_id.vat"/></td>
 										<td width="60%" rowspan="2">
 											<span>
-												<strong>Project No :</strong><span t-esc="doc.project_number"/>
+												<strong>Project No :</strong><span t-field="doc.project_number"/>
 											</span>
 										</td>
 									</tr>
 									<tr>
-										<t t-set="contact" t-value=""/>
-										<t t-foreach="doc.partner_id.child_ids" t-as="l">
-											<t t-if="l.type=='contact'">
-										    	<t t-set="contact" t-value="l"/>
-										    </t>										
-										</t>
-										<t t-set="contact" t-value="doc.partner_id.child_ids"/>
-										<td width="40%"><strong>Contact Person Name: </strong><t t-if="contact"><span t-esc="contact[0].name"/></t> <br/>
-										<strong>Mob. No. : </strong><t t-if="contact"><span t-esc="contact[0].mobile"/></t>
+										<td width="40%"><strong>Contact Person Name: </strong><span t-field="doc.contact_person"/> <br/>
+										<strong>Mob. No. : </strong><span t-field="doc.contact_person_number"/>
 										</td>
 									</tr>
 								</table>
@@ -147,7 +140,7 @@
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%">
-							<td style="border-style: solid;border-width:1px;border-top:hidden;bg-color:#ebe9e6;" width="10%">
+							<td style="border-style: solid;border-width:1px;border-top:hidden;bg-color:#ebe9e6;text-align:center;" width="10%">
 								<strong>Sr.No</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden;bg-color:#ebe9e6;" width="60%"> 
@@ -229,6 +222,7 @@
 							</td>
 						</tr>
 					</table>
+					<p style="font-size:12px;">Signature not required as this is a computer generated document.</p>
 				</div>
 			</t>
 		</template>

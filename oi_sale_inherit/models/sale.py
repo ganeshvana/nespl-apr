@@ -23,7 +23,8 @@ class stock_picking(models.Model):
     vehicle_type = fields.Char("Vehicle Type")
     courier = fields.Char("Courier Name")
     tracking = fields.Char("Tracking ID")
-    
+    contact_person = fields.Char("Contact Person")
+    contact_person_number = fields.Char("Contact Person Mobile")
     
     def button_validate(self):
         res = super(stock_picking, self).button_validate()

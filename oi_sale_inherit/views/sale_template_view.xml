@@ -12,6 +12,8 @@
 	                <field name="insurance_policy"/>
 	                <field name="price_basis"/>
 	                <field name="discharge"/>
+	                <field name="contact_person"/>
+	                <field name="contact_person_number"/>
 				</xpath>
 				<xpath expr= "//field[@name='origin']" position ="after">
 	                <field name="reference_number"/>
