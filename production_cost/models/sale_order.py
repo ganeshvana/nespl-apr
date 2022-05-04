@@ -231,6 +231,24 @@ class SaleOrder(models.Model):
                 'context': ctx,
             }
             
+            
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    
+    unit = fields.Float("Unit")
+    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
+    kw = fields.Float(related='order_id.kw', store=True)
+    cost = fields.Float("Cost")
+    total = fields.Float("Total")
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1w', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_relw', 'vendor_id', 'template_id', "Make")
+    model = fields.Char("Model")
+    hide = fields.Boolean("Hide")
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    name1 = fields.Char("Name")
+    kwpunit = fields.Float("KWp Unit")
+    printkwp = fields.Boolean("Print KWp Unit")
+            
         
 class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'
