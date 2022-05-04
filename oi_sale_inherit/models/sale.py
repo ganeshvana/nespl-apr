@@ -5,7 +5,7 @@ from odoo.exceptions import UserError
 class stock_picking(models.Model):
     _inherit = "stock.picking"   
 
-    project_number = fields.Char(string="Project No", related='sale_id.project_number')
+    project_number = fields.Char(string="Project No")
     reference_number = fields.Char(string="Reference", copy=False)
     client_po_no = fields.Char(string="Client PO No ", copy=False)
     client_date = fields.Char(string="Clinet PO Date ", copy=False)
@@ -37,6 +37,8 @@ class stock_picking(models.Model):
     @api.model
     def create(self, vals):     
         res = super(stock_picking, self).create(vals)
+        if res.sale_id:
+            res.project_number = res.sale_id.project_number
         if res.message_follower_ids:
             for line in res.message_follower_ids:
                 line.sudo().unlink()
