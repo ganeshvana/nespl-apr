@@ -2,8 +2,13 @@
     <data>
         <template id="sale_report_external_layout">
             <div t-attf-class="header" t-att-style="report_header_style">
-                
-               
+                <table style="border-style:none;" width="100%">
+					<td style="border-style:none;"  width="50%">
+					</td>
+					<td style="border-style:none;"  width="50%">
+						<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 5cm; max-width: 6cm;" align="right"/>
+					</td>
+				</table>               
             </div>
             <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
                 
@@ -12,7 +17,7 @@
             <div t-attf-class="footer o_standard_footer ">
                 <table width="100%" style="border:none;">
                     <tr>
-                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                        <td><center><span class="topage"/></center></td>
                     </tr>
                 </table>
             </div>
@@ -21,85 +26,63 @@
 
         <template id="report_product_report_template">
             <t t-call="oi_sale_novergy.sale_report_external_layout">
-                <!-- <t t-call="web.external_layout"> -->
-
                 <t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)"/>
                 <div class="page">
                     <style>
-                    
-                    table { page-break-inside:auto }
-                    tr    { page-break-inside:avoid; page-break-after:auto }
-                        thead { display:table-header-group }
-
-                    td{
-                        padding-left:2px;
-                        padding-right:2px;
-                    }
-
-                    </style>
-
-
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		              font-size:10px;
+		            }
+		            th, td {
+		              padding: 3px;
+		              font-size:12px;
+		            }
+		            </style>
                      <table   style="border-style: solid;border-width:1px;border-bottom:hidden" width="100%">
-
-                 <tr style="solid;border-width:1px;width:100%;">
-                 <td style="width:100%;text-align:center"><h5><strong>PRICELIST</strong></h5></td>
-
-             </tr>    
-
-            </table>
-
-
-
-             <table   style="border-style: solid;border-width:1px;" width="100%">
-
-               <tr style="solid;border-width:1px;width:100%"> 
-
-                    <td style="width:50%;text-align:left;"><strong>Currency:</strong><span t-field="doc.currency_id"/></td>
-                    <td style="width:50%;text-align:right"><strong><span t-field="doc.company_id"/></strong>
-                    </td>
-
-
-            </tr>
-            </table>
-
-
-
-            <table   style="border-style: solid;border-width:1px;" width="100%">
-
-               <tr style="solid;border-width:1px;width:100%"> 
-
-                   <td style="border-style: solid;border-width:1px;" width="10%"><strong>Sr.No.</strong></td>
-                    <td style="border-style: solid;border-width:1px;text-align:center;" width="50%"><strong>Product</strong></td>
-                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><strong>Quantity</strong></td>
-
-                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><strong>Price</strong></td>
-
-
-            </tr>
-
-             <t t-foreach="doc.item_ids" t-as="line">
-                <tr style="solid;border-width:1px;width:100%">
-                    <td style="border-style: solid;border-width:1px;" width="10%"><span t-esc="line_index + 1"/>  </td>
-                    <td style="border-style: solid;border-width:1px;" width="50%"><span t-field="line.product_id"/></td>
-                    <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><span t-field="line.min_quantity"/></td>
-                     <td style="border-style: solid;border-width:1px;text-align:center;" width="20%"><span t-field="line.fixed_price"/></td>
-
-                </tr>
-            </t>
-            </table>
-
-
-       </div>
-     </t>
-</template>
-
-
-     <template id="product_report_report">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <t t-call="oi_sale_novergy.report_product_report_template" t-lang="doc.partner_id.lang"/>
-                </t>
-            </t>
-        </template>
+                 		<tr style="solid;border-width:1px;width:100%;">
+                 			<td style="width:100%;text-align:center"><h5><strong><span t-field="doc.name"/></strong></h5></td>
+             			</tr>  
+            		</table>
+		             <table style="border-style: solid;border-width:1px;" width="100%">
+		               <tr style="solid;border-width:1px;width:100%"> 
+		                    <td style="width:50%;text-align:left;"><strong>Currency:</strong><span t-field="doc.currency_id"/></td>
+		                    <td style="width:50%;text-align:right"></td>
+		            	</tr>
+		            </table>
+            		<table   style="border-style: solid;border-width:1px;" width="100%">
+               			<tr style="solid;border-width:1px;width:100%"> 
+		                   <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><strong>Sr.No.</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="30%"><strong>Product</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><strong>Min. Quantity</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="15%"><strong>Start Date</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="15%"><strong>End Date</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><strong>W Price</strong></td>
+		                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><strong>KWp</strong></td>
+            			</tr>
+			             <t t-foreach="doc.item_ids" t-as="line">
+			                <tr style="solid;border-width:1px;width:100%">
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-esc="line_index + 1"/>  </td>
+			                    <td style="border-style: solid;border-width:1px;" width="30%"><span t-field="line.name"/></td>
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-field="line.min_quantity"/></td>
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
+			                    <t t-if="line.date_start"><span t-esc="line.date_start.strftime('%d-%m-%Y')"/></t></td>
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="15%"><t t-if="line.date_end"><span t-field="line.date_end.strftime('%d-%m-%Y')"/></t></td>
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-field="line.wp"/></td>
+			                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"><span t-field="line.kilow"/></td>
+			                </tr>
+			            </t>
+			        </table>
+			       </div>
+			     </t>
+			</template>
+			
+	     	<template id="product_report_report">
+	            <t t-call="web.html_container">
+	                <t t-foreach="docs" t-as="doc">
+	                    <t t-call="oi_sale_novergy.report_product_report_template" t-lang="doc.partner_id.lang"/>
+	                </t>
+	            </t>
+	        </template>
     </data>
 </odoo>  

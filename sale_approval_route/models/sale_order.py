@@ -152,8 +152,8 @@ class SaleOrder(models.Model):
 
     def action_confirm(self):
         for order in self:
-            if order.amount_total  > order.so_team_id.max_amount:
-                raise UserError(_('Sale order Total exceeds maximum amount of Sale Type.'))
+            # if order.amount_total  > order.so_team_id.max_amount:
+            #     raise UserError(_('Sale order Total exceeds maximum amount of Sale Type.'))
             # if order.incoterm and order.amount_total  > order.incoterm.amount:
             #     raise UserError(_('Sale order Total exceeds Incoterm amount.'))
             if order.state not in ['draft', 'sent']:
@@ -302,6 +302,7 @@ class SaleOrder(models.Model):
     kw = fields.Integer(related='order_id.kw', store=True)
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1e', 'vendor_id', 'template_id', "Make")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rele', 'vendor_id', 'template_id', "Make")
+    model = fields.Char("Model")
     
     @api.onchange('product_id')
     def onchange_product(self):
@@ -317,3 +318,19 @@ class SaleOrder(models.Model):
         for rec in self:
             if rec.unit > 0.0:
                 rec.per_kw = (rec.kw * 1000)/rec.unit
+                
+class SaleOrderOption(models.Model):
+    _inherit = "sale.order.option"    
+    
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_option_rel', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_option_rel', 'vendor_id', 'template_id', "Make")
+    model = fields.Char("Model")
+    
+    @api.onchange('product_id')
+    def onchange_product(self):
+        products = []
+        if self.product_id:
+            if self.product_id.seller_ids:
+                for line in self.product_id.seller_ids:
+                    products.append(line.name.id)
+            self.partner_ids = [(6, 0, products)]

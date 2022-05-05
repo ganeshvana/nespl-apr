@@ -21,7 +21,7 @@
                 				<field name="payment_term_id" invisible="1"/>
                 				<field name="payment_ids" widget="many2many_tags" readonly="1"/>
                 				<field name="actual_amount"/>
-                				<field name="payment_amount" string="Payment Amount"/>
+                				<field name="payment_amount" string="Payment Amount" readonly="1"/>
                 				<field name="balance_amount"/>
                 				<field name="description"/>
                 				<field name="hsn_code"/>
@@ -56,10 +56,12 @@
                 	<page string="Payment">
                 		<field name="payment_detail_ids" editable="1" readonly="1">
                 			<tree editable="bottom">
-                				<field name="payment_term_line_id"/>
+                				<field name="payment_term_line_id" readonly="1"/>
                 				<field name="payment_term_id" invisible="1"/>
-                				<field name="payment_ids" widget="many2many_tags"/>
-                				<field name="payment_amount" string="Payment Amount"/>
+                				<field name="payment_ids" widget="many2many_tags" readonly="1"/>
+                				<field name="actual_amount"/>
+                				<field name="payment_amount" string="Payment Amount" readonly="1"/>
+                				<field name="balance_amount"/>
                 			</tree>
                 		</field>
                 	</page>                    

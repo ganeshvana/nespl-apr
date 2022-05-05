@@ -8,11 +8,11 @@
         <field name="arch" type="xml">
             <xpath expr="//header" position='after'>
                 <div class="alert alert-info" role="alert" style="margin-bottom:0px;"
-                    attrs="{'invisible': ['|', ('edi_web_services_to_confrim', 'in', ['', False]), ('state', '=', 'draft')]}">
+                    attrs="{'invisible': ['|', ('edi_web_services_to_confirm', 'in', ['', False]), ('state', '=', 'draft')]}">
                      <div>You will process this invoice for the following E-invoicing service: 
-                        <field name="edi_web_services_to_confrim" class="oe_inline"/>?
+                        <field name="edi_web_services_to_confirm" class="oe_inline"/>?
                      </div>
-                     <button name="action_process_edi_web_services_confrim" type="object" class="oe_link" string="Confirm"/> 
+                     <button name="action_process_edi_web_services_confirm" type="object" class="oe_link" string="Confirm"/> 
                 </div>
             </xpath>
         </field>

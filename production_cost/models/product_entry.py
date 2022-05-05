@@ -121,6 +121,16 @@ class ProductEntry(models.Model):
     net_profit_percent = fields.Float("Net Profit %", compute='_compute_net_profit_percent', store=True)
     costing_structure_ids = fields.One2many('costing.structure', 'costing_id', "Costing", )
     
+    @api.onchange('kw')
+    def onchange_kw(self):
+        if self.kw:
+            if self.sale_order_id:
+                self.sale_order_id.kw = self.kw
+            if self.order_line:
+                for l in self.order_line:
+                    l.kwp = self.kw
+                    l.kw_cost = l.kw_cost
+                    l.cost = self.kw * l.kw_cost
 
     @api.onchange('quotation_template_id')
     def onchange_quotation_template_id(self):
@@ -155,26 +165,43 @@ class ProductEntry(models.Model):
     
     def action_validate(self):
         for order in self:
+            order.sale_order_id.kw = order.kw
             # if order.quotation_template_id: 
             #     order.quotation_template_id.unlink()
             # template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
             for line in order.order_line:
-                if line.quotation_template_line_id:
-                    line.quotation_template_line_id.cost = line.cost
-                    line.quotation_template_line_id.total = line.total
-                    line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
-                if not line.quotation_template_line_id:
-                    template_line = self.env['sale.order.template.line'].create({
+                sale_line = self.env['sale.order.line'].search([('order_id', '=', order.sale_order_id.id),('product_id', '!=', False),('quotation_template_line_id', '=', line.quotation_template_line_id.id)])
+                if sale_line:
+                    if sale_line.product_id:
+                        line.sale_order_line_id = sale_line.id
+                        sale_line.price_unit = line.cost
+                        sale_line.price_subtotal = line.total
+                        sale_line.product_uom_qty = line.product_uom_qty
+                        sale_line.type = line.type
+                        
+                if line.sale_order_line_id:                    
+                    line.sale_order_line_id.price_unit = line.cost
+                    line.sale_order_line_id.price_subtotal = line.total
+                    line.sale_order_line_id.product_uom_qty = line.product_uom_qty
+                    line.sale_order_line_id.product_uom = line.product_uom_id.id
+                    line.sale_order_line_id.type = line.type
+                if not sale_line and not line.sale_order_line_id:
+                    template_line = self.env['sale.order.line'].create({
                         'product_id': line.product_id.id,
                         'name': line.product_id.name,
                         'product_uom_qty': line.product_uom_qty,
-                        'cost': line.cost,
-                        'total': line.total,
-                        'sale_order_template_id': order.quotation_template_id.id
+                        'product_uom': line.product_uom_id.id,
+                        'price_unit': line.cost,
+                        'type': line.type,
+                        'price_subtotal': line.total,
+                        # 'quotation_template_line_id': line.quotation_template_line_id.id,
+                        'order_id': order.sale_order_id.id
                         })
-                    line.quotation_template_line_id = template_line.id
-            if order.quotation_template_id:
-                order.quotation_template_id.project_costing_id = self.id
+                    line.sale_order_line_id = template_line.id
+            # for oline in order.cost_lines_option:
+                
+            # if order.quotation_template_id:
+            #     order.quotation_template_id.project_costing_id = self.id
                 order.sale_order_id.project_costing_id = self.id
                     # template_line = self.env['sale.order.template.line'].create({
                     #     'sale_order_template_id': template.id,
@@ -185,7 +212,7 @@ class ProductEntry(models.Model):
                     #     'cost': line.cost,
                     #     'total': line.total
                     #     })
-            order.quotation_template_id.state = 'validated'
+            # order.quotation_template_id.state = 'validated'
             # template.state = 'validated'
             order.state = 'validate'
 
@@ -337,6 +364,7 @@ class ProductEntryLine(models.Model):
     kw_cost = fields.Float("Kw Cost")
     notes = fields.Char("Notes")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    sale_order_line_id = fields.Many2one('sale.order.line', "Order Line")
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):

@@ -70,6 +70,14 @@
 							</td>
 						</tr>
 					</table>
+					<table style="width:100%;">
+					  <tr style="padding-top:2px;">
+					    <td style="padding-top:12px;" width="100%"> 
+					      <t t-set="l10n_in_einvoice_json" t-value="json.loads((doc.edi_document_ids.filtered(lambda i: i.edi_format_id.code == 'in_einvoice_1_03' and i.attachment_id.mimetype == 'application/json').attachment_id.raw or b'{}').decode('utf-8'))"/>
+					       <p><strong>IRN:</strong> <t t-esc="l10n_in_einvoice_json.get('Irn')"></t></p>
+					    </td>
+					  </tr>
+					</table>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
 							<td style="width:50%;border-style: solid;border-width:1px;">
@@ -92,6 +100,18 @@
 							</td>
 						</tr>
 					</table>
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:100%;border-style: solid;border-width:1px;">
+								<strong>Novergy Project No: </strong>
+								<t t-if="doc.project_id">
+								<h3><span t-field="doc.project_id"/></h3>
+								</t>
+							</td>
+						</tr>
+					</table>
+					
+					
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;width:100%;">
@@ -142,7 +162,6 @@
 						</tr>
 					</table>
 
-
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
 							<td style="border-style: solid;border-width:1px;" width="35%">
@@ -151,10 +170,10 @@
 							<td style="border-style: solid;border-width:1px;" width="35%">
 								<strong>Dated:</strong> <t t-if="doc.delivery_challan_date"> <span t-esc="doc.delivery_challan_date.strftime('%d-%m-%Y')"/></t>
 							</td>
-							<td style="border-style: solid;border-width:1px;" width="30%" rowspan="5">
-								Novergy Project No: <t t-if="doc.project_id">
-								<h3><span t-field="doc.project_id.project_number"/></h3>
-								</t>
+							<td style="border-style: solid;border-width:1px;text-align:center;vertical-align:middle;" width="30%" rowspan="5">
+					      		<t t-if="l10n_in_einvoice_json">
+		                			<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' %('QR', l10n_in_einvoice_json.get('SignedQRCode'), 130, 130)"/>
+		           				</t>
 							</td>
 						</tr>
 
@@ -192,7 +211,7 @@
 								<strong>Sr.No.</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%">
-								<strong>Description of Goods</strong>
+								<strong>Description of Goods / Services</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>HSN/SAC Code</strong>
@@ -273,7 +292,7 @@
 							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
 								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
 									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
-										<td colspan="2" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+										<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
 
 										<td colspan="3" style="width:25%;border:1px solid black">
 											<span t-esc="amount_by_group['tax_group_name']"/>
@@ -359,6 +378,353 @@
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="doc">
 					<t t-call="oi_sale_novergy.report_invoice_report_template"
+						t-lang="doc.partner_id.lang" />
+				</t>
+			</t>
+		</template>
+		
+		
+		<template id="report_invoice_report_template_without_qr">
+			<t t-call="oi_sale_novergy.accounting_report_external_layout">
+				<!-- <t t-call="web.external_layout"> -->
+
+				<t t-set="doc"
+					t-value="doc.with_context(lang=doc.partner_id.lang)" />
+				<div class="page">
+					<style>
+						table, th, td {
+						border: 1px solid black;
+						border-collapse: collapse;
+						font-size:10px;
+						}
+						th, td {
+						padding: 3px;
+						font-size:12px;
+						}
+					</style>
+
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;">
+							<td style="width:100%;text-align:center;border-style: solid;border-width:1px;vertical-align: middle;">
+								<h5>
+									<strong>TAX INVOICE</strong>
+								</h5>
+							</td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;border-bottom:hidden;" width="100%">
+							<td style="width:100%;text-align:center;">
+								<h5>
+									<strong>
+										Novergy Energy Solutions Pvt. Ltd.
+									</strong>
+								</h5>
+								<span t-field="doc.company_id.street"/>
+									<span t-field="doc.company_id.street2"/>
+									<span t-field="doc.company_id.city"/> - 
+									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
+									<br/>
+									State Code: <span t-field="doc.company_id.partner_id.state_id.code"/> GSTIN: <span t-field="doc.company_id.partner_id.vat"/>
+							</td>
+						</tr>
+					</table>
+					
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Invoice No.: </strong>
+								<span t-field="doc.name"/>
+							</td>
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Invoice date:- </strong>
+								<span t-esc="doc.invoice_date.strftime('%d-%m-%Y')"/>
+							</td>
+						</tr>
+					</table>
+
+
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:100%;border-style: solid;border-width:1px;">
+								<strong>Purchase Order No. &amp; Date:- </strong> <span t-field="doc.ref"/>
+							</td>
+						</tr>
+					</table>
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:100%;border-style: solid;border-width:1px;">
+								<strong>Novergy Project No: </strong>
+								<t t-if="doc.project_id">
+								<span t-field="doc.project_id"/>
+								</t>
+							</td>
+						</tr>
+					</table>
+					
+					
+
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Buyer:-</strong>
+								<br/>
+								<span t-field="doc.partner_id.name"/><br/>
+								<span t-field="doc.partner_id.street"/>
+								
+								<span t-field="doc.partner_id.street2"/>
+								<br/>
+								<span t-field="doc.partner_id.city"/>
+								-
+								<span t-field="doc.partner_id.zip"/>
+								<br/>
+								<span t-field="doc.partner_id.state_id.name"/>
+								,
+								<span t-field="doc.partner_id.country_id"/>
+								<br/>
+							</td>
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Consignee: (If Other than Buyer):-</strong>
+								<br/>
+								<br/>
+								<br/>
+								<br/>
+							</td>
+						</tr>
+						<tr style="border-style:solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Buyer State Code:</strong>
+								<span t-field="doc.partner_id.state_id.code"/>
+							</td>
+							<td style="width:50%;border-style: solid;border-width:1px;">
+								<strong>Consignee State Code:</strong>
+							</td>
+						</tr>
+					</table>
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;width:100%;border-bottom:hidden;">
+							<td style="width:50%;solid;border-width:1px;">
+								<strong>Buyer GSTIN/Unique ID:</strong>
+								<span t-field="doc.partner_id.vat"/>
+							</td>
+							<td style="width:50%;solid;border-width:1px;">
+								<strong>Consignee GSTIN/Unique ID:</strong>
+							</td>
+						</tr>
+					</table>
+
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr style="border-style: solid;border-width:1px;">
+							<td style="border-style: solid;border-width:1px;" width="35%">
+								<strong>Delivery Challan No:</strong><span t-field="doc.delivery_challan_no"/>
+							</td>
+							<td style="border-style: solid;border-width:1px;" width="35%">
+								<strong>Dated:</strong> <t t-if="doc.delivery_challan_date"> <span t-esc="doc.delivery_challan_date.strftime('%d-%m-%Y')"/></t>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;vertical-align:middle;" width="30%" rowspan="5">
+					      		
+							</td>
+						</tr>
+
+						<tr style="border-style: solid;border-width:1px;width:100%;">
+							<td style="border-style: solid;border-width:1px;">
+								<strong>Dispatch through carrier:</strong> <span t-field="doc.courier"/>
+							</td>
+							<td style="border-style: solid;border-width:1px;">
+								<strong>LR/GR/Docket/AWB No:</strong> <span t-field="doc.awb"/>
+							</td>
+
+						</tr>
+						<tr style="border-style: solid;border-width:1px;width:100%;">
+							<td style="border-style: solid;border-width:1px;" colspan="2">
+								<strong>Terms Of delivery for freight :</strong> <span t-field="doc.friegt"/>
+							</td>
+						</tr>
+						<tr style="border-style: solid;border-width:1px;width:100%;">
+							<td style="border-style: solid;border-width:1px;">
+								<strong>E-Way bill.No.:</strong> <span t-field="doc.insurance"/>
+							</td>
+							<td style="border-style: solid;border-width:1px;">
+								<strong>Dated:</strong> <span t-field="doc.delivery_challan_no"/>
+							</td>
+						</tr>
+						<tr style="solid;border-width:1px;width:100%;">
+							<td style="border-style: solid;border-width:1px;" colspan="2">
+								<strong>Insurance:</strong> <span t-field="doc.insurance"/>
+							</td>
+						</tr>
+					</table>
+					<table style="border-style: solid;border-width:1px;" width="100%">
+						<tr>
+							<td style="border-style: solid;border-width:1px;border-top:hidden" width="5%">
+								<strong>Sr.No.</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="50%">
+								<strong>Description of Goods / Services</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>HSN/SAC Code</strong>
+							</td>
+
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="5%">
+								<strong>Qty.</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>Unit</strong>
+							</td>
+							
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>Rate <span t-field="doc.currency_id.symbol"/></strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>Tax</strong>
+							</td>
+							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
+								<strong>Amount <span t-field="doc.currency_id.symbol"/></strong>
+							</td>
+						</tr>
+						<t t-set="i" t-value="0"/>
+						<t t-foreach="doc.invoice_line_ids" t-as="line">
+							<t>
+							<t t-set="i" t-value="i+1"/>
+							<tr>
+								<td style="border-style: solid;border-width:1px;" width="5%">
+									<span t-esc="i"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="50%">
+									<span t-field="line.name"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center" width="10%">
+									<span t-field="line.product_id.l10n_in_hsn_code"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center" width="5%">
+									<span t-field="line.quantity"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center" width="10%">
+									<span t-field="line.product_uom_id.name"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+									<span t-field="line.price_unit"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center" width="10%">
+									<t t-if="line.tax_ids">
+										<t t-foreach="line.tax_ids" t-as="t">
+											<span t-field="t.description"/>
+										</t>
+									</t>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:right" width="10%">
+									<span t-field="line.price_subtotal"/>
+								</td>
+							</tr>
+							</t>
+						</t>
+
+						<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+							<td colspan="3" style="width:25%;border:1px solid black">
+								<span>Untaxed Amount</span>
+							</td>
+							<td colspan="2" style="width:20%;text-align:right">
+								<span t-field="doc.amount_untaxed_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+
+							</td>
+						</tr>
+
+						<t t-if="json.loads(doc.tax_totals_json)" t-set="tax_totals" t-value="json.loads(doc.tax_totals_json)"/>
+						<t t-foreach="tax_totals['subtotals']" t-as="subtotal">
+
+							<t t-if="subtotal" t-set="subtotal_to_show" t-value="subtotal['name']"/>
+
+						</t>
+						<t t-if="subtotal_to_show">
+							<t t-foreach="tax_totals['groups_by_subtotal'][subtotal_to_show]" t-as="amount_by_group">
+								<tr t-if="amount_by_group" style="border-style: solid;border-width:1px;" width="100%">
+									<t t-if="len(tax_totals['groups_by_subtotal'][subtotal_to_show]) &gt; 1">
+										<td colspan="3" style="border-style: solid;border-width:1px;border-bottom:hidden" width="55%"/>
+
+										<td colspan="3" style="width:25%;border:1px solid black">
+											<span t-esc="amount_by_group['tax_group_name']"/>
+											<span class="text-nowrap">
+												on
+												<t t-esc="amount_by_group['formatted_tax_group_base_amount']"/>
+											</span>
+										</td>
+										<td colspan="2" style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+
+										</td>
+
+									</t>
+									<t t-else="">
+										<td colspan="3" style="width:55%;border-bottom:hidden;border:1px solid black;border-bottom:hidden">
+										</td>
+										<td colspan="3" style="width:25%;border:1px solid black">
+											<span class="text-nowrap" t-esc="amount_by_group['tax_group_name']"/>
+										</td>
+
+										<td colspan="2" style="width:20%;text-align:right">
+											<span class="text-nowrap" t-esc="amount_by_group['formatted_tax_group_amount']"/>
+
+										</td>
+									</t>
+
+								</tr>
+							</t>
+						</t>
+
+						<tr style="border-style: solid;border-width:1px;" width="100%">
+							<td colspan="3" style="border-style: solid;border-width:1px;" width="55%"/>
+							<td colspan="3" style="width:25%;">
+								<span>
+									<strong>Gross Amount</strong>
+								</span>
+							</td>
+							<td colspan="2" style="width:20%;text-align:right">
+								<strong>
+									<span t-field="doc.amount_total_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+								</strong>
+							</td>
+						</tr>
+					</table>
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+						<tr style="solid;border-width:1px;width:100%;">
+							<td style="width:100%;">
+								<strong>Amount in words = </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/> only.
+							</td>
+						</tr>
+					</table>
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+          	<tr style="solid;border-width:1px;width:100%;border-top:hidden;">
+          		<td style="width:50%;text-align:left;border-top:hidden;border-right:hidden" width="50%">
+          			<br/>
+          			<strong>Declaration:</strong>
+          			<br/>
+						   We declare that this proforma invoice shows the actual price of the goods described and that all particulars true and correct.
+          		</td>
+          		<td style="width:100%;text-align:center" width="50%">
+          			<strong>
+          				For Novergy Energy Solutions Pvt. Ltd.
+          			</strong>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<br/>
+          			<strong>Authorised Signatory</strong>
+          		</td>
+          	</tr>
+          </table>
+          <br/>
+          <p style="font-size:12px;">Signature not required as this is a computer generated document.</p>
+				</div>
+			</t>
+		</template>
+
+
+		<template id="invoice_report_report_without_qr">
+			<t t-call="web.html_container">
+				<t t-foreach="docs" t-as="doc">
+					<t t-call="oi_sale_novergy.report_invoice_report_template_without_qr"
 						t-lang="doc.partner_id.lang" />
 				</t>
 			</t>

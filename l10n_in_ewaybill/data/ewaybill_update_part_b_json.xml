@@ -2,7 +2,16 @@
 <odoo>
     <template id="l10n_in_ewaybill_update_part_b_json">
     {
+
         <t t-set="document" t-value="move"/>
+        <t t-if="move">
+            <t t-if="move.is_purchase_document(include_receipts=True)">
+                <t t-set="dispatch_details" t-value="'partner_shipping_id' in move and move.partner_shipping_id or move.partner_id"/>
+            </t>
+            <t t-else="">
+                <t t-set="dispatch_details" t-value="move.company_shipping_id or move.journal_id.company_id.partner_id"/>
+            </t>
+        </t>
         "ewbNo": <t t-esc="transaction.ewaybill_number"/>,
 
         <t t-if="document.l10n_in_ewaybill_mode == '0'">
@@ -12,8 +21,8 @@
         <t t-if="document.l10n_in_ewaybill_mode != '0'">
 
             "transMode": "<t t-esc="document.l10n_in_ewaybill_mode"/>",
-            "fromPlace": "<t t-esc="transaction.from_place or document.l10n_in_ewaybill_ship_from.city"/>",
-            "fromState": <t t-esc="int(transaction.from_state_id.l10n_in_tin or document.l10n_in_ewaybill_ship_from.state_id.l10n_in_tin)"/>,
+            "fromPlace": "<t t-esc="transaction.from_place or dispatch_details.city"/>",
+            "fromState": <t t-esc="int(transaction.from_state_id.l10n_in_tin or dispatch_details.state_id.l10n_in_tin)"/>,
             "reasonCode": "<t t-esc="transaction.reason_code"/>",
 
             <t t-if="transaction.reason_remark">

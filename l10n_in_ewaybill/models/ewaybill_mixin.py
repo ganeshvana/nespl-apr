@@ -130,7 +130,7 @@ If it is more than 15 chars, last 15 chars may be entered""",
     def _compute_l10n_in_ewaybill_details(self):
         for record in self:
             transaction = self.env["l10n.in.ewaybill.transaction"].search(
-                self._get_ewaybill_transaction_domain()
+                record._get_ewaybill_transaction_domain()
                 + [("request_type", "!=", "update_partb")],
                 limit=1,
             )

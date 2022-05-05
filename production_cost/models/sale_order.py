@@ -2,6 +2,7 @@
 from odoo import api, models, fields, _
 from odoo.tools import is_html_empty
 from datetime import datetime, timedelta
+import base64
 
 default_content = '''
 <p>Dear Sir/Madam,<br/>
@@ -22,6 +23,12 @@ class SaleOrder(models.Model):
     employee_pin = fields.Char("Employee PIN")
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
+    opex_description = fields.Html("Summary")
+    subject = fields.Char("Subject")
+    reference = fields.Char("Reference")
+    kind_attn = fields.Char("Kind Attn.")
+    content = fields.Html("Content", default=default_content, copy=True)
+    
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
@@ -73,6 +80,10 @@ class SaleOrder(models.Model):
         template = self.sale_order_template_id.with_context(lang=self.partner_id.lang)
 
         # --- first, process the list of products from the template
+        self.subject = self.sale_order_template_id.subject
+        self.reference = self.sale_order_template_id.reference
+        self.kind_attn = self.sale_order_template_id.kind_attn
+        self.content = self.sale_order_template_id.content
         order_lines = [(5, 0, 0)]
         for line in template.sale_order_template_line_ids:
             data = self._compute_line_data_for_template_change(line)
@@ -97,6 +108,14 @@ class SaleOrder(models.Model):
                     'customer_lead': self._get_customer_lead(line.product_id.product_tmpl_id),
                     'partner_ids': [(6,0, line.partner_ids.ids)],
                     'vendor_ids': [(6,0, line.vendor_ids.ids)],
+                    'model': line.model,
+                    'hide': line.hide,
+                    'model': line.model,
+                    'type': line.type,
+                    'kwpunit': line.kwpunit,
+                    'printkwp': line.printkwp,
+                    
+                    'quotation_template_line_id': line.id
                 })
 
             order_lines.append((0, 0, data))
@@ -131,16 +150,157 @@ class SaleOrder(models.Model):
             order.entry_count = len(entry_ids) if entry_ids else 0
 
     def view_product_entry(self):
-        entry_ids = self.env['product.entry'].search([('sale_order_id', 'in', self.ids)])
+        entry_ids = self.env['product.entry'].search([('sale_order_id', '=', self.id)], limit=1)
+        if not entry_ids:
+            entry_ids = self.env['product.entry'].create({
+                'sale_order_id': self.id,
+                'quotation_template_id': self.sale_order_template_id.id
+                })
+            entry_ids.onchange_quotation_template_id()
+            order_lines = [(5, 0, 0)]
+            option_lines = [(5, 0, 0)]
+            if entry_ids.quotation_template_id:
+                entry_ids.kw = self.kw
+                for line in entry_ids.quotation_template_id.sale_order_template_line_ids:
+                    if line.product_id:
+                        data = {
+                            'product_uom_qty': line.product_uom_qty,
+                            'product_id': line.product_id.id,
+                            'product_uom_id': line.product_uom_id.id,
+                            'quotation_template_line_id' : line.id,
+                            'type': line.type,
+                            'kwp': entry_ids.quotation_template_id.kw
+                        }
+                        order_lines.append((0, 0, data))
+                for line in entry_ids.quotation_template_id.sale_order_template_option_ids:
+                    if line.product_id:
+                        data = {
+                            'product_uom_qty': line.quantity,
+                            'product_id': line.product_id.id,
+                            'product_uom_id': line.uom_id.id,
+                            'quotation_template_line_id' : line.id,
+                            'kwp': entry_ids.quotation_template_id.kw
+                        }
+                        option_lines.append((0, 0, data))
+            entry_ids.order_line = order_lines
+            entry_ids.cost_lines_option = option_lines
         return {
             'name': _('Product Entry'),
             'view_type': 'form',
-            'view_mode': 'tree,form',
+            'view_mode': 'form',
             'res_model': 'product.entry',
             'view_id': False,
+            'res_id': entry_ids.id,
             'type': 'ir.actions.act_window',
-            'domain': [('id', 'in', entry_ids.ids)],
+            'domain': [('id', '=', entry_ids.id)],
         }
+        
+    def action_quotation_send(self):
+        ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
+        self.ensure_one()
+        template_id = self._find_mail_template()
+        lang = self.env.context.get('lang')
+        template = self.env['mail.template'].browse(template_id)
+        if template.lang:
+            lang = template._render_lang(self.ids)[self.id]
+        ctx = {
+            'default_model': 'sale.order',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True,
+            'custom_layout': "mail.mail_notification_paynow",
+            'proforma': self.env.context.get('proforma', False),
+            'force_email': True,
+            'model_description': self.with_context(lang=lang).type_name,
+        }
+        return {
+            'type': 'ir.actions.act_window',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(False, 'form')],
+            'view_id': False,
+            'target': 'new',
+            'context': ctx,
+        }
+        # if self.sale_order_template_id:
+        #     new_attachments = attachments = []
+        #     ATTACHMENT_NAME = self.name + '.pdf'
+        #     if self.sale_order_template_id.capex_opex == 'capex':
+        #         template_id = self.env.ref('production_cost.email_template_sale_quote_capex')
+        #     if self.sale_order_template_id.capex_opex == 'opex':
+        #         template_id = self.env.ref('production_cost.email_template_sale_quote_opex')
+        #     # if self.sale_order_template_id.capex_opex == 'capex':
+        #     #     pdf = self.env.ref('oi_sale_novergy.action_report_capex').sudo()._render_qweb_pdf([self.sale_order_template_id.id])[0]
+        #     #     # print(pdf, "=d===", type(pdf))
+        #     #     isr_pdf = base64.b64encode(pdf)
+        #     #     new_attachments.append((ATTACHMENT_NAME, isr_pdf))
+        #     # if self.sale_order_template_id.capex_opex == 'opex':
+        #     #     pdf = request.env.ref('production_cost.action_opex_with_bom_report').sudo()._render_qweb_pdf([self.sale_order_template_id.id])
+        #     #     # print(pdf, "====", type(pdf))
+        #     #     b64_pdf = base64.b64encode(pdf)
+        #     #
+        #     # file_name = ''                    
+        #     #
+        #     # # print(new_attachments, "new_attachments")
+        #     # pdf_file =  self.env['ir.attachment'].create({
+        #     #     'name': ATTACHMENT_NAME,
+        #     #     'type': 'binary',
+        #     #     'datas': isr_pdf,
+        #     #     'res_model': self._name,
+        #     #     'res_id': self.id,
+        #     #     'mimetype': 'application/pdf',
+        #     # })
+        #     # print(pdf_file, "pdf_file---")
+        #     # attachments.append(pdf_file.id)
+        #     # template_id.attachment_ids = [(6,0, attachments)]
+        #
+        #     # template = self.env['mail.template'].browse(template_id)
+        #     # if template.lang:
+        #     #     lang = template._render_lang(self.ids)[self.id]
+        #     ctx = {
+        #         'default_model': 'sale.order.template',
+        #         'default_res_id': self.sale_order_template_id.id,
+        #         'default_use_template': bool(template_id.id),
+        #         'default_template_id': template_id.id,
+        #         'default_composition_mode': 'comment',
+        #         'mark_so_as_sent': True,
+        #         'custom_layout': "mail.mail_notification_paynow",
+        #         'proforma': self.env.context.get('proforma', False),
+        #         'force_email': True,
+        #         'model_description': self.with_context(lang=lang).type_name,
+        #         # 'default_attachment_ids': [(6,0, attachments)]
+        #     }
+        #     return {
+        #         'type': 'ir.actions.act_window',
+        #         'view_mode': 'form',
+        #         'res_model': 'mail.compose.message',
+        #         'views': [(False, 'form')],
+        #         'view_id': False,
+        #         'target': 'new',
+        #         'context': ctx,
+        #     }
+            
+            
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+    
+    unit = fields.Float("Unit")
+    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
+    # kw = fields.Float(related='order_id.kw', store=True)
+    cost = fields.Float("Cost")
+    total = fields.Float("Total")
+    partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1w', 'vendor_id', 'template_id', "Make")
+    vendor_ids = fields.Many2many('res.partner', 'vendor_template_relw', 'vendor_id', 'template_id', "Make")
+    model = fields.Char("Model")
+    hide = fields.Boolean("Hide")
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    name1 = fields.Char("Name")
+    kwpunit = fields.Float("KWp Unit")
+    printkwp = fields.Boolean("Print KWp Unit")
+    quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
+            
         
 class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'
@@ -149,17 +309,18 @@ class SaleOrderTemplate(models.Model):
     kw = fields.Float("KWP")
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False, track_visiblity='onchange')
     sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
-    partner_id = fields.Many2one('res.partner')
+    partner_id = fields.Many2one(related='sale_order_id.partner_id', store=True)
     opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
     opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
     opex_description = fields.Html("Summary")
     subject = fields.Char("Subject")
     reference = fields.Char("Reference")
+    kind_attn = fields.Char("Kind Attn.")
     content = fields.Html("Content", default=default_content, copy=True)
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
-    
+    capex_opex = fields.Selection([('capex', 'Capex'), ('opex', 'Opex/ Open Access')], default='capex')
     
     def action_quotation_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''

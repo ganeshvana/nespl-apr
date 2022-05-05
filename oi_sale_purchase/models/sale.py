@@ -144,3 +144,12 @@ class ProductTemplate(models.Model):
         self.flush()
         self.invalidate_cache()
         return True
+    
+class ProductTemplateAttributeValue(models.Model):
+    _inherit = "product.template.attribute.value"
+    
+    def _get_combination_name(self):
+        """Exclude values from single value lines or from no_variant attributes."""
+        return ", ".join([ptav.attribute_id.name + ': ' + ptav.name for ptav in self._without_no_variant_attributes()._filter_single_value_lines()])
+
+

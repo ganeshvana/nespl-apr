@@ -5,11 +5,12 @@
         <field name="model">product.entry</field>
         <field name="arch" type="xml">
             <form string="Quotation Details">
-                <header>
-                	
+                <header>                	
                     <button name="action_validate" string="Validate" type="object" class="oe_highlight" states="draft"/>
-                    <button name="action_cancel" string="Cancel" type="object" class="oe_highlight" states="draft,validate"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,validate,compute,cancel"/>
+                    
+                    <button name="action_re_compute" string="Set to Draft" type="object" class="oe_highlight" states="cancel,validate"/>
+                    <button name="action_cancel" string="Cancel" type="object" states="draft,validate"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validate,cancel"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

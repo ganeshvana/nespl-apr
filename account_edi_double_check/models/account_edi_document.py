@@ -7,4 +7,4 @@ from odoo import models, fields, api
 class AccountEdiDocument(models.Model):
     _inherit = "account.edi.document"
 
-    state = fields.Selection(selection_add=[("to_confrim", "To confrim")])
+    state = fields.Selection(selection_add=[("to_confirm", "To confirm")])

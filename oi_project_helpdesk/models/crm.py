@@ -17,7 +17,7 @@ class Lead(models.Model):
     survey_id = fields.Many2one('survey.survey', "Questionnaire")
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
-    roof_type = fields.Many2one('roof.type', "Roof Type")
+    roof_type = fields.Many2many('roof.type', 'rooftype_crm_rel', 'rt_id' , 'crm_id' ,"Roof Type")
     
     @api.onchange('state_id')
     def onchange_state_id(self):

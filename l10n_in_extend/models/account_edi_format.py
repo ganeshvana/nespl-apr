@@ -123,11 +123,11 @@ class AccountEdiFormat(models.Model):
                             ]
                             is_other_tax = False
                             continue
-                    if (
-                        is_other_tax
-                        and tax_line_id.tax_repartition_line_id.factor_percent > 0.00
-                    ):
-                        extra_tax_details["other"] += tax_details[in_foreign and "tax_amount_currency" or 'tax_amount']
+                if (
+                    is_other_tax
+                    and tax_line_id.tax_repartition_line_id.factor_percent > 0.00
+                ):
+                    extra_tax_details["other"] += tax_details[in_foreign and "tax_amount_currency" or 'tax_amount']
             invoice_line_tax_details.update(extra_tax_details)
         return {
             "move": invoice,

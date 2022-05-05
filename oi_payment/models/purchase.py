@@ -15,6 +15,9 @@ class PurchaseOrder(models.Model):
             if res.payment_detail_ids:
                 for pay in res.payment_detail_ids:
                     pay.sudo().unlink()
+            if res.message_follower_ids:
+                for line in res.message_follower_ids:
+                    line.sudo().unlink()
             for line in res.payment_term_id.line_ids:
                 payterm_vals.append(Command.create({
                         'payment_term_id': res.payment_term_id.id,
@@ -26,6 +29,9 @@ class PurchaseOrder(models.Model):
     def write(self, vals):
         result = super(PurchaseOrder, self).write(vals)
         res = self
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
         if 'payment_term_id' in vals:
             if res.payment_term_id:
                 payterm_vals = []
