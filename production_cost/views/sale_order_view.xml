@@ -46,7 +46,7 @@
                 	<field name="printkwp" optional="hide"/>
                 	<field name="quotation_template_line_id" optional="hide"/>
                 </xpath>
-                <xpath expr="//notebook" position="inside">
+                <xpath expr="//notebook" position="inside" invisible="1">
                   <page string="Costing" attrs="{'invisible':[('costing_structure_ids', '=', [])]}">
                 		<group string="Costing Structure">
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
