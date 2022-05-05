@@ -67,7 +67,7 @@
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.sale_order_id.partner_id.name"/><br/>
+							<span t-field="doc.sale_order_id.partner_id.title.name"/> <span t-field="doc.sale_order_id.partner_id.name"/><br/>
 							<span t-field="doc.sale_order_id.partner_id.city"/>
 							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
 						</strong>
@@ -96,14 +96,10 @@
 					
 					
 					<p style="page-break-before:always;"> </p>	
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
-						<tr
-							style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
-							<br />
-							<td
-								style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
+					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
+							<br/>
+							<td style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
 								<h5>
 									<strong>
 										<u>COMMERCIAL TERMS AND CONDITIONS</u>
@@ -114,41 +110,32 @@
 					</table>
 					<p>
 					<strong>A) SUMMARY:</strong><br/>
-						<span t-field="doc.opex_description" />
+						<span t-field="doc.opex_description"/>
 					</p>
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
-								<strong>Sr.No.</strong>
+						<tr width="100%">
+							<br/>
+							<br/>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+								<strong>S.No.</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Plant Name</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Location</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>Offered Solar capacity KWp (DC)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Solar System Output Voltage</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Contract Demand / Sanction Load (KVA)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Buyer grid connection Voltage (KV)</strong>
 							</td>
 						</tr>
@@ -156,26 +143,26 @@
 						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-esc="i"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.plant_name" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.plant_name"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
-											<span t-field="line.buyer_location" />
-								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.solar_capacity" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+											<span t-field="line.buyer_location"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.output_voltage" />
+									<span t-field="line.solar_capacity"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.buyer_contract" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.output_voltage"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.buyer_grid" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.buyer_contract"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="20%">
+									<span t-field="line.buyer_grid"/>
 								</td>
 							</tr>
 						</t>
@@ -194,14 +181,10 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Plant Name</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="35%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="35%">
 								<strong>Particular</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Rate (Rs. / Kwh)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -213,19 +196,19 @@
 							<t t-set="i" t-value="i+1"/>
 							<tr>
 								<td style="border-style: solid;border-width:1px;text-align:center;">
-									<span t-esc="i" />
-								</td>
-								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.site_id.plant_name" />
-								</td>
-								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.particular" />
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;">
-									<span t-field="line.rate" />
+									<span t-field="line.site_id.plant_name"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;">
+									<span t-field="line.particular"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;">
+									<span t-field="line.rate"/>
 								</td>								
 								<td style="border-style: solid;border-width:1px;text-align:center;">
-									<span t-field="line.year" />
+									<span t-field="line.year"/>
 								</td>
 							</tr>
 						</t>
@@ -245,17 +228,13 @@
 					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<th style="border-style: solid;border-width:1px;" width="10%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>S.No.</strong>
 							</th>
-							<th
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
 								<strong>Particular</strong>
 							</th>
-							<th
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
 								<strong>Offered</strong>
 							</th>
 						</tr>
@@ -263,14 +242,14 @@
 						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.particular" />
+									<span t-field="line.particular"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.offered" />
+									<span t-field="line.offered"/>
 								</td>
 							</tr>
 						</t></tbody>
@@ -283,7 +262,7 @@
 										D) GENERAL TERMS AND CONDITIONS:
 									</strong>
 								<br/>
-								<span t-field="doc.sale_term" />
+								<span t-field="doc.sale_term"/>
 							</td>
 						</tr>
 					</table>
@@ -389,40 +368,32 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>Sr.No.</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="50%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
 								<strong>Particulars</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="50%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="50%">
 								<strong>Make/Model</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Units</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Quantity</strong>
 							</td>
 
 
 						</tr>
-						<t t-set="i" t-value="0" />
+						<t t-set="i" t-value="0"/>
 						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type and line.hide == False">
-									<t t-set="i" t-value="i + 1" />
+									<t t-set="i" t-value="i + 1"/>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
-									<span t-esc="i" />
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.product_id.name" /> <br/>
-									<span t-field="line.name" />
+									<span t-field="line.product_id.name"/> <br/>
+									<span t-field="line.name"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
 									<t t-if="line.vendor_ids">
@@ -438,41 +409,37 @@
 	  											<span t-field="l.name"/> /
 	  										</t>										    
 										  </t>
-										<span t-field="line.model" />
+										<span t-field="line.model"/>
 									</t>
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:center;"
-									width="10%">
-									<span t-field="line.product_uom_id" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.product_uom_id"/>
 								</td>
-								<td
-									style="border-style: solid;border-width:1px;text-align:center;"
-									width="10%">
-									<span t-field="line.product_uom_qty" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-field="line.product_uom_qty"/>
 								</td>
 							</t>
 							<t t-if="line.display_type == 'line_section'">
 									<td style="border-style: solid;border-width:1px;" name="td_section_line" colspan="99">
-										<span t-field="line.name" />
+										<span t-field="line.name"/>
 									</td>
-									<t t-set="current_section" t-value="line" />
-									<t t-set="current_subtotal" t-value="0" />
+									<t t-set="current_section" t-value="line"/>
+									<t t-set="current_subtotal" t-value="0"/>
 								</t>
 								<t t-if="line.display_type == 'line_note'">
 									<td style="border-style: solid;border-width:1px;" name="td_note_line" colspan="99">
-										<span t-field="line.name" />
+										<span t-field="line.name"/>
 									</td>
 								</t>
 							</tr>
 						</t>
 					</table>					
 					<br/>
+					<p style="page-break-before:always;"> </p>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
-							<br />
-							<td
-								style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
+							<br/>
+							<td style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
 								<h5>
 									<strong>
 										<u>COMMERCIAL TERMS AND CONDITIONS</u>
@@ -483,69 +450,59 @@
 					</table>
 					<p>
 					<strong>A) SUMMARY:</strong><br/>
-						<span t-field="doc.opex_description" />
+						<span t-field="doc.opex_description"/>
 					</p>
 
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr>
-							<br />
-							<br />
-							<td style="border-style: solid;border-width:1px;" width="10%">
-								<strong>Sr.No.</strong>
+						<tr width="100%">
+							<br/>
+							<br/>
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+								<strong>S.No.</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Plant Name</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Location</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>Offered Solar capacity KWp (DC)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Solar System Output Voltage</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Contract Demand / Sanction Load (KVA)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;"
-								width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Buyer grid connection Voltage (KV)</strong>
 							</td>
-
 						</tr>
 						<t t-set="i" t-value="0"/>
 						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<span t-esc="i"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.plant_name" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.plant_name"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
-											<span t-field="line.buyer_location" />
-								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.solar_capacity" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+											<span t-field="line.buyer_location"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.output_voltage" />
+									<span t-field="line.solar_capacity"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.buyer_contract" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.output_voltage"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
-									<span t-field="line.buyer_grid" />
+								<td style="border-style: solid;border-width:1px;" width="15%">
+									<span t-field="line.buyer_contract"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;" width="20%">
+									<span t-field="line.buyer_grid"/>
 								</td>
 							</tr>
 						</t>
@@ -567,9 +524,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="35%">
 								<strong>Particular</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Rate (Rs. / Kwh)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -580,20 +535,20 @@
 						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
-								<td style="border-style: solid;border-width:1px;">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;">
+									<span t-esc="i"/>
+								</td>
+								<td style="border-style: solid;border-width:1px;text-align:center;">
+									<span t-field="line.site_id.plant_name"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.site_id.plant_name" />
+									<span t-field="line.particular"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.particular" />
-								</td>
-								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.rate" />
+								<td style="border-style: solid;border-width:1px;text-align:center;">
+									<span t-field="line.rate"/>
 								</td>								
-								<td style="border-style: solid;border-width:1px;">
-									<span t-field="line.year" />
+								<td style="border-style: solid;border-width:1px;text-align:center;">
+									<span t-field="line.year"/>
 								</td>
 							</tr>
 						</t>
@@ -613,17 +568,13 @@
 					
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr>
-							<th style="border-style: solid;border-width:1px;" width="10%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>S.No.</strong>
 							</th>
-							<th
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
 								<strong>Particular</strong>
 							</th>
-							<th
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
 								<strong>Offered</strong>
 							</th>
 						</tr>
@@ -631,14 +582,14 @@
 						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;" width="5%">
-									<span t-esc="i" />
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
+									<span t-esc="i"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.particular" />
+									<span t-field="line.particular"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
-									<span t-field="line.offered" />
+									<span t-field="line.offered"/>
 								</td>
 							</tr>
 						</t></tbody>
@@ -651,7 +602,7 @@
 										D) GENERAL TERMS AND CONDITIONS:
 									</strong>
 								<br/>
-								<span t-field="doc.sale_term" />
+								<span t-field="doc.sale_term"/>
 							</td>
 						</tr>
 					</table>
