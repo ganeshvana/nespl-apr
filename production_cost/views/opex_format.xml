@@ -4,11 +4,13 @@
 			<div t-attf-class="header" t-att-style="report_header_style">
                 <table style="border-style:none;" width="100%">
                 	<tr style="border-style:none;" width="100%">
-                		<td style="border-style:none;" width="70%">
-                			<h3><span t-field="doc.company_id.name" /></h3>
+                		<td style="border-style:none;vertical-align:middle;" width="70%">
+                			<h2>NOVERGY SOLAR</h2>
                 		</td>
                 		<td style="border-style:none;text-align:right;" width="30%">
-                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm;" align="right"/>
+                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 5cm; max-width: 6cm;" align="right"/>
+                			<br/>
+                			<span style="text-align:center;">www.novergysolar.com</span>
                 		</td>
                 	</tr>
                 </table>
@@ -19,7 +21,11 @@
             <div t-attf-class="footer o_standard_footer ">
                 <table width="100%" style="border:none;">
                     <tr>
-                        <td><center><span class="page"/></center></td>
+                        <td><center>
+                        <span class="page"/><br/>
+                        Novergy Energy Solutions Pvt. Ltd.<br/>
+                        Contact: enquiry@novergy.net	
+                        </center></td>
                     </tr>
                 </table>
             </div>
@@ -51,6 +57,7 @@
 							</p>
 						</td>
 					</table> -->
+					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
 							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
@@ -86,7 +93,9 @@
 					<span t-field="doc.sale_order_id.user_id.name"/><br/>
 					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					<p style="page-break-before:always;"> </p>
+					
+					
+					<p style="page-break-before:always;"> </p>	
 					<table
 						style="border-style: solid;border-width:1px;border-top:hidden"
 						width="100%">
@@ -142,13 +151,12 @@
 								width="10%">
 								<strong>Buyer grid connection Voltage (KV)</strong>
 							</td>
-
 						</tr>
 						<t t-set="i" t-value="0"/>
 						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;" width="5%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
 									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
@@ -204,7 +212,7 @@
 						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
-								<td style="border-style: solid;border-width:1px;">
+								<td style="border-style: solid;border-width:1px;text-align:center;">
 									<span t-esc="i" />
 								</td>
 								<td style="border-style: solid;border-width:1px;">
@@ -213,10 +221,10 @@
 								<td style="border-style: solid;border-width:1px;">
 									<span t-field="line.particular" />
 								</td>
-								<td style="border-style: solid;border-width:1px;">
+								<td style="border-style: solid;border-width:1px;text-align:center;">
 									<span t-field="line.rate" />
 								</td>								
-								<td style="border-style: solid;border-width:1px;">
+								<td style="border-style: solid;border-width:1px;text-align:center;">
 									<span t-field="line.year" />
 								</td>
 							</tr>
@@ -367,7 +375,7 @@
 					<span t-field="doc.sale_order_id.user_id.name"/><br/>
 					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					<p style="page-break-before:always;"> </p>
+					<p style="page-break-before:always;"> </p>	
 					<p>
 						<h5>
 							<strong>
@@ -458,56 +466,10 @@
 								</t>
 							</tr>
 						</t>
-					</table>
-					
+					</table>					
 					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
-							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
-									<strong>
-										<center>TERMS AND CONDITIONS:</center>
-									</strong>
-							</td>
-						</tr>
-					</table>
-					<p>
-					<strong>
-						Payment Terms:-
-					</strong>
-					</p>
-					<t t-set="i" t-value="0" />
-					<t t-set="desc" t-value="0"/>
-					<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
-						<t t-if="line.desc"><t t-set="desc" t-value="True"/></t>
-					</t>
-					<t t-if="desc==True">
-						<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr style="border-style: solid;border-width:1px;">
-							<td style="border-style: solid;border-width:1px;">Heading</td>
-							<td style="border-style: solid;border-width:1px;">Percentage</td>
-							<td style="border-style: solid;border-width:1px;">Milestone</td>
-						</tr>
-						<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
-							<t t-if="line.name">
-							<tr style="border-style: solid;border-width:1px;">
-								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply"/></td>
-								<td style="border-style: solid;border-width:1px;"><span t-field="line.name"/></td>
-								<td style="border-style: solid;border-width:1px;"><span t-field="line.desc"/></td>
-							</tr>
-							</t>
-						</t>
-					</table>
-					</t>
-					<t t-if="not desc==True">
-						<span t-field="doc.sale_order_id.payment_term_id.name"/>
-					</t>
-					<span t-field="doc.sale_term" />
-					<p style="page-break-before:always;"> </p>
-					<table
-						style="border-style: solid;border-width:1px;border-top:hidden"
-						width="100%">
-						<tr
-							style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<br />
 							<td
 								style="width:100%;text-align:center;border-left:hidden;border-right:hidden">
@@ -602,9 +564,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Plant Name</strong>
 							</td>
-							<td
-								style="border-style: solid;border-width:1px;text-align:center;"
-								width="35%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="35%">
 								<strong>Particular</strong>
 							</td>
 							<td
