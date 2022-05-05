@@ -33,7 +33,7 @@ class SaleOrder(models.Model):
     approval_required = fields.Boolean(related='so_team_id.approval_required', store=True)
     amount_total = fields.Monetary(tracking=True)
     state = fields.Selection(selection_add=[('to approve', 'To Approve')])
-    kw = fields.Integer("KWP", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
+    kw = fields.Float("KWP", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     order_type_id = fields.Many2one('sale.order.type', "Order Type")
 
     # def _track_subtype(self, init_values):
@@ -299,7 +299,7 @@ class SaleOrder(models.Model):
     
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
-    kw = fields.Integer(related='order_id.kw', store=True)
+    kw = fields.Float(related='order_id.kw', store=True)
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1e', 'vendor_id', 'template_id', "Make")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rele', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
