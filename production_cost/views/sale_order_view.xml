@@ -30,7 +30,6 @@
                   <attribute name="attrs">{'readonly': [('state','in',['done','cancel'])]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
-                  
                   <field name="subject"/>
                 	<field name="kind_attn"/>
                 	<field name="reference"/>
