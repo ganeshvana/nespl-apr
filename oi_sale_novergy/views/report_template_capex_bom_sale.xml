@@ -104,7 +104,7 @@
 								<td style="border-style: solid;border-width:1px;" width="50%">
 								  
 								<span t-field="line.product_id.product_tmpl_id.name"/>	
-								<t t-if="line.name1">
+								<t t-if="line.name">
 										<br/>
 										<span t-field="line.name"/>
 									</t>
@@ -375,7 +375,7 @@
 								<td style="border-style: solid;border-width:1px;" width="50%">
 								  
 								<span t-field="line.product_id.product_tmpl_id.name"/>	
-								<t t-if="line.name1">
+								<t t-if="line.name">
 										<br/>
 										<span t-field="line.name"/>
 									</t>
