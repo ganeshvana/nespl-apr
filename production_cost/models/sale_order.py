@@ -84,6 +84,7 @@ class SaleOrder(models.Model):
         self.reference = self.sale_order_template_id.reference
         self.kind_attn = self.sale_order_template_id.kind_attn
         self.content = self.sale_order_template_id.content
+        self.kw = self.sale_order_template_id.kw
         order_lines = [(5, 0, 0)]
         for line in template.sale_order_template_line_ids:
             data = self._compute_line_data_for_template_change(line)
@@ -113,8 +114,7 @@ class SaleOrder(models.Model):
                     'model': line.model,
                     'type': line.type,
                     'kwpunit': line.kwpunit,
-                    'printkwp': line.printkwp,
-                    
+                    'printkwp': line.printkwp,                    
                     'quotation_template_line_id': line.id
                 })
 

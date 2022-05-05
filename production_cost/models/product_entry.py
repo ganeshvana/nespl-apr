@@ -146,7 +146,9 @@ class ProductEntry(models.Model):
                         'product_uom_id': line.product_uom_id.id,
                         'quotation_template_line_id' : line.id,
                         'type': line.type,
-                        'kwp': self.quotation_template_id.kw
+                        'kwp': self.quotation_template_id.kw,
+                        'cost': line.cost,
+                        'kw_cost': self.quotation_template_id.kw * line.cost
                     }
                     order_lines.append((0, 0, data))
             for line in self.quotation_template_id.sale_order_template_option_ids:
@@ -156,7 +158,9 @@ class ProductEntry(models.Model):
                         'product_id': line.product_id.id,
                         'product_uom_id': line.uom_id.id,
                         'quotation_template_line_id' : line.id,
-                        'kwp': self.quotation_template_id.kw
+                        'kwp': self.quotation_template_id.kw,
+                        'cost': line.cost,
+                        'kw_cost': self.quotation_template_id.kw * line.cost
                     }
                     option_lines.append((0, 0, data))
         self.order_line = order_lines
@@ -177,8 +181,7 @@ class ProductEntry(models.Model):
                         sale_line.price_unit = line.cost
                         sale_line.price_subtotal = line.total
                         sale_line.product_uom_qty = line.product_uom_qty
-                        sale_line.type = line.type
-                        
+                        sale_line.type = line.type                        
                 if line.sale_order_line_id:                    
                     line.sale_order_line_id.price_unit = line.cost
                     line.sale_order_line_id.price_subtotal = line.total
@@ -198,6 +201,10 @@ class ProductEntry(models.Model):
                         'order_id': order.sale_order_id.id
                         })
                     line.sale_order_line_id = template_line.id
+                    
+                if line.quotation_template_line_id:
+                    line.quotation_template_line_id.cost = line.cost
+                    
             # for oline in order.cost_lines_option:
                 
             # if order.quotation_template_id:

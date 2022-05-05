@@ -52,9 +52,9 @@
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
                            		<tree editable="bottom">
                            			<field name="type" required="1" />
-                           			<field name="cost" sum="Total"/>
-                           			<field name="markup" invisible="1"/>
-                           			<field name="markup_amt" sum="Total"/>
+                           			<field name="cost" sum="Total" invisible="1"/>
+                           			<field name="markup" invisible="1" />
+                           			<field name="markup_amt" sum="Total" invisible="1"/>
                            			<field name="quoted_price" sum="Total"/>
                            			<field name="kw_price" sum="Total"/>
                            		</tree>
