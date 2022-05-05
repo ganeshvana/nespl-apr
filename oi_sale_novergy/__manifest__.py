@@ -18,6 +18,7 @@
         'views/report_proforma.xml',
          'views/report_template_billmaterial.xml',
         'views/report_material.xml',
+        'views/report_template_capex_bom_sale.xml',
         # 'views/manufacturing_inherit_view.xml',
         'views/sale_inherit_view.xml',
         'views/report_template_pricelist.xml',

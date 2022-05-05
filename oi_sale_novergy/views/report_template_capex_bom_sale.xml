@@ -1,38 +1,6 @@
 <odoo>
 	<data>
-		<template id="manufacturing_report_external_layout">
-			<div t-attf-class="header" t-att-style="report_header_style">
-                <table style="border-style:none;" width="100%">
-                	<tr style="border-style:none;" width="100%">
-                		<td style="border-style:none;vertical-align:middle;" width="70%">
-                			<h2>NOVERGY SOLAR</h2>
-                		</td>
-                		<td style="border-style:none;text-align:right;" width="30%">
-                			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 5cm; max-width: 6cm;" align="right"/>
-                			<br/>
-                			<span style="text-align:center;">www.novergysolar.com</span>
-                		</td>
-                	</tr>
-                </table>
-            </div>
-            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
-                <t t-raw="0"/>
-            </div>
-            <div t-attf-class="footer o_standard_footer ">
-                <table width="100%" style="border:none;">
-                    <tr>
-                        <td><center>
-                        <span class="page"/><br/>
-                        Novergy Energy Solutions Pvt. Ltd.<br/>
-                        Contact: enquiry@novergy.net	
-                        </center></td>
-                    </tr>
-                </table>
-            </div>
-		</template>
-
-
-		<template id="capex_report_template">
+		<template id="capex_report_template_sale">
 			<t t-call="oi_sale_novergy.manufacturing_report_external_layout">
 				<t t-set="doc"
 					t-value="doc.with_context(lang=doc.partner_id.lang)" />
@@ -54,23 +22,22 @@
 							Circle view apt.<br/>
 							Udaipur-313001 (Rajasthan)<br/>
 							GSTIN No. :- 08AACCN4908R1ZV<br/>
-							Email id : <span t-field="doc.sale_order_id.user_id.email"/>
+							Email id : <span t-field="doc.user_id.email"/>
 							</p>
 						</td>
 					</table> -->
-					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
-							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.sale_order_id.name"/></td>
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.name"/></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.sale_order_id.partner_id.name"/><br/>
-							<span t-field="doc.sale_order_id.partner_id.city"/>
-							<span t-field="doc.sale_order_id.partner_id.state_id.name"/>
+							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.partner_id.name"/><br/>
+							<span t-field="doc.partner_id.city"/>
+							<span t-field="doc.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
@@ -91,8 +58,8 @@
 					<br/>
 					<br/>
 					<br/>
-					<span t-field="doc.sale_order_id.user_id.name"/><br/>
-					(<span t-field="doc.sale_order_id.user_id.employee_id.job_id.name"/>)</p>
+					<span t-field="doc.user_id.name"/><br/>
+					(<span t-field="doc.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
 					
 					
@@ -127,7 +94,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
+						<t t-foreach="doc.order_line" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type and line.hide == False">
 									<t t-set="i" t-value="i + 1"/>
@@ -139,7 +106,7 @@
 								<span t-field="line.product_id.product_tmpl_id.name"/>	
 								<t t-if="line.name1">
 										<br/>
-										<span t-field="line.name1"/>
+										<span t-field="line.name"/>
 									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
@@ -163,7 +130,7 @@
 									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<span t-field="line.product_uom_id"/>
+									<span t-field="line.product_uom"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<t t-if="line.printkwp">
@@ -190,7 +157,7 @@
 						</t>
 					</table>
 					<br/>
-					<t t-if="doc.sale_order_template_option_ids">
+					<t t-if="doc.sale_order_option_ids">
 					<p><strong>EXTRA WORKS:</strong></p>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
@@ -215,7 +182,7 @@
 						</tr>
 						
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_template_option_ids" t-as="line">
+						<t t-foreach="doc.sale_order_option_ids" t-as="line">
 							<tr style="border-style: solid;border-width:1px;">
 								<t t-set="i" t-value="i + 1"/>
 								<td style="border-style: solid;border-width:1px;" width="5%">
@@ -244,13 +211,14 @@
 					</t>
 					<br/>
 					<t t-set="total" t-value="0"/>
+					
 					<t t-if="doc.costing_structure_ids">
 						<p><strong><u>COMMERCIAL OFFER:</u></strong></p>
 					<table style="border-style:none;" width="100%">
 					<tr style="border-style:solid;border-width:1px;" width="100%">
 						<td style="border-style:solid;border-width:1px;"><strong>Heading</strong></td>
 						<td style="border-style:solid;border-width:1px;"><strong>Description</strong></td>
-						<td style="border-style:solid;border-width:1px;"><strong>Amount in Figures <span t-field="doc.sale_order_id.currency_id.symbol"/></strong></td>
+						<td style="border-style:solid;border-width:1px;"><strong>Amount in Figures <span t-field="doc.currency_id.symbol"/></strong></td>
 						<td style="border-style:solid;border-width:1px;"><strong>Amount in words</strong></td>
 					</tr>
 					<t t-foreach="doc.costing_structure_ids" t-as="line">
@@ -262,7 +230,7 @@
 								Supply Main BOM
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)" widget="float"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'optional' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -270,7 +238,7 @@
 								Extra works BoM
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'ic' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -279,7 +247,7 @@
 								Installation and Commissioning
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'amc' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -287,7 +255,7 @@
 								Annual Maintenance Charges
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						
 						<t t-if="line.type == 'om' and line.print_type">
@@ -296,7 +264,7 @@
 								Operation and Maintenance
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'camc' and line.print_type">
 							<t t-set="total" t-value="total + line.quoted_price"/>
@@ -304,13 +272,13 @@
 								Comprehensive Annual Maintenance Charges
 							</td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.sale_order_id.currency_id.amount_to_text(line.quoted_price)" /></td>
+							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 					</tr>
 					</t>
 					</table>
 					</t>	
-					<!-- <p><br/><strong>Amount in words:</strong> Rs.  <span t-esc="doc.sale_order_id.sale_order_id.currency_id.amount_to_text(total)" /></p>	 -->		
+					<!-- <p><br/><strong>Amount in words:</strong> Rs.  <span t-esc="doc.currency_id.amount_to_text(total)" /></p>	 -->		
 					<p style="page-break-before:always;"> </p>	
 					<p><center><strong>TERMS AND CONDITIONS:</strong></center></p>
 					<p>
@@ -318,7 +286,7 @@
 					</p>
 					<t t-set="i" t-value="0"/>
 					<t t-set="desc" t-value="0"/>
-					<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
+					<t t-foreach="doc.payment_term_id.line_ids" t-as="line">
 						<t t-if="line.desc"><t t-set="desc" t-value="True"/></t>
 					</t>
 					<t t-if="desc==True">
@@ -328,7 +296,7 @@
 							<td style="border-style: solid;border-width:1px;">Percentage</td>
 							<td style="border-style: solid;border-width:1px;">Milestone</td>
 						</tr>
-						<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
+						<t t-foreach="doc.payment_term_id.line_ids" t-as="line">
 							<t t-if="line.name">
 							<tr style="border-style: solid;border-width:1px;">
 								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply"/></td>
@@ -340,7 +308,7 @@
 					</table>
 					</t>
 					<t t-if="not desc==True">
-						<span t-field="doc.sale_order_id.payment_term_id.name"/>
+						<span t-field="doc.payment_term_id.name"/>
 					</t>
 					<p><span t-field="doc.sale_term"/></p>
 					<span style="color:red;font-color:red;">
@@ -352,16 +320,16 @@
 		</template>
 
 
-		<template id="capex_report">
+		<template id="capex_report_sale">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="doc">
-					<t t-call="oi_sale_novergy.capex_report_template"
+					<t t-call="oi_sale_novergy.capex_report_template_sale"
 						t-lang="doc.partner_id.lang" />
 				</t>
 			</t>
 		</template>
 		
-		<template id="report_materialsbill_report_template">
+		<template id="report_materialsbill_report_template_sale">
 			<t t-call="oi_sale_novergy.manufacturing_report_external_layout">
 				<t t-set="doc"
 					t-value="doc.with_context(lang=doc.partner_id.lang)" />
@@ -397,7 +365,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_template_line_ids" t-as="line">
+						<t t-foreach="doc.order_line" t-as="line">
 							<tr t-att-class="'bg-200 font-weight-bold o_line_section' if line.display_type == 'line_section' else 'font-italic o_line_note' if line.display_type == 'line_note' else ''">
 								<t t-if="not line.display_type and line.hide == False">
 									<t t-set="i" t-value="i + 1"/>
@@ -409,7 +377,7 @@
 								<span t-field="line.product_id.product_tmpl_id.name"/>	
 								<t t-if="line.name1">
 										<br/>
-										<span t-field="line.name1"/>
+										<span t-field="line.name"/>
 									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="50%">
@@ -433,7 +401,7 @@
 									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<span t-field="line.product_uom_id"/>
+									<span t-field="line.product_uom"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<t t-if="line.printkwp">
@@ -460,7 +428,7 @@
 						</t>
 					</table>
 					<br/>
-					<t t-if="doc.sale_order_template_option_ids">
+					<t t-if="doc.sale_order_option_ids">
 					<p><strong>Extra Works:</strong></p>
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="border-style: solid;border-width:1px;">
@@ -529,7 +497,7 @@
 					</p>
 					<t t-set="i" t-value="0" />
 					<t t-set="desc" t-value="0"/>
-					<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
+					<t t-foreach="doc.payment_term_id.line_ids" t-as="line">
 						<t t-if="line.desc"><t t-set="desc" t-value="True"/></t>
 					</t>
 					<t t-if="desc==True">
@@ -539,7 +507,7 @@
 							<td style="border-style: solid;border-width:1px;">Percentage</td>
 							<td style="border-style: solid;border-width:1px;">Milestone</td>
 						</tr>
-						<t t-foreach="doc.sale_order_id.payment_term_id.line_ids" t-as="line">
+						<t t-foreach="doc.payment_term_id.line_ids" t-as="line">
 							<t t-if="line.name">
 							<tr style="border-style: solid;border-width:1px;">
 								<td style="border-style: solid;border-width:1px;"><span t-esc="line.supply"/></td>
@@ -551,7 +519,7 @@
 					</table>
 					</t>
 					<t t-if="not desc==True">
-						<span t-field="doc.sale_order_id.payment_term_id.name"/>
+						<span t-field="doc.payment_term_id.name"/>
 					</t>
 					<p><span t-field="doc.sale_term" /></p>
 					<span style="color:red;font-color:red;">
@@ -563,10 +531,10 @@
 		</template>
 
 
-		<template id="materialsbill_report_report">
+		<template id="materialsbill_report_report_sale">
 			<t t-call="web.html_container">
 				<t t-foreach="docs" t-as="doc">
-					<t t-call="oi_sale_novergy.report_materialsbill_report_template"
+					<t t-call="oi_sale_novergy.report_materialsbill_report_template_sale"
 						t-lang="doc.partner_id.lang" />
 				</t>
 			</t>

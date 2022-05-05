@@ -18,5 +18,24 @@
                 file="oi_sale_novergy.capex_report"
                 name="oi_sale_novergy.capex_report"
         />
+        
+        
+        
+        <report
+                id="action_report_materialsbill_report_sale"
+                string="Bill of Material"
+                model="sale.order"
+                report_type="qweb-pdf"
+                file="oi_sale_novergy.materialsbill_report_report_sale"
+                name="oi_sale_novergy.materialsbill_report_report_sale"
+        />
+        
+        <report id="action_report_capex_sales"
+                string="Capex"
+                model="sale.order"
+                report_type="qweb-pdf"
+                file="oi_sale_novergy.capex_report_sale"
+                name="oi_sale_novergy.capex_report_sale"
+        />
     </data>
 </odoo>
