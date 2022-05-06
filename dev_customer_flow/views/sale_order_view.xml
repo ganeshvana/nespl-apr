@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   		<record id="sale_order_inherit_view" model="ir.ui.view">
+         <field name="name">sale.order.inherit.view</field>
+         <field name="model">sale.order</field>
+	      <field name="inherit_id" ref="sale.view_order_form"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="replace">
+               <field name="partner_id" domain="[('state', '=','approve')]"/>
+            </xpath>
+           
+      </field>
+      </record>
+      
+      <record id="purchase_order_inherit_view" model="ir.ui.view">
+         <field name="name">purhase.order.inherit.view</field>
+         <field name="model">purchase.order</field>
+	     <field name="inherit_id" ref="purchase.purchase_order_form"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                   <field name="partner_id" domain="[('state', '=','approve')]"/>
+            </xpath>
+      </field>
+      </record>
+      
+       <record id="stock_picking_inherit_view" model="ir.ui.view">
+         <field name="name">stock.picking.inherit.view</field>
+         <field name="model">stock.picking</field>
+	     <field name="inherit_id" ref="stock.view_picking_form"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="replace">
+                        <field name="partner_id" domain="[('state', '=','approve')]"/>
+            </xpath>
+      </field>
+      </record>
+      
+       <record id="account_invoice_inherit_view" model="ir.ui.view">
+         <field name="name">account.invoice.inherit.view</field>
+         <field name="model">account.move</field>
+	     <field name="inherit_id" ref="account.view_move_form"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="replace">
+            
+                    <field string="Customer" name="partner_id" domain="[('state', '=','approve')]"/>
+            
+            </xpath>
+      </field>
+      </record>
+
+</odoo>
+
+
