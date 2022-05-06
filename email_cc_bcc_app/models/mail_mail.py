@@ -23,6 +23,7 @@ _logger = logging.getLogger(__name__)
 class MailMail(models.Model):
 	_inherit = 'mail.mail'
 
+	notification = fields.Boolean("Notify")
 	recipient_cc_ids = fields.Many2many(
 		'res.partner', 'mail_mail_cc_res_partner_rel',
 		'mail_mail_id', 'partner_id', 'CC (Partners)')
