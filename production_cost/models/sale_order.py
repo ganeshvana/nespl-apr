@@ -135,9 +135,9 @@ class SaleOrder(models.Model):
 
         self.sale_order_option_ids = option_lines
         
-        op_lines = [(5, 0, 0)]
-        o_data = {}
+        op_lines = [(5, 0, 0)]        
         for ol in template.opex_lines:
+            o_data = {}
             o_data.update({
                     'sequence': ol.sequence,
                     'particular': ol.particular,
@@ -146,9 +146,9 @@ class SaleOrder(models.Model):
             op_lines.append((0, 0, o_data))
         self.opex_lines = op_lines
         
-        op_lines1 = [(5, 0, 0)]
-        o_data2 = {}
+        op_lines1 = [(5, 0, 0)]        
         for ol in template.opex_lines_site_rate:
+            o_data2 = {}
             o_data2.update({
                     'site_id': ol.site_id,
                     'particular': ol.particular,
@@ -158,9 +158,9 @@ class SaleOrder(models.Model):
             op_lines1.append((0, 0, o_data2))
         self.opex_lines_site_rate = op_lines1
         
-        op_lines2 = [(5, 0, 0)]
-        o_data3 = {}
+        op_lines2 = [(5, 0, 0)]        
         for ol in template.opex_lines_site:
+            o_data3 = {}
             o_data3.update({
                     'plant_name': ol.plant_name,
                     'buyer_location': ol.buyer_location,
