@@ -94,7 +94,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Location</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>Offered Solar capacity KWp (DC)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -103,7 +103,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Contract Demand / Sanction Load (KVA)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
 								<strong>Buyer grid connection Voltage (KV)</strong>
 							</td>
 						</tr>
@@ -136,7 +136,7 @@
 						</t>
 					</table>
 					<br/>
-					<p style="page-break-before:always;"> </p>	
+						<p style="page-break-before:always;"> </p>	
 						<p>
 							<strong>B) SOLAR TARIFF:</strong><br/>
 						</p>
@@ -181,8 +181,9 @@
 							</tr>
 						</t>
 					</table>
-					<p style="page-break-before:always;"> </p>		
+						
 					<br/>
+					<p style="page-break-before:always;"> </p>	
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
@@ -223,6 +224,7 @@
 						</t></tbody>
 					</table>
 					<br/>
+					<p style="page-break-before:always;"> </p>	
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
@@ -384,14 +386,12 @@
 									<span t-field="line.product_uom"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<t t-if="line.printkwp">
 										<span t-field="line.kwpunit"/>
 									</t>
 									<t t-if="not line.printkwp">
 										<span t-field="line.product_uom_qty"/>
 									</t>
-								</td>
 								</td>
 							</t>
 							<t t-if="line.display_type == 'line_section'">
