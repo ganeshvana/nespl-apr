@@ -20,8 +20,7 @@
                       <field name="entry_count" widget="statinfo" string="Project Costing"/>
                   </button>
                 </xpath>
-                <xpath expr="//field[@name='payment_term_id']" position="before">
-                	
+                <xpath expr="//field[@name='payment_term_id']" position="before">                	
                 	<field name="content"/>
                 </xpath>
                 
@@ -46,8 +45,46 @@
                 	<field name="printkwp" optional="hide"/>
                 	<field name="quotation_template_line_id" optional="hide"/>
                 </xpath>
-                <xpath expr="//notebook" position="inside" invisible="1">
-                  <page string="Costing" attrs="{'invisible':[('costing_structure_ids', '=', [])]}">
+                <xpath expr="//notebook" position="inside">
+                	<page name="opex" string="Capex / Opex / Open Access">
+                		<group string="Summary">
+                			<field name="opex_description" nolabel="1"/>
+                		</group>
+                		<group string="Plants">
+                			<field name="opex_lines_site"  nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="plant_name" required="1"/>
+	                				<field name="buyer_location" required="1"/>
+	                				<field name="solar_capacity" required="1"/>
+	                				<field name="output_voltage" required="1"/>
+	                				<field name="buyer_contract" required="1"/>
+	                				<field name="buyer_grid" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Solar Tariff">
+                			<field name="opex_lines_site_rate" nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="site_id" required="1"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="rate" required="1"/>
+	                				<field name="year" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Special Terms and Condition">
+                			<field name="opex_lines"  nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="sequence" widget="handle"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="offered" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                	</page>
+                  <page string="Costing" attrs="{'invisible':[('costing_structure_ids', '=', [])]}" invisible="1">
                 		<group string="Costing Structure">
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
                            		<tree editable="bottom">

@@ -28,6 +28,10 @@ class SaleOrder(models.Model):
     reference = fields.Char("Reference")
     kind_attn = fields.Char("Kind Attn.")
     content = fields.Html("Content", default=default_content, copy=True)
+    opex_lines = fields.One2many('opex.lines', 'sale_order_id', "OPEX", copy=True)
+    opex_lines_site = fields.One2many('opex.lines.site', 'sale_order_id', "OPEX Sites", copy=True)
+    opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'sale_order_id', "OPEX", copy=True)
+    opex_description = fields.Html("Summary", copy=True)
     
     
     @api.onchange('employee_pin', 'employee_id')
@@ -130,7 +134,45 @@ class SaleOrder(models.Model):
             option_lines.append((0, 0, data))
 
         self.sale_order_option_ids = option_lines
-
+        
+        op_lines = [(5, 0, 0)]
+        o_data = {}
+        for ol in template.opex_lines:
+            o_data.update({
+                    'sequence': ol.sequence,
+                    'particular': ol.particular,
+                    'offered': ol.offered,
+                })
+            op_lines.append((0, 0, o_data))
+        self.opex_lines = op_lines
+        
+        op_lines1 = [(5, 0, 0)]
+        o_data2 = {}
+        for ol in template.opex_lines_site_rate:
+            o_data2.update({
+                    'site_id': ol.site_id,
+                    'particular': ol.particular,
+                    'rate': ol.rate,
+                    'year': ol.year,
+                })
+            op_lines1.append((0, 0, o_data2))
+        self.opex_lines_site_rate = op_lines1
+        
+        op_lines2 = [(5, 0, 0)]
+        o_data3 = {}
+        for ol in template.opex_lines_site:
+            o_data3.update({
+                    'plant_name': ol.plant_name,
+                    'buyer_location': ol.buyer_location,
+                    'solar_capacity': ol.solar_capacity,
+                    'output_voltage': ol.output_voltage,
+                    'buyer_contract': ol.buyer_contract,
+                    'buyer_grid': ol.buyer_grid,
+                })
+            op_lines2.append((0, 0, o_data3))
+        self.opex_lines_site = op_lines2
+        
+        
         if template.number_of_days > 0:
             self.validity_date = fields.Date.context_today(self) + timedelta(template.number_of_days)
 
@@ -423,6 +465,7 @@ class OpexLines(models.Model):
     particular = fields.Html("Particular")
     offered = fields.Html("Offered")
     sequence = fields.Integer("Sequence")
+    sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
     
     
 class OpexLinesSite(models.Model):
@@ -437,6 +480,7 @@ class OpexLinesSite(models.Model):
     output_voltage = fields.Char("Solar System Output Voltage")
     buyer_contract = fields.Char("Buyer Contract Demand / Sanction Load (KVA)")
     buyer_grid = fields.Char("Buyer grid connection Voltage (KV)")
+    sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
     
 class OpexLinesSiteYear(models.Model):
     _name = 'opex.lines.site.year'
@@ -447,3 +491,4 @@ class OpexLinesSiteYear(models.Model):
     particular = fields.Char("Particular")
     year = fields.Char("Tenure of Agreement")
     rate = fields.Float("Rate Rs. / Kwh")
+    sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')

@@ -94,7 +94,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Location</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Offered Solar capacity KWp (DC)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
@@ -103,7 +103,7 @@
 							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer Contract Demand / Sanction Load (KVA)</strong>
 							</td>
-							<td style="border-style: solid;border-width:1px;text-align:center;" width="20%">
+							<td style="border-style: solid;border-width:1px;text-align:center;" width="15%">
 								<strong>Buyer grid connection Voltage (KV)</strong>
 							</td>
 						</tr>
@@ -120,7 +120,7 @@
 								<td style="border-style: solid;border-width:1px;" width="15%">
 											<span t-field="line.buyer_location"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
+								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.solar_capacity"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="15%">
@@ -129,14 +129,14 @@
 								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.buyer_contract"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="20%">
+								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.buyer_grid"/>
 								</td>
 							</tr>
 						</t>
 					</table>
 					<br/>
-					
+					<p style="page-break-before:always;"> </p>	
 						<p>
 							<strong>B) SOLAR TARIFF:</strong><br/>
 						</p>
@@ -181,7 +181,7 @@
 							</tr>
 						</t>
 					</table>
-						
+					<p style="page-break-before:always;"> </p>		
 					<br/>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
@@ -213,10 +213,10 @@
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
 									<span t-esc="i"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;" width="45%">
 									<span t-field="line.particular"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;" width="45%">
 									<span t-field="line.offered"/>
 								</td>
 							</tr>
@@ -384,7 +384,14 @@
 									<span t-field="line.product_uom_id"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<span t-field="line.product_uom_qty"/>
+									<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
+									<t t-if="line.printkwp">
+										<span t-field="line.kwpunit"/>
+									</t>
+									<t t-if="not line.printkwp">
+										<span t-field="line.product_uom_qty"/>
+									</t>
+								</td>
 								</td>
 							</t>
 							<t t-if="line.display_type == 'line_section'">
@@ -460,7 +467,7 @@
 								<td style="border-style: solid;border-width:1px;" width="15%">
 											<span t-field="line.buyer_location"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="10%">
+								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.solar_capacity"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;" width="15%">
@@ -469,14 +476,14 @@
 								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.buyer_contract"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="20%">
+								<td style="border-style: solid;border-width:1px;" width="15%">
 									<span t-field="line.buyer_grid"/>
 								</td>
 							</tr>
 						</t>
 					</table>
 					<br/>
-					
+						<p style="page-break-before:always;"> </p>	
 						<p>
 							<strong>B) SOLAR TARIFF:</strong><br/>
 						</p>
@@ -523,6 +530,7 @@
 					</table>
 						
 					<br/>
+					<p style="page-break-before:always;"> </p>	
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
@@ -553,16 +561,17 @@
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
 									<span t-esc="i"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;" width="45%">
 									<span t-field="line.particular"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="50%">
+								<td style="border-style: solid;border-width:1px;" width="45%">
 									<span t-field="line.offered"/>
 								</td>
 							</tr>
 						</t></tbody>
 					</table>
 					<br/>
+					<p style="page-break-before:always;"> </p>	
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr style="solid;border-width:1px;width:100%;boder-top:hidden;border-bottom:hidden">
 							<td style="width:100%;text-align:left;border-left:hidden;border-right:hidden">
