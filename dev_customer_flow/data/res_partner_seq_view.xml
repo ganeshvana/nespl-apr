@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data noupdate="1">     
+        <record id="seq_flow_partner" model="ir.sequence">
+            <field name="name">Flow Sequence</field>
+            <field name="code">res.partner</field>
+            <field name="prefix">RP / </field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+         </data>
+ 
+</openerp>
