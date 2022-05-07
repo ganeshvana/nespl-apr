@@ -108,7 +108,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_id.opex_lines_site" t-as="line">
+						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
@@ -160,7 +160,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_id.opex_lines_site_rate" t-as="line">
+						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
 								<td style="border-style: solid;border-width:1px;text-align:center;">
@@ -207,7 +207,7 @@
 							</th>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<tbody><t t-foreach="doc.sale_order_id.opex_lines" t-as="line">
+						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
@@ -381,7 +381,7 @@
 									</t>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
-									<span t-field="line.product_uom_id"/>
+									<span t-field="line.product_uom"/>
 								</td>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
@@ -455,7 +455,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_id.opex_lines_site" t-as="line">
+						<t t-foreach="doc.opex_lines_site" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
@@ -507,7 +507,7 @@
 							</td>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<t t-foreach="doc.sale_order_id.opex_lines_site_rate" t-as="line">
+						<t t-foreach="doc.opex_lines_site_rate" t-as="line">
 							<t t-set="i" t-value="i+1"/>
 							<tr>
 								<td style="border-style: solid;border-width:1px;text-align:center;">
@@ -555,7 +555,7 @@
 							</th>
 						</tr>
 						<t t-set="i" t-value="0"/>
-						<tbody><t t-foreach="doc.sale_order_id.opex_lines" t-as="line">
+						<tbody><t t-foreach="doc.opex_lines" t-as="line">
 							<tr>
 								<t t-set="i" t-value="i+1"/>
 								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
