@@ -84,6 +84,7 @@ class SaleOrder(models.Model):
         self.reference = self.sale_order_template_id.reference
         self.kind_attn = self.sale_order_template_id.kind_attn
         self.content = self.sale_order_template_id.content
+        self.kw = self.sale_order_template_id.kw
         order_lines = [(5, 0, 0)]
         for line in template.sale_order_template_line_ids:
             data = self._compute_line_data_for_template_change(line)
@@ -113,8 +114,7 @@ class SaleOrder(models.Model):
                     'model': line.model,
                     'type': line.type,
                     'kwpunit': line.kwpunit,
-                    'printkwp': line.printkwp,
-                    
+                    'printkwp': line.printkwp,                    
                     'quotation_template_line_id': line.id
                 })
 
@@ -306,17 +306,17 @@ class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'
     _inherit = [ 'sale.order.template', 'mail.thread', 'mail.activity.mixin']
     
-    kw = fields.Float("KWP")
+    kw = fields.Float("KWP", copy=True)
     state = fields.Selection([('draft', 'Draft'), ('validated', 'Validated')], default='draft', copy=False, track_visiblity='onchange')
     sale_order_id = fields.Many2one('sale.order', "Sale Order", track_visiblity='onchange')
     partner_id = fields.Many2one(related='sale_order_id.partner_id', store=True)
-    opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX")
-    opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites")
-    opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX")
-    opex_description = fields.Html("Summary")
-    subject = fields.Char("Subject")
-    reference = fields.Char("Reference")
-    kind_attn = fields.Char("Kind Attn.")
+    opex_lines = fields.One2many('opex.lines', 'template_id', "OPEX", copy=True)
+    opex_lines_site = fields.One2many('opex.lines.site', 'template_id', "OPEX Sites", copy=True)
+    opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'template_id', "OPEX", copy=True)
+    opex_description = fields.Html("Summary", copy=True)
+    subject = fields.Char("Subject", copy=True)
+    reference = fields.Char("Reference", copy=True)
+    kind_attn = fields.Char("Kind Attn.", copy=True)
     content = fields.Html("Content", default=default_content, copy=True)
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)

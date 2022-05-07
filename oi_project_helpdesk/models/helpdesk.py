@@ -32,17 +32,17 @@ class Helpdesk(models.Model):
         #     if self.employee_pin != self.employee_id.employee_pin:
         #         raise ValidationError("PIN is wrong!!!")
         
-    def write(self, vals):
-        res = super(Helpdesk, self).write(vals)
-        for rec in self:
-            if rec.employee_id and not rec.employee_pin:
-                raise ValidationError("Enter Employee PIN !!!")
-            if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
-                raise ValidationError("PIN is wrong!!!")
-            if 'employee_pin' in vals:
-                if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
-                    raise ValidationError("PIN is wrong!!!")
-        return res
+    # def write(self, vals):
+    #     res = super(Helpdesk, self).write(vals)
+    #     for rec in self:
+    #         if rec.employee_id and not rec.employee_pin:
+    #             raise ValidationError("Enter Employee PIN !!!")
+    #         if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+    #             raise ValidationError("PIN is wrong!!!")
+    #         if 'employee_pin' in vals:
+    #             if rec.employee_id and rec.employee_pin != rec.employee_id.employee_pin:
+    #                 raise ValidationError("PIN is wrong!!!")
+    #     return res
     
     @api.onchange('partner_id', 'sale_order_id', 'stock_production_lot_id')
     def onchange_partner_id(self):

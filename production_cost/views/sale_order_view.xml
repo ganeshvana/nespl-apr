@@ -30,6 +30,7 @@
                   <attribute name="attrs">{'readonly': [('state','in',['done','cancel'])]}</attribute>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
+                  
                   <field name="subject"/>
                 	<field name="kind_attn"/>
                 	<field name="reference"/>
@@ -51,9 +52,9 @@
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
                            		<tree editable="bottom">
                            			<field name="type" required="1" />
-                           			<field name="cost" sum="Total"/>
-                           			<field name="markup" invisible="1"/>
-                           			<field name="markup_amt" sum="Total"/>
+                           			<field name="cost" sum="Total" invisible="1"/>
+                           			<field name="markup" invisible="1" />
+                           			<field name="markup_amt" sum="Total" invisible="1"/>
                            			<field name="quoted_price" sum="Total"/>
                            			<field name="kw_price" sum="Total"/>
                            		</tree>
