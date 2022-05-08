@@ -12,7 +12,8 @@ class stock_picking(models.Model):
     material_insured1 = fields.Selection([('Yes', 'Yes'), ('No', 'NO')], string="Material Insured", copy=False)
     insurance_policy = fields.Char(string="Insurance Policy ", copy=False)
     insurance_number = fields.Char(string="Insurance Number", copy=False)
-    transport = fields.Selection([('road', 'Road'), ('air', 'Air'), ('sea', 'Sea'),('courier', 'Courier'),('truck', 'Truck')], string="Mode Of Transport", copy=False)
+    transport_mode = fields.Selection([('road', 'Road'), ('air', 'Air'), ('sea', 'Sea')], string="Mode Of Transport", copy=False)
+    transport = fields.Selection([('courier', 'Courier'),('truck', 'Truck')], string="Truck / Courier", copy=False)
     loading = fields.Char(string="Place Of Loading", copy=False)
     discharge = fields.Char(string="Place Of Discharge", copy=False)
     truck_number = fields.Char("Truck Number")
@@ -25,6 +26,7 @@ class stock_picking(models.Model):
     tracking = fields.Char("Tracking ID")
     contact_person = fields.Char("Contact Person")
     contact_person_number = fields.Char("Contact Person Mobile")
+    address_id = fields.Many2one('res.partner', "Address")
     
     def button_validate(self):
         res = super(stock_picking, self).button_validate()
@@ -35,9 +37,10 @@ class stock_picking(models.Model):
                     raise UserError(_('All Items should be shipped at once for this Delivery.'))
         return res
     
-    @api.model
     def create(self, vals):     
         res = super(stock_picking, self).create(vals)
+        if res.company_id:
+            res.address_id = res.company_id.partner_id.id
         if res.sale_id:
             res.project_number = res.sale_id.project_number
         if res.message_follower_ids:
@@ -45,7 +48,6 @@ class stock_picking(models.Model):
                 line.sudo().unlink()
         return res
     
-    @api.model
     def write(self, vals):     
         res = super(stock_picking, self).write(vals)
         res = self

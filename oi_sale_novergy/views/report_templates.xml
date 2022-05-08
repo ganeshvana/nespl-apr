@@ -59,18 +59,18 @@
 										Novergy Energy Solutions Pvt. Ltd.
 									</strong> 
 									</h5>
-									<span t-field="doc.company_id.street"/>
-									<span t-field="doc.company_id.street2"/>
-									<span t-field="doc.company_id.city"/>-
-									<span t-field="doc.company_id.zip"/>, <span t-field="doc.company_id.state_id"/>
+									<span t-field="doc.address_id.street"/>
+									<span t-field="doc.address_id.street2"/>
+									<span t-field="doc.address_id.city"/>-
+									<span t-field="doc.address_id.zip"/>, <span t-field="doc.address_id.state_id"/>
 									<br/>
-									State Code: <span t-field="doc.company_id.partner_id.state_id.code"/> GSTIN: <span t-field="doc.company_id.partner_id.vat"/>
+									State Code: <span t-field="doc.address_id.state_id.code"/> GSTIN: <span t-field="doc.address_id.vat"/>
 							</td>
 						</tr>
 					</table>
 					<table style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
 						<tr>
-							<td style="width:40%;border:1px solid black">
+							<td style="width:40%;border:1px solid black" rowspan="3">
 								<strong>Consignee:</strong>
 								<br/>
 								<span t-field="doc.partner_id.name"/>
@@ -92,15 +92,18 @@
 								<strong>Delivery Challan No: </strong><span t-field="doc.name"/><br/>
 								<strong>Date :</strong> <span t-field="doc.scheduled_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
 								<br/>
-								<strong>Client PO No. &amp; Date : </strong><span t-field="doc.sale_id.client_order_ref"/>
-								<br/>
-								<strong>EWay Bill No.: </strong>
-								<span t-field="doc.l10n_in_ewaybill_number"/><br/>
-								<strong>Material Insured: </strong>
-								<span t-field="doc.material_insured1"/>
-								<br/>
-								<strong>Insurence Policy: </strong><span t-field="doc.insurance_policy"/>
+								<strong>Client PO No. &amp; Date : </strong><span t-field="doc.sale_id.client_order_ref"/>								
 							</td>
+						</tr>
+						<tr>
+							<td style="width:60%;border:1px solid black"><strong>EWay Bill No.: </strong>
+							<span t-field="doc.l10n_in_ewaybill_number"/><br/></td>
+						</tr>
+						<tr>
+							<td style="width:60%;border:1px solid black"><strong>Material Insured: </strong>
+							<span t-field="doc.material_insured1"/>
+							<br/>
+							<strong>Insurance Policy: </strong><span t-field="doc.insurance_policy"/></td>
 						</tr>
 					</table>
 					<table style="border:1px solid black;border-top:hidden;" width="100%">
@@ -132,7 +135,7 @@
 							</td>
 							<td style="border-style: solid;border-width:1px;border-top:hidden" width="30%">
 								<strong>Mode of transport:</strong>
-								<span t-field="doc.transport"/>
+								<span t-field="doc.transport_mode"/>
 							</td>
 						</tr>
 					</table>
@@ -189,7 +192,7 @@
 					<table style="border-style: solid;border-width:1px;" width="100%">
 						<tr style="solid;border-width:1px;width:100%">
 							<td style="border-style: solid;border-width:1px;border-top:hidden;text-align:right" width="90%">
-								<strong>TOTAL AMOUNT</strong>
+								<strong>TOTAL AMOUNT (Approx)</strong>
 							</td>
 							<td style="border-style: solid;border-width:1px;text-align:center;border-top:hidden" width="10%">
 								<strong>

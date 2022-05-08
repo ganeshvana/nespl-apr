@@ -18,6 +18,7 @@
 				<xpath expr= "//field[@name='origin']" position ="after">
 	                <field name="reference_number"/>
 	                <field name="loading"/>
+	                <field name="transport_mode"/>
 	                <field name="transport"/>
 	                <field name="transporter" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
 	                <field name="lr" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
@@ -26,6 +27,9 @@
 	                <field name="booked_by" attrs="{'invisible' : [('transport', 'not in', ['truck', 'courier'])]}"/>
 	                <field name="courier" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>
 	                <field name="tracking" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>	                
+	            </xpath>
+	            <xpath expr= "//field[@name='user_id']" position ="after">
+	            	<field name="address_id"/>
 	            </xpath>
 			</field>
 		</record>

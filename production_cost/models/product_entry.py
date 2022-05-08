@@ -174,6 +174,10 @@ class ProductEntry(models.Model):
             #     order.quotation_template_id.unlink()
             # template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
             for line in order.order_line:
+                if line.quotation_template_line_id:
+                    line.quotation_template_line_id.cost = line.cost
+                    line.quotation_template_line_id.total = line.total
+                    line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
                 sale_line = self.env['sale.order.line'].search([('order_id', '=', order.sale_order_id.id),('product_id', '!=', False),('quotation_template_line_id', '=', line.quotation_template_line_id.id)])
                 if sale_line:
                     if sale_line.product_id:
@@ -205,7 +209,12 @@ class ProductEntry(models.Model):
                 if line.quotation_template_line_id:
                     line.quotation_template_line_id.cost = line.cost
                     
-            # for oline in order.cost_lines_option:
+            for oline in order.cost_lines_option:
+                solines = order.sale_order_id.sale_order_option_ids.filtered(lambda line: line.product_id == oline.product_id)
+                if solines:
+                    for sl in solines:
+                        sl.quantity = oline.product_uom_qty
+                        sl.price_unit = oline.cost
                 
             # if order.quotation_template_id:
             #     order.quotation_template_id.project_costing_id = self.id
