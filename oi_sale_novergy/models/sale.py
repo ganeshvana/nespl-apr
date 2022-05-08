@@ -3,9 +3,22 @@ from odoo import api, fields, models, tools, _
 
 class product_pricelist(models.Model):
     _inherit = "product.pricelist"
-
-
+    
     partner_id = fields.Many2one('res.partner',string="Partner", copy=False)
+    
+class SupplierInfo(models.Model):
+    _inherit = "product.supplierinfo"
+    
+    agreement_number = fields.Char("Agreement Number")
+    agreement = fields.Boolean("Boolean")
+    
+    def create(self, vals_list):
+        result = super(SupplierInfo, self).create(vals_list)
+        for res in result:
+            if res.agreement:
+                seq = self.env['ir.sequence'].next_by_code('purchase.agreement.seq') or '/'
+                res.agreement_number = seq   
+        return result 
     
 class SO(models.Model):
     _inherit = "sale.order"
