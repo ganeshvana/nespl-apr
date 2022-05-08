@@ -10,7 +10,7 @@ class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"
     
     agreement_number = fields.Char("Agreement Number")
-    agreement = fields.Boolean("Boolean")
+    agreement = fields.Boolean("Agreement?")
     
     def create(self, vals_list):
         result = super(SupplierInfo, self).create(vals_list)
