@@ -14,7 +14,7 @@ class AccountInvoice(models.Model):
             self.is_tcs_apply = self.partner_id.tcs
 
    
-    is_tcs_apply = fields.Boolean()
+    is_tcs_apply = fields.Boolean(related='partner_id.tcs', store=True)
     tcs_value = fields.Float(
         string='TCS Value',
         store=True,
@@ -115,9 +115,9 @@ class AccountInvoice(models.Model):
                     if cred_line:
                         cred_line.debit +=  self.tcs_value
 
-# class Partner(models.Model):
-#     _inherit = 'res.partner'
-#
-#     tcs = fields.Boolean("TCS")
-#
+class Partner(models.Model):
+    _inherit = 'res.partner'
+
+    tcs = fields.Boolean("TCS")
+
 
