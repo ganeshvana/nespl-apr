@@ -115,8 +115,9 @@ class AccountInvoice(models.Model):
                     if cred_line:
                         cred_line.debit +=  self.tcs_value
 
-class Partner(models.Model):
-    _inherit = 'res.partner'
+# class Partner(models.Model):
+#     _inherit = 'res.partner'
+#
+#     tcs = fields.Boolean("TCS")
+#
 
-    tcs = fields.Boolean("TCS")
-       
