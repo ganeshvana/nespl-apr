@@ -5,6 +5,7 @@ class salevendors(models.Model):
     _description = "Sale vendors"
 
     name = fields.Many2one('res.partner', string="CLIENT NAME", copy=False)
+    
 
 
 class salevendors(models.Model):
@@ -22,7 +23,7 @@ class salevendors(models.Model):
     solar_energy_meter_model = fields.Char(string="SOLAR ENERGY METER MAKE MODEL", copy=False)
     solar_energy_meter_sr = fields.Char(string="SOLAR ENERGY METER SR.NO", copy=False)
     ct_ratio = fields.Float(string="CT RATIO", copy=False)
-    multiplication_factor = fields.Float(string="MULTIFICATION FACTOR", copy=False)
+    multiplication_factor = fields.Float(string="MULTIPLICATION FACTOR", copy=False)
     meter_voltage = fields.Char(string="METER VOLTAGE LEVEL", copy=False)
     bill_reading1 = fields.Float(string="01 BILL reading(KWH)", copy=False)
     bill_reading2 = fields.Float(string="02 BILL reading(KWH)", copy=False)
@@ -30,4 +31,5 @@ class salevendors(models.Model):
     multiplication_factor_energy = fields.Float(string="Energy with Multiplication factor (KWH)", copy=False)
     total_solar_energy = fields.Float(string="TOTAL SOLAR ENERGY FOR MONTH (in Figures)", copy=False)
     total_solar_energy_month  = fields.Integer(string="TOTAL SOLAR ENERGY FOR MONTH (in WORDS)", copy=False)
+    company_id = fields.Many2one('res.company', 'Company', required=True, index=True, default=lambda self: self.env.company)
 

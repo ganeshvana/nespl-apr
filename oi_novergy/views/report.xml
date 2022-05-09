@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+                id="action_report_solar_report"
+                string="JMR Sheet"
+                model="sale.vendors"
+                report_type="qweb-pdf"
+                file="oi_novergy.solar_report_report"
+                name="oi_novergy.solar_report_report"
+        />
+    </data>
+</odoo>

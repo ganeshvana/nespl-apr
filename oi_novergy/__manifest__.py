@@ -11,6 +11,9 @@
     'application': True,
     'data': [
         'views/sale_inherit_view.xml',
+        'views/report.xml',
+        'views/report_templates.xml'
+
        
     ],
 }
