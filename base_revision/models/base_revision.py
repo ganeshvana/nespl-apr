@@ -6,7 +6,6 @@
 
 from odoo import _, api, fields, models
 
-
 class BaseRevision(models.AbstractModel):
     _name = "base.revision"
     _description = "Document Revision (abstract)"
