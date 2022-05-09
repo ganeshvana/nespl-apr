@@ -7,17 +7,14 @@ from odoo.tools import float_is_zero
 
 class AccountInvoice(models.Model):
     _inherit = 'account.move'
+    
+    @api.onchange('partner_id')
+    def onchange_partner(self):
+        if self.partner_id:
+            self.is_tcs_apply = self.partner_id.tcs
 
    
-    is_tcs_apply = fields.Boolean(
-        string="Is TCS Applicable?",
-        default=False,
-        readonly=True,
-        states={
-            'draft': [('readonly', False)],
-            'sent': [('readonly', False)]
-        }
-    )
+    is_tcs_apply = fields.Boolean(related='partner_id.tcs', store=True)
     tcs_value = fields.Float(
         string='TCS Value',
         store=True,
@@ -25,8 +22,6 @@ class AccountInvoice(models.Model):
         compute='_compute_tcs_value',
         
     )
-   
-
 
     @api.depends(
         'invoice_line_ids.price_subtotal',        
@@ -119,4 +114,9 @@ class AccountInvoice(models.Model):
                     cred_line = self.line_ids.filtered(lambda l: l.exclude_from_invoice_tab == True and l.debit > 0)
                     if cred_line:
                         cred_line.debit +=  self.tcs_value
-        
+
+class Partner(models.Model):
+    _inherit = 'res.partner'
+
+    tcs = fields.Boolean("TCS")
+       

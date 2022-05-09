@@ -15,7 +15,6 @@
     "depends": ['base','purchase','account'],
     "data": [
         'security/ir.model.access.csv',
-        'security/security.xml',
         'views/res_company_view.xml',
         'views/purchase_order_view.xml',
         'views/account_invoice_view.xml',
