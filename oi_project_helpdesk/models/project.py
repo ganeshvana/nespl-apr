@@ -63,6 +63,7 @@ class Project(models.Model):
     employee_pin = fields.Char("Employee PIN")
     project_number = fields.Char("Project Number")
     
+    
     def name_get(self):
         result = []
         string = ''
@@ -77,7 +78,7 @@ class Project(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
     
-    project_lifelines = fields.Integer(related='project_id.project_lifelines',string="Total Lifelines", store=True)
+    project_lifelines = fields.Integer(string="Total Lifelines")
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     
