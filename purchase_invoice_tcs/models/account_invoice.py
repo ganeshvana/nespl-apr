@@ -14,7 +14,7 @@ class AccountInvoice(models.Model):
             self.is_tcs_apply = self.partner_id.tcs
 
    
-    is_tcs_apply = fields.Boolean(related='partner_id.tcs', store=True)
+    is_tcs_apply = fields.Boolean()
     tcs_value = fields.Float(
         string='TCS Value',
         store=True,
