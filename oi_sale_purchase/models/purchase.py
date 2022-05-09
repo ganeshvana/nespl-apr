@@ -91,5 +91,3 @@ class Pricelist(models.Model):
                         rec.kwp = 0.0
                         rec.kilow = 0.0
     
-    
-    
