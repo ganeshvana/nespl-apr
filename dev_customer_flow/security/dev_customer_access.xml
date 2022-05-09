@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!--Can Validate-->
+    <record model="res.groups" id="can_validate_partner">
+        <field name="name">Allow Validate Partner</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+    <!--Can Approve-->
+    <record model="res.groups" id="can_approve_partner">
+        <field name="name">Allow Approve Partner</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+    </record>
+</odoo>

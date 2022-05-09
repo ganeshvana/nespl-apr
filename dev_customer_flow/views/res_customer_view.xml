@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+<!--        kanban view-->
+    
+        <record id="res_partner_flow_kanban_view" model="ir.ui.view">
+         <field name="name">res.partner.flow.kanban.view</field>
+         <field name="model">res.partner</field>
+	     <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+         <field name="arch" type="xml">
+            <xpath expr="//field[@name='mobile']" position="after">
+                <field name="state"/>
+            </xpath>
+         
+            <!-- <xpath expr="//div[hasclass('oe_kanban_partner_links')]" position="after">
+                         <field name="state" widget="label_selection" options="{'classes': {'draft': 'default', 'done': 'default', 'approve': 'success'}}"/>
+            </xpath> -->
+         </field>
+      </record>
+    
+        
+<!--    search view-->
+     <record id="res_partner_flow_search_view" model="ir.ui.view">
+         <field name="name">res.partner.flow.search.view</field>
+         <field name="model">res.partner</field>
+	     <field name="inherit_id" ref="base.view_res_partner_filter"/>
+         <field name="arch" type="xml">
+            <xpath expr="//filter[@name='customer']" position="after">
+                        <filter string="Draft" name="draft" domain="[('state','=','draft')]"/>
+                        <filter string="Done" name="done" domain="[('state','=','done')]"/>
+                        <filter string="Approve" name="approve" domain="[('state','=','approve')]"/>
+            </xpath>
+         </field>
+      </record>
+
+
+   		 <record id="res_partner_inherit_view_xpath" model="ir.ui.view">
+         <field name="name">res.partner.inherit.view.xpath</field>
+         <field name="model">res.partner</field>
+	     <field name="inherit_id" ref="base.view_partner_form"/>
+         <field name="arch" type="xml">
+            <xpath expr="//sheet" position='before'>
+				<header>
+				    <button name="action_validate" type="object"  string="Validate" states="draft" class="oe_highlight" groups="dev_customer_flow.can_validate_partner" />
+						    
+				    <button name="action_approve" type="object"  string="Approve" states="done" class="oe_highlight" groups="dev_customer_flow.can_approve_partner" />
+				    
+<!--						    <button name="action_draft" type="object"  string="Set to Draft" states="approve" class="oe_highlight" groups="dev_customer_flow.group_user_validate" />-->
+				    
+				    <field name="state" widget="statusbar" attrs="{'readonly': [('state', '=','done')]}"/>
+			    </header>
+            </xpath>
+<!--            <xpath expr="//field[@name='name']" position="after" >-->
+<!--                                 <h2>-->
+<!--						            <field name="sequence"/>-->
+<!--						         </h2>-->
+<!--            </xpath>-->
+            <xpath expr="//field[@name='function']" position="replace">
+                        <field name="function" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+<!--            <xpath expr="//field[@name='type']" position="replace">-->
+<!--                        <field name="type" attrs="{'readonly': [('state', '=','done')]}"/>-->
+<!--            </xpath>-->
+           <!--  <xpath expr="//field[@name='is_company']" position="replace">
+                        <field name="is_company" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath> -->
+            <!-- <xpath expr="//field[@name='name']" position="replace">
+                        <field name="name" attrs="{'readonly': [('state', '=','done')]}" />
+            </xpath>
+            <xpath expr="//field[@name='category_id']" position="replace">
+                        <field name="category_id" attrs="{'readonly': [('state', '=','done')]}" widget="many2many_tags" placeholder="Tags..."/>
+            </xpath>
+            <xpath expr="//field[@name='street']" position="replace">
+                        <field name="street" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='street2']" position="replace">
+                        <field name="street2" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='city']" position="replace">
+                        <field name="city" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='state_id']" position="replace">
+                        <field name="state_id" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='zip']" position="replace">
+                        <field name="zip" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='country_id']" position="replace">
+                        <field name="country_id" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath> -->
+            <xpath expr="//field[@name='website']" position="replace">
+                        <field name="website" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+            
+             <xpath expr="//field[@name='phone']" position="replace">
+                        <field name="phone" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+             <xpath expr="//field[@name='mobile']" position="replace">
+                        <field name="mobile" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+<!--             <xpath expr="//field[@name='fax']" position="replace">-->
+<!--                        <field name="fax" attrs="{'readonly': [('state', '=','done')]}"/>-->
+<!--            </xpath>-->
+             <xpath expr="//field[@name='email']" position="replace">
+                        <field name="email" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+             <xpath expr="//field[@name='title']" position="replace">
+                        <field name="title" attrs="{'readonly': [('state', '=','done')]}"/>
+            </xpath>
+      </field>
+      </record>
+</odoo>
+
+
