@@ -11,6 +11,7 @@
         	<xpath expr= "//field[@name='journal_id']" position ="after">
                 <field name="sale_order_id" domain="[('partner_id','=',partner_id),('state','=','sale')]" attrs="{'invisible': [('payment_type','=', 'outbound')], 'readonly':[('state', '!=', 'draft')]}"/>
                 <field name="reference" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
+                <field name="payment_mode" attrs="{'readonly':[('state', '!=', 'draft')]}"/>
                 <field name="payment_term_line_ids" widget="many2many_tags" attrs="{'invisible': [('payment_type','=', 'outbound')], 'readonly':[('state', '!=', 'draft')]}"/>
                 <field name="purchase_order_id" domain="[('partner_id','=',partner_id),('state','=','purchase')]" attrs="{'invisible': [('payment_type','=', 'inbound')], 'readonly':[('state', '!=', 'draft')]}"/>
                 <field name="po_payment_term_line_ids" widget="many2many_tags" attrs="{'invisible': [('payment_type','=', 'inbound')]}"/>
