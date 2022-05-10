@@ -343,6 +343,11 @@ class SaleOrderLine(models.Model):
     printkwp = fields.Boolean("Print KWp Unit")
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
     markup = fields.Float("Markup")
+    
+    @api.onchange('price_unit', 'markup')
+    def onchange_price_unit_markup(self):
+        if self.price_unit and self.markup:
+            self.price_unit = self.price_unit + (self.price_unit * (self.markup /100))
         
 class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'
