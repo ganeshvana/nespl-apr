@@ -220,7 +220,7 @@ class ProductEntry(models.Model):
                     coline = order.sale_order_id.order_line.filtered(lambda line: line.type == cs.type)
                     for col in coline:
                         col.markup = cs.markup
-                        col.unit_price = col.unit_price + (col.unit_price * (cs.markup/100))
+                        col.price_unit = col.price_unit + (col.price_unit * (cs.markup/100))
             order.state = 'validate'
 
     def action_re_compute(self):
