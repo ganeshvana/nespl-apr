@@ -18,7 +18,7 @@ class customer_wirkflow(models.Model):
     state = fields.Selection(
         [('draft', 'Draft'), ('done', 'Validate'), ('approve', 'Approved'), ],
         string='State', default='draft')
-    sequence = fields.Char('Sequence', readonly=True, default="RP/")
+    sequence = fields.Char('Sequence', readonly=True, default="RP/", tracking=True, track_visiblity='onchange')
 
     # @api.multi
     def action_draft(self):
