@@ -342,7 +342,7 @@ class SaleOrderLine(models.Model):
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
-            
+    markup = fields.Float("Markup")
         
 class SaleOrderTemplate(models.Model):
     _name = 'sale.order.template'

@@ -205,7 +205,6 @@ class ProductEntry(models.Model):
                         'order_id': order.sale_order_id.id
                         })
                     line.sale_order_line_id = template_line.id
-                    
                 if line.quotation_template_line_id:
                     line.quotation_template_line_id.cost = line.cost
                     
@@ -215,21 +214,13 @@ class ProductEntry(models.Model):
                     for sl in solines:
                         sl.quantity = oline.product_uom_qty
                         sl.price_unit = oline.cost
-                
-            # if order.quotation_template_id:
-            #     order.quotation_template_id.project_costing_id = self.id
-                order.sale_order_id.project_costing_id = self.id
-                    # template_line = self.env['sale.order.template.line'].create({
-                    #     'sale_order_template_id': template.id,
-                    #     'product_id': line.product_id.id,
-                    #     'name': line.product_id.name,
-                    #     'product_uom_qty': line.product_uom_qty,
-                    #     'product_uom_id': line.product_uom_id.id,
-                    #     'cost': line.cost,
-                    #     'total': line.total
-                    #     })
-            # order.quotation_template_id.state = 'validated'
-            # template.state = 'validated'
+            order.sale_order_id.project_costing_id = self.id
+            if order.costing_structure_ids:
+                for cs in order.costing_structure_ids:
+                    coline = order.sale_order_id.order_line.filtered(lambda line: line.type == cs.type)
+                    for col in coline:
+                        col.markup = cs.markup
+                        col.unit_price = col.unit_price + (col.unit_price * (cs.markup/100))
             order.state = 'validate'
 
     def action_re_compute(self):
