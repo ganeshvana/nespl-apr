@@ -5,6 +5,7 @@ class product_pricelist(models.Model):
     _inherit = "product.pricelist"
     
     partner_id = fields.Many2one('res.partner',string="Partner", copy=False)
+    start_date = fields.Date("Start Date")
     
 class SupplierInfo(models.Model):
     _inherit = "product.supplierinfo"

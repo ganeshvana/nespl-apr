@@ -13,6 +13,7 @@
             <xpath expr="//field[@name='team_id']" position="after">
                  <field name="employee_id"/>  
                  <field name="employee_pin" password="True"/>  
+                 <field name="survey_id"/>  
              </xpath>
              <xpath expr="//field[@name='tag_ids']" position="after">
                  <field name="survey_id"/>  
