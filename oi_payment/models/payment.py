@@ -10,7 +10,7 @@ class Payment(models.Model):
     reference = fields.Char("Reference")
     purchase_order_id = fields.Many2one('purchase.order', "Purchase Order", copy=False)
     po_payment_term_line_ids = fields.Many2many('account.payment.term.line', 'pricelist_payment_purchase_rel', 'pricelist_id', 'payment_id',"Milestone", copy=False)
-    payment_mode = fields.Selection([('N', 'NEFT'),('I', 'IMPS'),('R', 'RTGS')], "Payment Mode", default='N')
+    payment_mode = fields.Selection([('N', 'N'),('I', 'I'),('R', 'R')], "Payment Mode", default='N')
     
     @api.onchange('sale_order_id')
     def onchange_sale_order_id(self):
