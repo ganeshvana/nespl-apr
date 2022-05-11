@@ -98,7 +98,8 @@ class PaymentExport(models.TransientModel):
             "Beneficiary Name",
             "Amount",
             "Date",
-            "IFSC code",
+            "Payment Mode",
+            "IFSC code",            
             "Payable Location",
             "Print Location",
             "Mobile No",
@@ -140,6 +141,8 @@ class PaymentExport(models.TransientModel):
             worksheet.write(row, col, str("%.2f" % payment.amount),style_right)
             col += 1
             worksheet.write(row, col, str(payment.date.strftime('%d-%b-%Y')),style_left)
+            col += 1     
+            worksheet.write(row, col, str(payment.payment_mode),style_left)
             col += 1            
             worksheet.write(row, col, pifsc,style_left)
             col += 1
