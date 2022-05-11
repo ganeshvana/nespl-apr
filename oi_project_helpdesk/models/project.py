@@ -72,12 +72,12 @@ class Project(models.Model):
     partner_latitude = fields.Float(string='Geo Latitude', digits=(10, 7))
     partner_longitude = fields.Float(string='Geo Longitude', digits=(10, 7))
     
-    def create(self, vals):
-        res = super(Project, self).create(vals)
-        seq = self.env['ir.sequence'].next_by_code('project.code.seq') or ''
-        res.project_number = seq
-        res.name = seq
-        return res
+    # def create(self, vals):
+    #     res = super(Project, self).create(vals)
+    #     seq = self.env['ir.sequence'].next_by_code('project.code.seq') or ''
+    #     res.project_number = seq
+    #     res.name = seq
+    #     return res
     
     def name_get(self):
         result = []
