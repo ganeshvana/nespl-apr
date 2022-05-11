@@ -26,7 +26,6 @@ import collections, functools, operator
 from collections import Counter
 from reportlab.rl_settings import rtlSupport
 from datetime import  date
-from datetimerange import DateTimeRange
 from datetime import timedelta
 import sys
 import pytz
