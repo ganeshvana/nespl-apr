@@ -23,6 +23,9 @@
             <form>  
             	<group>
             		<group>
+            			<field name="name_file" />
+            		</group>
+            		<group>
             			<field name="xls_file" readonly="1" filename="xls_filename"/>
             			<field name="xls_filename" readonly="1"/>
             		</group>

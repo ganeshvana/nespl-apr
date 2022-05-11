@@ -70,6 +70,7 @@ class PaymentExport(models.TransientModel):
     
     xls_file = fields.Binary(string="XLS file")
     xls_filename = fields.Char()
+    name_file = fields.Char("File Name", required=True)
     
     def generate_report(self):
         output = io.BytesIO()
@@ -97,7 +98,21 @@ class PaymentExport(models.TransientModel):
             "Beneficiary Name",
             "Amount",
             "Date",
-            "IFSC code"
+            "IFSC code",
+            "Payable Location",
+            "Print Location",
+            "Mobile No",
+            "Mail ID",
+            "Bene Address 1",
+            "Bene Address 2",
+            "Bene Address 3",
+            "Bene Address 4",
+            "Add Detail 1",
+            "Add Detail 2",
+            "Add Detail 3",
+            "Add Detail 4",
+            "Add Detail 5",
+            "Remark"
             
         ]
         row = 0
@@ -132,7 +147,7 @@ class PaymentExport(models.TransientModel):
         workbook.close()
         xlsx_data = output.getvalue()
         self.xls_file = base64.encodebytes(xlsx_data)
-        self.xls_filename = "Payment.xlsx"
+        self.xls_filename = self.name_file + '.xlsx'
  
         return {
             'type': 'ir.actions.act_window',
