@@ -35,7 +35,6 @@ class stock_picking(models.Model):
                     raise UserError(_('All Items should be shipped at once for this Delivery.'))
         return res
     
-    @api.model
     def create(self, vals):     
         res = super(stock_picking, self).create(vals)
         if res.sale_id:
@@ -45,7 +44,6 @@ class stock_picking(models.Model):
                 line.sudo().unlink()
         return res
     
-    @api.model
     def write(self, vals):     
         res = super(stock_picking, self).write(vals)
         res = self
