@@ -77,7 +77,7 @@ class PaymentExport(models.TransientModel):
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
         worksheet = workbook.add_worksheet('Payment')
         style_highlight_right = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#E0E0E0', 'align': 'right'})
-        style_highlight = workbook.add_format({'bold': True, 'pattern': 1, 'align': 'center', 'bg_color': '#FFFFFF',})
+        style_highlight = workbook.add_format({'bold': True, 'pattern': 1, 'align': 'left', 'bg_color': '#FFFFFF',})
         style_normal = workbook.add_format({'align': 'center'})
         style_right = workbook.add_format({'align': 'right'})
         style_left = workbook.add_format({'align': 'left'})
