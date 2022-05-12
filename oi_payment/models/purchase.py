@@ -6,9 +6,36 @@ class PurchaseOrder(models.Model):
     _inherit = "purchase.order"
 
     payment_detail_ids = fields.One2many('payment.details', 'purchase_order_id',"Payment Details")
+    
+    # @api.model
+    # def create(self, vals):
+    #     company_id = vals.get('company_id', self.default_get(['company_id'])['company_id'])
+    #     # Ensures default picking type and currency are taken from the right company.
+    #     self_comp = self.with_company(company_id)
+    #     if vals.get('name', 'New') == 'New':
+    #         seq_date = None
+    #         if 'date_order' in vals:
+    #             seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+    #         vals['name'] = self_comp.env['ir.sequence'].next_by_code('purchase.order', sequence_date=seq_date) or '/'
+    #     vals, partner_vals = self._write_partner_values(vals)
+    #     res = super(PurchaseOrder, self_comp).create(vals)
+    #     if partner_vals:
+    #         res.sudo().write(partner_vals)  # Because the purchase user doesn't have write on `res.partner`
+    #     return res
             
     @api.model
     def create(self, vals):
+        company_id = vals.get('company_id', self.default_get(['company_id'])['company_id'])
+        # Ensures default picking type and currency are taken from the right company.
+        self_comp = self.with_company(company_id)        
+        company = self.env['res.company'].browse(vals.get('company_id'))
+        print(company, "self_comp=====")        
+        if vals.get('name', 'New') == 'New':
+            seq_date = None
+            if 'date_order' in vals:
+                seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+            vals['name'] = 'NPO/' + company.code + '/' + self_comp.env['ir.sequence'].next_by_code('purchase.order', sequence_date=seq_date) or '/'
+        vals, partner_vals = self._write_partner_values(vals)
         res = super(PurchaseOrder, self).create(vals)
         if res.payment_term_id:
             payterm_vals = []
