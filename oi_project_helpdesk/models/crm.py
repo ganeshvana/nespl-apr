@@ -94,7 +94,7 @@ class Lead(models.Model):
             'res_model': 'survey.user_input',
         }
         if len(answer) == 1:
-            action.update({'views': [(view_form_id, 'form')], 'res_id': answer[0]})
+            action.update({'views': [(view_form_id, 'form')], 'res_id': answer[0].id})
         else:
             action['views'] = [(tree_form_id, 'tree'), (view_form_id, 'form')]
         return action

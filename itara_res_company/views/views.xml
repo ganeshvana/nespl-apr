@@ -9,7 +9,7 @@
                  <page string="Banking">
                       <group>
                         <group>
-                          
+                          <field name="code" />
                          <!--  <field name="loc_com_name" /> -->
                           <field name="bank_name" />
                           <field name="bank_branch" />

@@ -14,3 +14,5 @@ class rescompany(models.Model):
     gst_no = fields.Char(string='GSTIN')
     # state_name_code = fields.Char(string='State Name & Code')
     pan_no = fields.Char(string='PAN No')
+    code = fields.Char("Company Code")
+    
