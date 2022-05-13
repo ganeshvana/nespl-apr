@@ -12,6 +12,13 @@ class SupplierInfo(models.Model):
     
     agreement_number = fields.Char("Agreement Number")
     agreement = fields.Boolean("Agreement?")
+    discount = fields.Float("Discount %")
+    original_price = fields.Float("Price")
+    
+    @api.onchange('discount', 'original_price')
+    def onchange_original_price(self):
+        if self.discount and self.original_price:
+            self.price = self.original_price - (self.original_price * (self.discount / 100))
     
     def create(self, vals_list):
         result = super(SupplierInfo, self).create(vals_list)

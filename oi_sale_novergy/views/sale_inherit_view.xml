@@ -58,6 +58,13 @@
                  <field name="agreement"/>    
                  <field name="agreement_number" readonly="1"/>              
             </xpath>
+            <xpath expr="//field[@name='price']" position ="before">
+                 <field name="original_price"/>    
+                 <field name="discount"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="attributes">
+                 <attribute name="string">Net Price</attribute>           
+            </xpath>
         </field>
     </record>
     
@@ -69,6 +76,13 @@
         	<xpath expr="//field[@name='name']" position ="before">
                  <field name="agreement"/>    
                  <field name="agreement_number" readonly="1"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="before">
+                 <field name="original_price"/>    
+                 <field name="discount"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="attributes">
+                 <attribute name="string">Net Price</attribute>           
             </xpath>
         </field>
     </record>
