@@ -92,7 +92,7 @@
 								<strong>Delivery Challan No: </strong><span t-field="doc.name"/><br/>
 								<strong>Date :</strong> <span t-field="doc.scheduled_date" t-options="{&quot;widget&quot;: &quot;date&quot;}"/>
 								<br/>
-								<strong>Client PO No. &amp; Date : </strong><span t-field="doc.sale_id.client_order_ref"/>								
+								<strong>Client PO No. &amp; Date : </strong><span t-field="doc.reference_number"/>								
 							</td>
 						</tr>
 						<tr>
