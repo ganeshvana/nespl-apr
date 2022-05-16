@@ -268,8 +268,8 @@
 							<td style="width:100%;text-align:center;">
 								
 									Shipper Address:<br/>
-									
-									C/o: <span t-field="doc.partner_id.name"/>
+									Novergy Energy Solutions Pvt. Ltd.<br/>
+									C/o: <span t-field="doc.partner_id.name"/><br/>
 									<span t-field="doc.partner_id.street"/>
 									<span t-field="doc.partner_id.street2"/>
 									<span t-field="doc.partner_id.city"/>
@@ -321,10 +321,10 @@
 					</table>
 					<table style="border:1px solid black;border-top:hidden;" width="100%">
 									<tr>
-										<td width="40%"><strong>Consignee GSTIN: </strong><span t-field="doc.partner_id.vat"/></td>
+										<td width="40%"><strong>Consignee GSTIN: </strong><span t-field="doc.address_id.vat"/></td>
 										<td width="60%" rowspan="2">
 											<span>
-												<strong>Project No :</strong><span t-field="doc.project_number"/>
+												<strong>Project No: </strong> <span t-field="doc.project_number"/>
 											</span>
 										</td>
 									</tr>

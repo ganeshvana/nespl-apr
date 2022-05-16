@@ -147,8 +147,8 @@
             		<attribute name="domain">[('sale_ok', '=', False),('purchase_ok', '=', False)]</attribute>    	
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_id']" position="after">
-                	<field name="cost" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
-                	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
+                	<field name="cost"/>
+                	<field name="total"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Capex / Opex / Open Access">

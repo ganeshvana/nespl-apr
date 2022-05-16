@@ -137,12 +137,13 @@ class ProductEntry(models.Model):
         order_lines = [(5, 0, 0)]
         option_lines = [(5, 0, 0)]
         if self.quotation_template_id:
-            self.kw = self.quotation_template_id.kw
+            self.kw = self.sale_order_id.kw
             for line in self.quotation_template_id.sale_order_template_line_ids:
                 if line.product_id:
                     data = {
                         'product_uom_qty': line.product_uom_qty,
                         'product_id': line.product_id.id,
+                        'name': line.name1,
                         'product_uom_id': line.product_uom_id.id,
                         'quotation_template_line_id' : line.id,
                         'type': line.type,
@@ -174,10 +175,10 @@ class ProductEntry(models.Model):
             #     order.quotation_template_id.unlink()
             # template = self.env['sale.order.template'].create({'name': order.sale_order_id.name})
             for line in order.order_line:
-                if line.quotation_template_line_id:
-                    line.quotation_template_line_id.cost = line.cost
-                    line.quotation_template_line_id.total = line.total
-                    line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
+                # if line.quotation_template_line_id:
+                #     line.quotation_template_line_id.cost = line.cost
+                #     line.quotation_template_line_id.total = line.total
+                #     line.quotation_template_line_id.product_uom_qty = line.product_uom_qty
                 sale_line = self.env['sale.order.line'].search([('order_id', '=', order.sale_order_id.id),('product_id', '!=', False),('quotation_template_line_id', '=', line.quotation_template_line_id.id)])
                 if sale_line:
                     if sale_line.product_id:
@@ -372,6 +373,8 @@ class ProductEntryLine(models.Model):
     notes = fields.Char("Notes")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     sale_order_line_id = fields.Many2one('sale.order.line', "Order Line")
+    name = fields.Char("Description")
+    
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):

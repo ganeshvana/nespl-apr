@@ -196,13 +196,13 @@ class SaleOrder(models.Model):
         if not entry_ids:
             entry_ids = self.env['product.entry'].create({
                 'sale_order_id': self.id,
-                'quotation_template_id': self.sale_order_template_id.id
+                'quotation_template_id': self.sale_order_template_id.id,
+                'kw': self.kw
                 })
             entry_ids.onchange_quotation_template_id()
             order_lines = [(5, 0, 0)]
             option_lines = [(5, 0, 0)]
             if entry_ids.quotation_template_id:
-                entry_ids.kw = self.kw
                 for line in entry_ids.quotation_template_id.sale_order_template_line_ids:
                     if line.product_id:
                         data = {
@@ -211,7 +211,7 @@ class SaleOrder(models.Model):
                             'product_uom_id': line.product_uom_id.id,
                             'quotation_template_line_id' : line.id,
                             'type': line.type,
-                            'kwp': entry_ids.quotation_template_id.kw
+                            'kwp': self.kw
                         }
                         order_lines.append((0, 0, data))
                 for line in entry_ids.quotation_template_id.sale_order_template_option_ids:
@@ -221,7 +221,7 @@ class SaleOrder(models.Model):
                             'product_id': line.product_id.id,
                             'product_uom_id': line.uom_id.id,
                             'quotation_template_line_id' : line.id,
-                            'kwp': entry_ids.quotation_template_id.kw
+                            'kwp': self.kw
                         }
                         option_lines.append((0, 0, data))
             entry_ids.order_line = order_lines
@@ -337,7 +337,7 @@ class SaleOrderLine(models.Model):
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_relw', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
-    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     name1 = fields.Char("Name")
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
@@ -406,7 +406,7 @@ class SaleOrderTemplateLine(models.Model):
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
-    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     name1 = fields.Char("Name")
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
