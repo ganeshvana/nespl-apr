@@ -208,6 +208,7 @@ class SaleOrder(models.Model):
                         data = {
                             'product_uom_qty': line.product_uom_qty,
                             'product_id': line.product_id.id,
+                            'name': line.name1,
                             'product_uom_id': line.product_uom_id.id,
                             'quotation_template_line_id' : line.id,
                             'type': line.type,
