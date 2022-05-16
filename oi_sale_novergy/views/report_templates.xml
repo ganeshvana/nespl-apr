@@ -266,12 +266,10 @@
 						</tr>
 						<tr style="border-style: solid;border-width:1px;" width="100%">
 							<td style="width:100%;text-align:center;">
-								<h5>
-									<strong>
-										
-										<span t-field="doc.partner_id.name"/>
-									</strong> 
-									</h5>
+								
+									Shipper Address:<br/>
+									
+									C/o: <span t-field="doc.partner_id.name"/>
 									<span t-field="doc.partner_id.street"/>
 									<span t-field="doc.partner_id.street2"/>
 									<span t-field="doc.partner_id.city"/>
