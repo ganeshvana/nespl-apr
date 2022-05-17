@@ -543,28 +543,28 @@
 					</table>
 					
 					<table style="border-style: solid;border-width:1px;" width="100%">
-						<tr>
+						<tr width="100%">
 							<th style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 								<strong>S.No.</strong>
 							</th>
-							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="40%">
 								<strong>Particular</strong>
 							</th>
-							<th style="border-style: solid;border-width:1px;text-align:center;" width="45%">
+							<th style="border-style: solid;border-width:1px;text-align:center;" width="50%">
 								<strong>Offered</strong>
 							</th>
 						</tr>
 						<t t-set="i" t-value="0"/>
 						<tbody><t t-foreach="doc.opex_lines" t-as="line">
-							<tr>
+							<tr width="100%">
 								<t t-set="i" t-value="i+1"/>
-								<td style="border-style: solid;border-width:1px;text-align:center;" width="5%">
+								<td style="border-style: solid;border-width:1px;text-align:center;" width="10%">
 									<span t-esc="i"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="45%">
+								<td style="border-style: solid;border-width:1px;" width="40%">
 									<span t-field="line.particular"/>
 								</td>
-								<td style="border-style: solid;border-width:1px;" width="45%">
+								<td style="border-style: solid;border-width:1px;" width="50%">
 									<span t-field="line.offered"/>
 								</td>
 							</tr>

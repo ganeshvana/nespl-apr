@@ -229,7 +229,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Supply Main BOM
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)" widget="float"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'optional' and line.print_type">
@@ -237,7 +237,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Extra works BoM
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'ic' and line.print_type">
@@ -246,7 +246,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Installation and Commissioning
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'amc' and line.print_type">
@@ -254,7 +254,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Annual Maintenance Charges
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						
@@ -263,7 +263,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Operation and Maintenance
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'camc' and line.print_type">
@@ -271,7 +271,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Comprehensive Annual Maintenance Charges
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-esc="'{0:,.2f}'.format(line.quoted_price)"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 					</tr>
