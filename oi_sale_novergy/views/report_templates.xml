@@ -156,11 +156,18 @@
 								<strong>Qty.</strong>
 							</td>
 						</tr>
-						<t t-set="total" t-value="0"/>		
+						<t t-set="total" t-value="0"/>	
+						<t t-set="tax" t-value="0"/>	
+						<t t-set="taxamount" t-value="0"/>
 						<t t-set="product_category" t-value="[]"/>
-						<t t-foreach="doc.move_ids_without_package" t-as="l">						
-						    <t t-set="product_category" t-value="product_category+[l.product_id.categ_id]"/>	
-						    <t t-set="total" t-value="total+l.l10n_in_ewaybill_price_taxexcl"/>							
+						<t t-foreach="doc.move_ids_without_package" t-as="l">		
+						    <t t-set="taxamount" t-value="0"/>
+						    <t t-set="product_category" t-value="product_category+[l.product_id.categ_id]"/>
+						    <t t-foreach="l.l10n_in_ewaybill_tax_ids" t-as="ta">	
+						      <t t-set="taxamount" t-value="taxamount+ta.amount"/>
+						    </t>
+						    <t t-set="tax" t-value="(l.l10n_in_ewaybill_price_taxexcl* l.quantity_done) * (taxamount /100) "/>	
+						    <t t-set="total" t-value="total+(l.l10n_in_ewaybill_price_taxexcl* l.quantity_done) + tax"/>							
 						</t>
 						<t t-set="i" t-value="0"/>							
 						<t t-foreach="set(product_category)" t-as="category">	
@@ -369,11 +376,18 @@
 								<strong>Qty.</strong>
 							</td>
 						</tr>
-						<t t-set="total" t-value="0"/>		
+						<t t-set="total" t-value="0"/>	
+						<t t-set="tax" t-value="0"/>	
+						<t t-set="taxamount" t-value="0"/>
 						<t t-set="product_category" t-value="[]"/>
-						<t t-foreach="doc.move_ids_without_package" t-as="l">						
-						    <t t-set="product_category" t-value="product_category+[l.product_id.categ_id]"/>	
-						    <t t-set="total" t-value="total+l.l10n_in_ewaybill_price_taxexcl"/>							
+						<t t-foreach="doc.move_ids_without_package" t-as="l">		
+						    <t t-set="taxamount" t-value="0"/>
+						    <t t-set="product_category" t-value="product_category+[l.product_id.categ_id]"/>
+						    <t t-foreach="l.l10n_in_ewaybill_tax_ids" t-as="ta">	
+						      <t t-set="taxamount" t-value="taxamount+ta.amount"/>
+						    </t>
+						    <t t-set="tax" t-value="(l.l10n_in_ewaybill_price_taxexcl* l.quantity_done) * (taxamount /100) "/>	
+						    <t t-set="total" t-value="total+(l.l10n_in_ewaybill_price_taxexcl* l.quantity_done) + tax"/>							
 						</t>
 						<t t-set="i" t-value="0"/>							
 						<t t-foreach="set(product_category)" t-as="category">	
