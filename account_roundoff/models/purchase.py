@@ -23,7 +23,7 @@ class PurchaseOrder(models.Model):
     def onchange_is_enabled_roundoff(self):
         self._amount_all()
 
-    @api.depends('order_line.price_total')
+    @api.depends('order_line.price_total', 'is_enabled_roundoff')
     def _amount_all(self):
         for order in self:
             amount_untaxed = amount_tax = 0.0; amount_round_off = 0.0
