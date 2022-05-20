@@ -33,5 +33,16 @@
 	            </xpath>
 			</field>
 		</record>
+		
+		<record model="ir.ui.view" id="vpicktree_inherit123">
+			<field name="name">sale.template.tree.delivery</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree" />
+			<field name="arch" type="xml">
+				<xpath expr= "//field[@name='origin']" position ="after">
+					<field name="project_number"/>
+				</xpath>
+			</field>
+		</record>
 	</data>
 </odoo>
