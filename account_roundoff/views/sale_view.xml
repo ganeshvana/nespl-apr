@@ -6,7 +6,7 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='amount_tax']" position="after">
+                <xpath expr="//field[@name='tax_totals_json']" position="after">
                     <field name="is_enabled_roundoff" invisible="1"/>
                     <field name="amount_round_off" widget="monetary" options="{'currency_field': 'currency_id'}"
                            attrs="{'invisible':[('is_enabled_roundoff', '!=',True)]}"/>
