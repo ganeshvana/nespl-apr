@@ -284,6 +284,7 @@
 
                 <field name="partner_id" position="after">
                     <field name="so_team_id" required="1"/>
+                    <field name="tag_ids" widget="many2many_tags"/>
                     <field name="order_type_id" invisible="1"/>
                     <field name="kw" required="1"/>
                 </field>
