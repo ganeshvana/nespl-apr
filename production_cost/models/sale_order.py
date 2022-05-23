@@ -143,6 +143,7 @@ class SaleOrder(models.Model):
                     'model': line.model,
                     'type': line.type,
                     'kwpunit': line.kwpunit,
+                    'cost': line.cost,
                     'printkwp': line.printkwp,                    
                     'quotation_template_line_id': line.id
                 })
