@@ -73,6 +73,31 @@ class SaleOrder(models.Model):
             action.update({'views': [(view_form_id, 'form')], 'res_id': self.sale_order_template_id.id, 'context': {'default_sale_order_id': self.id}})
         return action
     
+    def _compute_option_data_for_template_change(self, option):
+        price = option.product_id.lst_price
+        discount = 0
+
+        if self.pricelist_id:
+            pricelist_price = self.pricelist_id.with_context(uom=option.uom_id.id).get_product_price(option.product_id, 1, False)
+
+            if self.pricelist_id.discount_policy == 'without_discount' and price:
+                discount = max(0, (price - pricelist_price) * 100 / price)
+            else:
+                price = pricelist_price
+
+        return {
+            'product_id': option.product_id.id,
+            'name': option.name,
+            'quantity': option.quantity,
+            'uom_id': option.uom_id.id,
+            'price_unit': price,
+            'discount': discount,
+            'partner_ids': [(6,0, option.partner_ids.ids)],
+            'vendor_ids': [(6,0, option.vendor_ids.ids)],
+            'model': option.model,
+            
+        }
+    
     @api.onchange('sale_order_template_id')
     def onchange_sale_order_template_id(self):
 
