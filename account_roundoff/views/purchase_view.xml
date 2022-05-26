@@ -6,13 +6,12 @@
             <field name="name">purchase.order.round.off</field>
             <field name="model">purchase.order</field>
             <field name="inherit_id" ref="purchase.purchase_order_form"/>
-            <field name="arch" type="xml">
-                <field name="notes" position="after">
-                    <field name="is_enabled_roundoff"/>
-                </field>
+            <field name="arch" type="xml">	                
                 <xpath expr="//field[@name='tax_totals_json']" position="after">
-
+					<field name="is_enabled_roundoff"/>
                     <field name='amount_round_off' widget="monetary" options="{'currency_field': 'currency_id'}"
+                           attrs="{'invisible':[('is_enabled_roundoff', '!=',True)]}"/>
+                    <field name='without_round_off' widget="monetary" options="{'currency_field': 'currency_id'}"
                            attrs="{'invisible':[('is_enabled_roundoff', '!=',True)]}"/>
                 </xpath>
             </field>
