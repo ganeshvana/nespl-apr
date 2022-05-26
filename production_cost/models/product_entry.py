@@ -307,8 +307,8 @@ class CostingStructure(models.Model):
         for rec in self:
             rec.markup_amt = rec.cost * (rec.markup / 100)
             
-    @api.depends('cost', 'markup_amt')
-    def compute_quoted_price(self):
+    @api.onchange('cost', 'markup_amt')
+    def onchange_quoted_price(self):
         for rec in self:
             rec.quoted_price = rec.cost + rec.markup_amt
     
@@ -327,11 +327,11 @@ class CostingStructure(models.Model):
                 rec.print_type = False
                 
            
-    cost = fields.Float("Cost", compute='compute_cost', store=True)
+    cost = fields.Float("Kw Price", compute='compute_cost', store=True)
     markup = fields.Float("Markup %")
     markup_amt = fields.Float("Markup Amount", compute='compute_markup_amt', store=True)
     print_type = fields.Boolean('Print', compute='compute_print_type', store=True)
-    quoted_price = fields.Float("Quoted Price", compute='compute_quoted_price', store=True)
+    quoted_price = fields.Float("Quoted Price")
     kw_price = fields.Float("Per Kwp Price", compute='compute_kw_price', store=True)
     costing_id = fields.Many2one('product.entry')
     type = fields.Selection([('bom', 'Main BOM'),('optional', 'Optional BOM'),
@@ -361,7 +361,7 @@ class ProductEntryLine(models.Model):
     product_id = fields.Many2one('product.product', store=True, copy=True)
     product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', default=1.0, store=True, copy=True)
     product_uom_id =  fields.Many2one('uom.uom', related='product_id.uom_id', store=True, copy=True)
-    cost = fields.Float(string='Cost', store=True, copy=True)
+    cost = fields.Float(string='Kw Price', store=True, copy=True)
     weight = fields.Float(digits='Product Unit of Measure', default=1.0, store=True, copy=True)
     price_unit = fields.Float(string='Unit Price', digits='Product Price', default=0.0, store=True, copy=True)
     material_cost = fields.Float(string='Material Cost', digits='Product Price', default=0.0, compute='get_material_cost', store=True, copy=True)
@@ -416,7 +416,7 @@ class ProductEntryCostLines(models.Model):
     product_id = fields.Many2one('product.product', store=True, copy=True)
     product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', default=1.0, store=True, copy=True)
     product_uom_id =  fields.Many2one('uom.uom', related='product_id.uom_id', store=True, copy=True)
-    cost = fields.Float(string='Cost', store=True, copy=True)
+    cost = fields.Float(string='Kw Price', store=True, copy=True)
     price_unit = fields.Float(string='Unit Price', digits='Product Price', default=0.0, store=True, copy=True)
     total = fields.Float('Total', compute='compute_total', store=True)
     quotation_template_line_id = fields.Many2one('sale.order.template.option', "Quotation Template")
