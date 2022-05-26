@@ -229,7 +229,7 @@
 							<td style="border-style:solid;border-width:1px;">
 								Supply Main BOM
 							</td>
-							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" widget="monetory" options="{'currency_field': 'doc.currency_id'}"/></td>
+							<td style="border-style:solid;border-width:1px;"><span t-field="line.quoted_price" t-options='{"widget": "float", "precision": 2}'/></td>
 							<td style="border-style:solid;border-width:1px;"><span t-esc="doc.currency_id.amount_to_text(line.quoted_price)" /></td>
 						</t>
 						<t t-if="line.type == 'optional' and line.print_type">
