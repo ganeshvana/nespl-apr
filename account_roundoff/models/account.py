@@ -38,7 +38,7 @@ class AccountMove(models.Model):
     round_off_amount = fields.Float(string='Round off Amount')
     rounded_total        = fields.Monetary(string='Rounded Total', store=True, readonly=True, compute='_compute_amount')
     round_active = fields.Boolean('Enabled Roundoff', default=lambda self: self.env["ir.config_parameter"].sudo().get_param("account.invoice_roundoff"))
-    without_round_off = fields.Monetary(string='Without Rounded Total', store=True, readonly=True, compute='_compute_amount')
+    without_round_off = fields.Monetary(string='Without Rounded Total', readonly=True, compute='_compute_amount')
     
     # @api.model
     # def default_get(self, fields):
