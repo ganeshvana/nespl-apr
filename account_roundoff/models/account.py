@@ -158,6 +158,7 @@ class AccountMove(models.Model):
                 move.round_off_value = 0.00
                 move.round_off_amount = 0.00
                 move.rounded_total =0.00
+                move.without_round_off = 0.0
             currency = len(currencies) == 1 and currencies.pop() or move.company_id.currency_id
             is_paid = currency and currency.is_zero(move.amount_residual) or not move.amount_residual
             # Compute 'invoice_payment_state'.
