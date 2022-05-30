@@ -17,8 +17,8 @@ class customer_wirkflow(models.Model):
 
     state = fields.Selection(
         [('draft', 'Draft'), ('done', 'Validate'), ('approve', 'Approved'), ],
-        string='State', default='draft')
-    sequence = fields.Char('Sequence', readonly=True, default="RP/")
+        string='Status', default='draft')
+    sequence = fields.Char('Sequence', readonly=True, default="RP/", tracking=True, track_visiblity='onchange')
 
     # @api.multi
     def action_draft(self):
@@ -35,4 +35,10 @@ class customer_wirkflow(models.Model):
         self.sequence = self.env['ir.sequence'].next_by_code(
             'res.partner') or 'RP/'
         self.write({'state': 'done'})
+        if self.state_id.code != '08':
+            fp = self.env['account.fiscal.position'].search([('name', '=', 'Inter State')], limit=1)
+            if fp:
+                self.property_account_position_id = fp.id
+        if self.state_id.code == '08':
+            self.property_account_position_id = False
         return True

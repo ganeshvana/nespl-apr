@@ -4,3 +4,4 @@ access_bank_guarantee,bank.guarantee,model_bank_guarantee,base.group_user,1,1,1,
 access_fixed_deposit,fixed.deposit,model_fixed_deposit,oi_payment.group_fd_read,1,0,0,0
 access_fixed_deposit_manager,fixed.deposit.manager,model_fixed_deposit,oi_payment.group_fd_manager,1,1,1,0
 access_bank_guarantee_type,bank.guarantee.type,model_bank_guarantee_type,base.group_user,1,1,1,0
+access_payment_export,payment.export,model_payment_export,,1,1,1,0

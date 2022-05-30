@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="sale_vendors_view" model="ir.ui.view">
+            <field name="name">sale_vendors.view</field>
+            <field name="model">sale.vendors</field>
+            <field name="arch" type="xml">
+                <form string="Sale vendors">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name" required="1"/>
+                                <!-- <field name="client_name "/>
+                                <field name="site_location"/>
+                                <field name="project_no"/>
+                                <field name="project_capacity"/>
+                                <field name="Type_of_reading"/>
+                                <field name="energy_for_month"/>
+                                <field name="date_of_reading"/>
+                                <field name="solar_energy_meter"/>
+                                <field name="solar_energy_meter_model"/>
+                                <field name="solar_energy_meter_sr"/>
+                                <field name="ct_ratio"/> -->
+
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="sale_vendors_tree" model="ir.ui.view">
+            <field name="name">sale_vendors.tree</field>
+            <field name="model">sale.vendors</field>
+            <field name="arch" type="xml">
+                <tree string="Sale Vendors">
+                    <field name="name"/>
+                   <!--  <field name="multiplication_factor"/>
+                    <field name="meter_voltage"/>
+                    <field name="bill_reading1"/>
+                    <field name="bill_reading2"/>
+                    <field name="differece"/>
+                    <field name="multiplication_factor_energy"/>
+                    <field name="total_solar_energy"/>
+                    <field name="total_solar_energy_month"/>
+                    <field name="name"/> -->
+
+                </tree>
+            </field>
+        </record>
+        <record id="sale_vendors_action" model="ir.actions.act_window">
+            <field name="name">sale Vendors</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.vendors</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <menuitem name="sale Vendors " id="sale_vendors_parent" sequence="100"/>
+        <menuitem name="Sale Vendors" id="sale_vendors_child" parent="sale.menu_sale_report" action="sale_vendors_action" sequence="4"/>
+
+
+
+        <record model="ir.ui.view" id="view_inherit_from_sale123">
+        <field name="name">sale.template.form.vendors</field>
+        <field name="model">sale.vendors</field>
+        <field name="inherit_id" ref="sale_vendors_view"/>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//form/sheet/group[1]/field[@name='name']" position ="after"> -->
+            <field name="name" position="after">
+<!--                     <field name="client_name "/>
+ -->                <field name="site_location"/>
+                    <field name="project_no"/>
+                    <field name="project_capacity"/>
+                    <field name="Type_of_reading"/>
+                    <field name="energy_for_month"/>
+                    <field name="date_of_reading"/>
+                    <field name="solar_energy_meter"/>
+                    <field name="solar_energy_meter_model"/>
+                    <field name="solar_energy_meter_sr"/>
+                    <field name="ct_ratio"/> 
+                    <field name="multiplication_factor"/>
+                    <field name="meter_voltage"/>
+                    <field name="bill_reading1"/>
+                    <field name="bill_reading2"/>
+                    <field name="differece"/>
+                    <field name="multiplication_factor_energy"/>
+                    <field name="total_solar_energy"/>
+                    <field name="total_solar_energy_month"/>
+            </field>       
+<!--             </xpath>
+ -->        </field>
+    </record>
+
+
+    </data>
+</odoo>

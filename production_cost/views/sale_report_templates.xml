@@ -415,18 +415,17 @@
 		<t t-call="production_cost.bom_external_layout">
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
 			<div class="page">
+				
 				<style>
-	            table, th, td {
-	              border: 1px solid black;
-	              border-collapse: collapse;
-	              font-size: 13px;
-	            }
-	            th, td {
-	              padding: 3px;
-	              font-size: 13px;
-	            }
-	            </style>
-				<!-- <table style="border-style: none;" width="100%">
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
+					<!-- <table style="border-style: none;" width="100%">
 						<td style="border-style: none;" width="70%"/>
 						<td style="border-style: none;" width="30%">
 							<p>H.O. Office Add:- <br/>
@@ -437,37 +436,33 @@
 							Email id : <span t-field="doc.user_id.email"/>
 							</p>
 						</td>
-					</table>
+					</table> -->
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
-							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc..name"/></td>
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.name"/></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							Mr. <span t-field="doc..partner_id.name"/><br/>
+							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.partner_id.name"/><br/>
 							<span t-field="doc.partner_id.city"/>
 							<span t-field="doc.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						
-						
 						<t t-if="doc.reference">
 							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
 						</t>
 						<u>
 						<strong>
 							Subject: <span t-field="doc.subject"/><br/>
-							Kind Attn.: Mr. <span t-field="doc.partner_id.name"/><br/>
+							Kind Attn.:  <span t-field="doc.kind_attn"/><br/>
 						</strong>
 						</u>
-						
-						 
 					</p>
 					<br/>
 					<p><span style="line-height: 2;" t-field="doc.content"/></p>
@@ -478,7 +473,9 @@
 					<span t-field="doc.user_id.name"/><br/>
 					(<span t-field="doc.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					<p style="page-break-before:always;"> </p>	 -->
+					
+					
+					<p style="page-break-before:always;"> </p>	
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr>
 						<td style="border-style: solid;border-width:1px;text-align:right;" width="100%">
@@ -557,6 +554,7 @@
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<t t-if="not line.product_id.product_template_variant_value_ids">
+										<span t-field="line.product_id.name"/> <br/>
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
@@ -585,7 +583,12 @@
 								
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_quantity" class="text-center">
-										<span t-field="line.product_uom_qty" />
+										<t t-if="line.printkwp">
+										<span t-field="line.kwpunit"/>
+									</t>
+									<t t-if="not line.printkwp">
+										<span t-field="line.product_uom_qty"/>
+									</t>
 										
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_priceunit" class="text-center">
@@ -632,7 +635,7 @@
 				</table>
 				
 				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr style="border-style: solid;border-width:1px;" width="100%">
+					<!-- <tr style="border-style: solid;border-width:1px;" width="100%">
 							<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
 							<td style="width:30%;border:1px solid black">
 								<span>Untaxed Amount</span>
@@ -680,17 +683,17 @@
 								</tr>
 							</t>
 						</t>
-
+ -->
 						<tr style="border-style: solid;border-width:1px;" width="100%">
 							<td style="border-style: solid;border-width:1px;" width="50%"/>
 							<td style="width:30%;">
 								<span>
-									<strong>Total Amount</strong>
+									<strong>Total Basic Amount</strong>
 								</span>
 							</td>
 							<td style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+									<span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 								</strong>
 							</td>
 						</tr>
@@ -698,7 +701,7 @@
 				<table width="100%">
 					<tr style="border-style: solid;border-width:1px;" width="100%">
 						<td style="border-style: solid;border-width:1px;" width="100%">
-							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
+							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_untaxed)"/>
 						</td>
 					</tr>
 				</table>	
@@ -741,17 +744,15 @@
 			<t t-set="doc" t-value="doc.with_context(lang=doc.partner_id.lang)" />
 			<div class="page">
 				<style>
-	            table, th, td {
-	              border: 1px solid black;
-	              border-collapse: collapse;
-	              font-size: 13px;
-	            }
-	            th, td {
-	              padding: 3px;
-	              font-size: 13px;
-	            }
-	            </style>
-				<!-- <table style="border-style: none;" width="100%">
+		            table, th, td {
+		              border: 1px solid black;
+		              border-collapse: collapse;
+		            }
+		            th, td {
+		              padding: 3px;
+		            }
+		            </style>
+					<!-- <table style="border-style: none;" width="100%">
 						<td style="border-style: none;" width="70%"/>
 						<td style="border-style: none;" width="30%">
 							<p>H.O. Office Add:- <br/>
@@ -762,37 +763,33 @@
 							Email id : <span t-field="doc.user_id.email"/>
 							</p>
 						</td>
-					</table>
+					</table> -->
 					<br/>
 					<table style="border-style: none;" width="100%">
 						<tr style="border-style: none;" width="100%">
-							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc..name"/></td>
+							<td style="border-style: none;" width="50%">Proposal No.: <span t-field="doc.name"/></td>
 							<td style="border-style: none;text-align:right;" width="50%">Date: <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%d %b, %Y')"/></td>
 						</tr>
 					</table>
 					<br/>					
 					<p>
 						<strong>To,<br/>
-							Mr. <span t-field="doc..partner_id.name"/><br/>
+							<span t-field="doc.partner_id.title.name"/> <span t-field="doc.partner_id.name"/><br/>
 							<span t-field="doc.partner_id.city"/>
 							<span t-field="doc.partner_id.state_id.name"/>
 						</strong>
 					</p>
 					<br/>
 					<p>
-						
-						
 						<t t-if="doc.reference">
 							<strong><u>Reference:- <span t-field="doc.reference"/></u></strong><br/>
 						</t>
 						<u>
 						<strong>
 							Subject: <span t-field="doc.subject"/><br/>
-							Kind Attn.: Mr. <span t-field="doc.partner_id.name"/><br/>
+							Kind Attn.:  <span t-field="doc.kind_attn"/><br/>
 						</strong>
 						</u>
-						
-						 
 					</p>
 					<br/>
 					<p><span style="line-height: 2;" t-field="doc.content"/></p>
@@ -803,7 +800,7 @@
 					<span t-field="doc.user_id.name"/><br/>
 					(<span t-field="doc.user_id.employee_id.job_id.name"/>)</p>
 					<br/><br/><br/>
-					<p style="page-break-before:always;"> </p>	 -->
+					<p style="page-break-before:always;"> </p>	
 				<table style="border-style: solid;border-width:1px;" width="100%">
 					<tr>
 						<td style="border-style: solid;border-width:1px;text-align:right;" width="100%">
@@ -817,42 +814,7 @@
 						
 					</tr>
 				</table>
-				<!-- <table style="border-style: solid;border-width:1px;" width="100%">
-					<tr style="border-style: solid;border-width:1px;" width="100%">
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>To:</strong><br/>
-								<span t-field="doc.partner_id.name"/><br/>
-								<span t-field="doc.partner_id.street"/>
-								,
-								<span t-field="doc.partner_id.street2"/>
-								<br/>
-								<span t-field="doc.partner_id.city"/>
-								-
-								<span t-field="doc.partner_id.zip"/>
-								<br/>
-								<span t-field="doc.partner_id.state_id"/>
-								,
-								<span t-field="doc.partner_id.country_id"/>
-								<br/>
-						</td>
-						<td style="border-style: solid;border-width:1px;" width="50%">
-							<strong>From:</strong><br/>
-								<span t-field="doc.company_id.partner_id.name"/><br/>
-								<span t-field="doc.company_id.partner_id.street"/>
-								,
-								<span t-field="doc.company_id.partner_id.street2"/>
-								<br/>
-								<span t-field="doc.company_id.partner_id.city"/>
-								-
-								<span t-field="doc.company_id.partner_id.zip"/>
-								<br/>
-								<span t-field="doc.company_id.partner_id.state_id"/>
-								,
-								<span t-field="doc.company_id.partner_id.country_id"/>
-								<br/>
-						</td>
-					</tr>
-				</table> -->
+				
 				<div class="oe_structure" />
 
 				<table style="border-style: solid;border-width:1px;" width="100%">
@@ -880,6 +842,7 @@
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_name">
 										<t t-if="not line.product_id.product_template_variant_value_ids">
+										<span t-field="line.product_id.name" /> <br/>
 										<span t-field="line.name" />
 										</t>
 										<t t-if="line.product_id.product_template_variant_value_ids">
@@ -907,7 +870,12 @@
 										</t>
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_quantity" class="text-center">
-										<span t-field="line.product_uom_qty" />
+										<t t-if="line.printkwp">
+											<span t-field="line.kwpunit"/>
+										</t>
+										<t t-if="not line.printkwp">
+											<span t-field="line.product_uom_qty"/>
+										</t>
 									</td>
 									<td style="border-style: solid;border-width:1px;" name="td_priceunit" class="text-center">
 										<span t-field="line.product_uom" />
@@ -947,7 +915,7 @@
 				</table>
 				
 				<table style="border-style: solid;border-width:1px;" width="100%">
-					<tr style="border-style: solid;border-width:1px;" width="100%">
+					<!-- <tr style="border-style: solid;border-width:1px;" width="100%">
 							<td style="border-style: solid;border-width:1px;border-bottom:hidden" width="50%"/>
 							<td style="width:30%;border:1px solid black">
 								<span>Untaxed Amount</span>
@@ -994,18 +962,18 @@
 
 								</tr>
 							</t>
-						</t>
+						</t> -->
 
 						<tr style="border-style: solid;border-width:1px;" width="100%">
 							<td style="border-style: solid;border-width:1px;" width="50%"/>
 							<td style="width:30%;">
 								<span>
-									<strong>Total Amount</strong>
+									<strong>Total Basic Amount</strong>
 								</span>
 							</td>
 							<td style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.amount_total" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+									<span t-field="doc.amount_untaxed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 								</strong>
 							</td>
 						</tr>
@@ -1013,7 +981,7 @@
 				<table width="100%">
 					<tr style="border-style: solid;border-width:1px;" width="100%">
 						<td style="border-style: solid;border-width:1px;" width="100%">
-							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_total)"/>
+							<strong>Total in Words: </strong> <span t-esc="doc.currency_id.amount_to_text(doc.amount_untaxed)"/>
 						</td>
 					</tr>
 				</table>

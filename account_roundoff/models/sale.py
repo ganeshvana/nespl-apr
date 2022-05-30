@@ -9,17 +9,18 @@ class SaleOrder(models.Model):
                                          default=lambda self: self.env["ir.config_parameter"].sudo().get_param(
                                              "account.invoice_roundoff"))
     amount_round_off = fields.Monetary(string='Roundoff Amount', store=True, readonly=True, compute='_amount_all')
-
+    without_round_off = fields.Monetary(string='Total without Round off', store=True, readonly=True, compute='_amount_all')
 
     @api.onchange('is_enabled_roundoff')
     def onchange_is_enabled_roundoff(self):
         self._amount_all()
         
-    @api.depends('order_line.price_total')
+    @api.depends('order_line.price_total', 'is_enabled_roundoff')
     def _amount_all(self):
         """
         Compute the total amounts of the SO.
         """
+        at = 0.0
         for order in self:
             amount_untaxed = amount_tax = 0.0; amount_round_off =0.0
             for line in order.order_line:
@@ -31,16 +32,22 @@ class SaleOrder(models.Model):
                 'amount_total': amount_untaxed + amount_tax,
             })
             if order.is_enabled_roundoff == True:
+                at = order.amount_total
                 amount_total = round((order.amount_total))
                 if order.amount_total:
                     amount_round_off = amount_total - order.amount_total
+                    print(at, amount_round_off, "amount_round_off======")
                     order.update({
                         'amount_total': amount_total,
-                        'amount_round_off': amount_round_off})
+                        'amount_round_off': amount_round_off,
+                        'without_round_off': at
+                        })
                 else:
                     order.update({
                         'amount_total': 0.00,
-                        'amount_round_off': 0.00})
+                        'amount_round_off': 0.00,
+                        'without_round_off': 0.00
+                        })
                     
                     
                     

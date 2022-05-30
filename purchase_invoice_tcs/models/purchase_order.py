@@ -25,6 +25,11 @@ from odoo.tools.misc import formatLang, get_lang
 
 class SaleOrder(models.Model):
     _inherit = 'purchase.order'
+    
+    @api.onchange('partner_id')
+    def onchange_partner(self):
+        if self.partner_id:
+            self.is_tcs_apply = self.partner_id.tcs
 
    
     is_tcs_apply = fields.Boolean(

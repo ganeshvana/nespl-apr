@@ -1,0 +1,345 @@
+<odoo>
+    <data>
+        <template id="sale_report_external_layout">
+            <div t-attf-class="header" t-att-style="report_header_style">
+                
+               
+            </div>
+            <div t-attf-class="article o_report_layout_standard " t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+                
+                <t t-raw="0"/>
+            </div>
+            <div t-attf-class="footer o_standard_footer ">
+                <table width="100%" style="border:none;">
+                    <tr>
+                        <td><center>Page: <span class="page"/> / <span class="topage"/></center></td>
+                    </tr>
+                </table>
+            </div>
+        </template>
+
+
+        <template id="report_solar_report_template">
+            <t t-call="oi_novergy.sale_report_external_layout">
+                <!-- <t t-call="web.external_layout"> -->
+
+                <t t-set="doc" t-value="doc.with_context(lang=doc.name.lang)"/>
+                <div class="page">
+                    <style>
+                    
+                    table { page-break-inside:auto }
+                    tr    { page-break-inside:avoid; page-break-after:auto }
+                        thead { display:table-header-group }
+
+                    td{
+                        padding-left:2px;
+                        padding-right:2px;
+                    }
+
+                    </style>
+
+            
+            <table   style="border-style: solid;border-width:1px;border:none" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%;border:none">
+
+                    <td style="border-style: solid;border-width:1px;text-align:right;border:none" width="70%"><strong><span t-field="doc.company_id"/></strong></td>
+                    <td style="border-style: solid;border-width:1px;text-align:right:border:none;border-top:hidden;border-bottom:hidden;border-right:hidden;border-left:hidden" width="30%"><img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 4cm; max-width: 4cm; border:none" align="right"/></td>
+
+
+             </tr>
+            </table>
+                    
+
+            <table   style="border-style: solid;border-width:1px;" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;text-align:center" width="100%"><strong>SOLAR ENERGY JOINT READING</strong></td>
+                   
+
+             </tr>
+            </table>
+                  
+            <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">CLIENT NAME:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.name"/></td>
+                        
+
+
+             </tr>
+         </table>
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">SITE/LOCATION:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.site_location"/></td>
+                        
+
+
+             </tr>
+         </table>
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">S.N</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%">FORMULA</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">Novergy Project No:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.project_no"/></td>
+                        
+
+
+             </tr>
+         </table>
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">A</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">PROJECT Capacity:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.project_capacity"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">B</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">Type of Reading:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.Type_of_reading"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">C</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">ENERGY FOR THE MONTH &amp; YEAR:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.energy_for_month"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">D &amp;E</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">Date of Reading &amp;Time:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.date_of_reading"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+
+          <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">F</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">SOLAR ENERGY METER MAKE:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.solar_energy_meter"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+
+          <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">G</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">SOLAR ENERGY METER MODEL:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.solar_energy_meter_model"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+          <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">H</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">SOLAR ENERGY METER SR.NO:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.solar_energy_meter_sr"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+
+          <table   style="border-style: solid;border-width:1px;border-top:hidden;border-bottom:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">I</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">CT RATIO:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.ct_ratio"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+
+        <table   style="border-style: solid;border-width:1px;" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">J</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">MULTIPLICATION FACTOR:-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.multiplication_factor"/></td>
+                        
+
+
+             </tr>
+         </table>
+         
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">K</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">METER VOLTAGE LEVEL:</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.meter_voltage"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">L</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">01 BILL reading(KWH):</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.bill_reading1"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+          <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">M</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%"></td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">02 BILL reading(KWH):</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.bill_reading2"/></td>
+                        
+
+
+             </tr>
+         </table>
+        
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">N</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%">L-M</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">DIFFERENCE (KWH):</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.differece"/></td>
+                        
+
+
+             </tr>
+         </table>
+       
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">O</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%">N X J</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">Energy with Multiplication factor (KWH):</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.multiplication_factor_energy"/></td>
+                        
+
+
+             </tr>
+         </table>
+ 
+        
+          <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">P</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%">O</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">TOTAL SOLAR ENERGY FOR MONTH (in Figures):-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.total_solar_energy"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+         <table   style="border-style: solid;border-width:1px;border-top:hidden" width="100%">
+
+             <tr style="solid;border-width:1px;width:100%">
+
+                    <td style="border-style: solid;border-width:1px;" width="10%">Q</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="10%">O</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%">TOTAL SOLAR ENERGY FOR MONTH (in WORDS):-</td>
+                    <td style="border-style: solid;border-width:1px;text-align:center;" width="40%"><span t-field="doc.total_solar_energy_month"/></td>
+                        
+
+
+             </tr>
+         </table>
+
+       </div>
+     </t>
+</template>
+
+
+     <template id="solar_report_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="oi_novergy.report_solar_report_template" t-lang="doc.name.lang"/>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>  

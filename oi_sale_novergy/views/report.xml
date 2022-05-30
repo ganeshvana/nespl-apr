@@ -11,6 +11,15 @@
         />
         
         <report
+                id="action_report_return_novergydeliverychallan_report"
+                string="Return Delivery Challan"
+                model="stock.picking"
+                report_type="qweb-pdf"
+                file="oi_sale_novergy.novergyreturndeliverychallan_report_report"
+                name="oi_sale_novergy.novergyreturndeliverychallan_report_report"
+        />
+        
+        <report
                 id="action_novergy_packing_list"
                 string="Packing List"
                 model="stock.picking"

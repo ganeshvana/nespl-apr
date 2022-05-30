@@ -16,7 +16,7 @@
 	                </group>
 	                
 	                <group string="Security" groups="oi_project_helpdesk.group_employee_pin_security">
-	                    <field name="employee_pin" required="True" password="True"/>
+	                    <field name="employee_pin" password="True"/>
 	                </group>
 	            </xpath>
             </field>

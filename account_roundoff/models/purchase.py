@@ -7,7 +7,8 @@ class PurchaseOrder(models.Model):
     apply_round_off = fields.Boolean('Apply round off', default=True)
     amount_round_off = fields.Monetary(string='Roundoff Amount', store=True, readonly=True, compute='_amount_all')
     is_enabled_roundoff = fields.Boolean('Apply Roundoff', default=lambda self: self.env["ir.config_parameter"].sudo().get_param("account.invoice_roundoff"))
-
+    without_round_off = fields.Monetary(string='Total without Round off', store=True, readonly=True, compute='_amount_all')
+    
     @api.model
     def create(self, vals):
         
@@ -25,6 +26,7 @@ class PurchaseOrder(models.Model):
 
     @api.depends('order_line.price_total', 'is_enabled_roundoff')
     def _amount_all(self):
+        at = 0.0
         for order in self:
             amount_untaxed = amount_tax = 0.0; amount_round_off = 0.0
             for line in order.order_line:
@@ -36,11 +38,14 @@ class PurchaseOrder(models.Model):
                 'amount_total': amount_untaxed + amount_tax,
             })
             if order.is_enabled_roundoff == True:
+                at = order.amount_total
                 amount_total = round(order.amount_total)
                 amount_round_off = amount_total - order.amount_total
                 order.update({
                     'amount_total': amount_total,
-                    'amount_round_off': amount_round_off})
+                    'amount_round_off': amount_round_off,
+                    'without_round_off': at
+                    })
             else:
                 if order.is_enabled_roundoff == False:
                     order.update({

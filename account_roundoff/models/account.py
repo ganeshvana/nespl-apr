@@ -36,9 +36,10 @@ class AccountMove(models.Model):
 
     round_off_value = fields.Monetary(string='Round off amount', store=True, readonly=True, compute='_compute_amount')
     round_off_amount = fields.Float(string='Round off Amount')
-    rounded_total = fields.Monetary(string='Rounded Total', store=True, readonly=True, compute='_compute_amount')
+    rounded_total        = fields.Monetary(string='Rounded Total', store=True, readonly=True, compute='_compute_amount')
     round_active = fields.Boolean('Enabled Roundoff', default=lambda self: self.env["ir.config_parameter"].sudo().get_param("account.invoice_roundoff"))
-
+    without_round_off = fields.Monetary(string='Without Rounded Total', store=True, readonly=True, compute='_compute_amount')
+    
     # @api.model
     # def default_get(self, fields):
     #     res = super(AccountMove, self).default_get(fields)
@@ -69,7 +70,8 @@ class AccountMove(models.Model):
         'line_ids.amount_currency',
         'line_ids.amount_residual',
         'line_ids.amount_residual_currency',
-        'line_ids.payment_id.state')
+        'line_ids.payment_id.state',
+        'round_active')
     def _compute_amount(self):
         invoice_ids = [move.id for move in self if move.id and move.is_invoice(include_receipts=True)]
         self.env['account.payment'].flush(['state'])
@@ -143,10 +145,12 @@ class AccountMove(models.Model):
 
             # Round off amoount updates
             if move.round_active and move.amount_total:
+                aa = move.amount_total
                 amount_total = round((move.amount_total))
                 amount_round_off = amount_total - move.amount_total
                 move.round_off_value = amount_round_off
                 move.round_off_amount = amount_round_off
+                move.without_round_off = aa
                 move.rounded_total = amount_total
                 move.amount_total = amount_total
                 move.amount_total_signed = abs(total) if move.move_type == 'entry' else -total

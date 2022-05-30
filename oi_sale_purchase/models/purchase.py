@@ -54,6 +54,19 @@ class PurchaseOrder(models.Model):
             'context': self._context,
         }
         
+class PR(models.Model):
+    _inherit = 'purchase.requisition'
+    
+    account_analytic_id = fields.Many2one('account.analytic.account', "Analytic Account")
+    
+    @api.onchange('account_analytic_id')
+    def onchange_account_analytic_id(self):
+        if self.account_analytic_id:
+            if self.line_ids:
+                for line in self.line_ids:
+                    line.account_analytic_id = self.account_analytic_id.id
+    
+        
 class PRL(models.Model):
     _inherit = 'purchase.requisition.line'
     
@@ -90,6 +103,4 @@ class Pricelist(models.Model):
                         rec.wp = 0.0
                         rec.kwp = 0.0
                         rec.kilow = 0.0
-    
-    
     

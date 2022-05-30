@@ -18,6 +18,7 @@ class Lead(models.Model):
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     roof_type = fields.Many2many('roof.type', 'rooftype_crm_rel', 'rt_id' , 'crm_id' ,"Roof Type")
+    channel_partner_id = fields.Many2one('res.partner', "Channel Partner")
     
     @api.onchange('state_id')
     def onchange_state_id(self):
@@ -93,7 +94,7 @@ class Lead(models.Model):
             'res_model': 'survey.user_input',
         }
         if len(answer) == 1:
-            action.update({'views': [(view_form_id, 'form')], 'res_id': answer[0]})
+            action.update({'views': [(view_form_id, 'form')], 'res_id': answer[0].id})
         else:
             action['views'] = [(tree_form_id, 'tree'), (view_form_id, 'form')]
         return action

@@ -20,14 +20,14 @@
                       <field name="entry_count" widget="statinfo" string="Project Costing"/>
                   </button>
                 </xpath>
-                <xpath expr="//field[@name='payment_term_id']" position="before">
-                	
+                <xpath expr="//field[@name='payment_term_id']" position="before">                	
                 	<field name="content"/>
                 </xpath>
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
                   <attribute name="string">Bill of Material</attribute>                  
                   <attribute name="attrs">{'readonly': [('state','in',['done','cancel'])]}</attribute>
+                  <attribute name="domain">[('type','=',type)]</attribute>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
                   
@@ -39,15 +39,57 @@
                   <field name="employee_id"/>
 	    			<field name="employee_pin" password="True"/> 
                 </xpath>
+                <xpath expr="//field[@name='tax_totals_json']" position="before">
+	    			<field name="rounded_off_with_markup"/>
+                </xpath>
                 <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="after">
                 	<field name="hide" optional="hide"/>
                 	<field name="type" optional="hide"/>
                 	<field name="kwpunit" optional="hide"/>
                 	<field name="printkwp" optional="hide"/>
                 	<field name="quotation_template_line_id" optional="hide"/>
+                	<field name="markup" optional="hide" invisible="1"/>
                 </xpath>
-                <xpath expr="//notebook" position="inside" invisible="1">
-                  <page string="Costing" attrs="{'invisible':[('costing_structure_ids', '=', [])]}">
+                <xpath expr="//notebook" position="inside">
+                	<page name="opex" string="Capex / Opex / Open Access">
+                		<group string="Summary">
+                			<field name="opex_description" nolabel="1"/>
+                		</group>
+                		<group string="Plants">
+                			<field name="opex_lines_site"  nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="plant_name" required="1"/>
+	                				<field name="buyer_location" required="1"/>
+	                				<field name="solar_capacity" required="1"/>
+	                				<field name="output_voltage" required="1"/>
+	                				<field name="buyer_contract" required="1"/>
+	                				<field name="buyer_grid" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Solar Tariff">
+                			<field name="opex_lines_site_rate" nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="site_id" required="1"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="rate" required="1"/>
+	                				<field name="year" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                		
+                		<group string="Special Terms and Condition">
+                			<field name="opex_lines"  nolabel="1">
+	                			<tree editable="bottom">
+	                				<field name="sequence" widget="handle"/>
+	                				<field name="particular" required="1"/>
+	                				<field name="offered" required="1"/>
+	                			</tree>
+	                		</field>
+                		</group>
+                	</page>
+                  <page string="Costing" attrs="{'invisible':[('costing_structure_ids', '=', [])]}" invisible="1">
                 		<group string="Costing Structure">
                            	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1" readonly="1">
                            		<tree editable="bottom">
@@ -78,13 +120,13 @@
                 </xpath>
                 <xpath expr="//field[@name='active']" position="before">
                 	<field name="capex_opex" widget="radio" options="{'horizontal': true}"/>
-                	<field name="kw"/>
+                	<field name="kw" invisible="1"/>
                 	<field name="sale_order_id" />
                 	<field name="subject"/>
                 	<field name="kind_attn"/>
                 	<field name="reference"/>
                 	<field name="content"/>
-                	
+                	<field name="type"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
@@ -109,8 +151,8 @@
             		<attribute name="domain">[('sale_ok', '=', False),('purchase_ok', '=', False)]</attribute>    	
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_id']" position="after">
-                	<field name="cost" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
-                	<field name="total" attrs="{'column_invisible':[('parent.state','=', 'draft')]}"/>
+                	<field name="cost"/>
+                	<field name="total"/>
                 </xpath>
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Capex / Opex / Open Access">

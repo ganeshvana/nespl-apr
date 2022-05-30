@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+	<data noupdate="1">
+		<record id="poa_agreement" model="ir.sequence">
+            <field name="name">purchase.agreement.seq</field>
+            <field name="code">purchase.agreement.seq</field>
+            <field name="active">True</field>
+            <field name="prefix">POA</field>
+            <field name="number_increment">1</field>
+            <field name="number_next">1</field>
+            <field name="padding">4</field>
+        </record>
+   </data>
+
     <data>
         <!-- <record model="ir.ui.view" id="view_inherit_from_pricelist_product">
         <field name="name">sale.template.form.pricelist</field>
@@ -33,6 +45,44 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='bic']" position ="after">
                  <field name="micr"/>              
+            </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="product_supplierinfo_tree_view_od">
+        <field name="name">product.supplierinfo.form</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_tree_view"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//field[@name='name']" position ="before">
+                 <field name="agreement"/>    
+                 <field name="agreement_number" readonly="1"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="before">
+                 <field name="original_price"/>    
+                 <field name="discount"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="attributes">
+                 <attribute name="string">Net Price</attribute>           
+            </xpath>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="product_supplierinfo_form_view_od">
+        <field name="name">product.supplierinfo.form</field>
+        <field name="model">product.supplierinfo</field>
+        <field name="inherit_id" ref="product.product_supplierinfo_form_view"/>
+        <field name="arch" type="xml">
+        	<xpath expr="//field[@name='name']" position ="before">
+                 <field name="agreement"/>    
+                 <field name="agreement_number" readonly="1"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="before">
+                 <field name="original_price"/>    
+                 <field name="discount"/>              
+            </xpath>
+            <xpath expr="//field[@name='price']" position ="attributes">
+                 <attribute name="string">Net Price</attribute>           
             </xpath>
         </field>
     </record>

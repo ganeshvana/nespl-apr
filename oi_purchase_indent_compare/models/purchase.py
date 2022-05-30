@@ -136,11 +136,11 @@ class Partner(models.Model):
     @api.onchange('state_id')
     def onchange_state_id(self):
         if self.state_id:
-            if self.state_id.code != 'TN':
+            if self.state_id.code != '08':
                 fp = self.env['account.fiscal.position'].search([('name', '=', 'Inter State')], limit=1)
                 if fp:
                     self.property_account_position_id = fp.id
-            if self.state_id.code == 'TN':
+            if self.state_id.code == '08':
                 self.property_account_position_id = False
     
     

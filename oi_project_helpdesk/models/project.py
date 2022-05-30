@@ -62,6 +62,22 @@ class Project(models.Model):
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     project_number = fields.Char("Project Number")
+    street = fields.Char()
+    street2 = fields.Char()
+    zip = fields.Char(change_default=True)
+    city = fields.Char()
+    state_id = fields.Many2one("res.country.state", string='State', ondelete='restrict', domain="[('country_id', '=?', country_id)]")
+    country_id = fields.Many2one('res.country', string='Country', ondelete='restrict')
+    country_code = fields.Char(related='country_id.code', string="Country Code")
+    partner_latitude = fields.Float(string='Geo Latitude', digits=(10, 7))
+    partner_longitude = fields.Float(string='Geo Longitude', digits=(10, 7))
+    
+    # def create(self, vals):
+    #     res = super(Project, self).create(vals)
+    #     seq = self.env['ir.sequence'].next_by_code('project.code.seq') or ''
+    #     res.project_number = seq
+    #     res.name = seq
+    #     return res
     
     def name_get(self):
         result = []
@@ -77,7 +93,7 @@ class Project(models.Model):
 class ProjectTask(models.Model):
     _inherit = 'project.task'
     
-    project_lifelines = fields.Integer(related='project_id.project_lifelines',string="Total Lifelines", store=True)
+    project_lifelines = fields.Integer(string="Total Lifelines")
     employee_id = fields.Many2one('hr.employee', "Assigned To", tracking=True, track_visiblity = 'onchange')
     employee_pin = fields.Char("Employee PIN")
     

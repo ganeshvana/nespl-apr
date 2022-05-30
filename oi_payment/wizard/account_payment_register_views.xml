@@ -14,6 +14,38 @@
 	                <field name="po_payment_term_line_ids" widget="many2many_tags" attrs="{'invisible': [('payment_type','=', 'inbound')]}"/>
 	            </xpath>
 	        </field>
-	    </record>        
+	    </record>   
+	    
+	    <record id="payment_export_form" model="ir.ui.view">
+        <field name="name">payment.export.view.form</field>
+        <field name="model">payment.export</field>
+        <field name="arch" type="xml">
+            <form>  
+            	<group>
+            		<group>
+            			<field name="name_file" />
+            		</group>
+            		<group>
+            			<field name="xls_file" readonly="1" filename="xls_filename"/>
+            			<field name="xls_filename" readonly="1"/>
+            		</group>
+            	</group>            
+                <footer>
+                    <button name="generate_report" string="Export XLSX" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>               
+            </form>
+        </field>
+    </record>
+        
+    <record id="action_payment_export" model="ir.actions.act_window">
+        <field name="name">Export Payment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">payment.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="account.model_account_payment" />
+        <field name="binding_view_types">list</field>
+    </record>
     </data>
 </odoo>

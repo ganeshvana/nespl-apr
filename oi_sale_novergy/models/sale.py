@@ -3,9 +3,30 @@ from odoo import api, fields, models, tools, _
 
 class product_pricelist(models.Model):
     _inherit = "product.pricelist"
-
-
+    
     partner_id = fields.Many2one('res.partner',string="Partner", copy=False)
+    start_date = fields.Date("Start Date")
+    
+class SupplierInfo(models.Model):
+    _inherit = "product.supplierinfo"
+    
+    agreement_number = fields.Char("Agreement Number")
+    agreement = fields.Boolean("Agreement?")
+    discount = fields.Float("Discount %")
+    original_price = fields.Float("Price")
+    
+    @api.onchange('discount', 'original_price')
+    def onchange_original_price(self):
+        if self.discount and self.original_price:
+            self.price = self.original_price - (self.original_price * (self.discount / 100))
+    
+    def create(self, vals_list):
+        result = super(SupplierInfo, self).create(vals_list)
+        for res in result:
+            if res.agreement:
+                seq = self.env['ir.sequence'].next_by_code('purchase.agreement.seq') or '/'
+                res.agreement_number = seq   
+        return result 
     
 class SO(models.Model):
     _inherit = "sale.order"

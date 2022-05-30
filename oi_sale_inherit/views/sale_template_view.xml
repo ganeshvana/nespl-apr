@@ -18,6 +18,7 @@
 				<xpath expr= "//field[@name='origin']" position ="after">
 	                <field name="reference_number"/>
 	                <field name="loading"/>
+	                <field name="transport_mode"/>
 	                <field name="transport"/>
 	                <field name="transporter" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
 	                <field name="lr" attrs="{'invisible' : [('transport', '!=', 'truck')]}"/>
@@ -27,6 +28,20 @@
 	                <field name="courier" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>
 	                <field name="tracking" attrs="{'invisible' : [('transport', '!=', 'courier')]}"/>	                
 	            </xpath>
+	            <xpath expr= "//field[@name='user_id']" position ="after">
+	            	<field name="address_id"/>
+	            </xpath>
+			</field>
+		</record>
+		
+		<record model="ir.ui.view" id="vpicktree_inherit123">
+			<field name="name">sale.template.tree.delivery</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree" />
+			<field name="arch" type="xml">
+				<xpath expr= "//field[@name='origin']" position ="after">
+					<field name="project_number"/>
+				</xpath>
 			</field>
 		</record>
 	</data>
