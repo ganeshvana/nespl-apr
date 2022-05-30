@@ -120,6 +120,15 @@ class ProductEntry(models.Model):
     net_profit = fields.Float("Net Profit", compute='_compute_net_profit', store=True)
     net_profit_percent = fields.Float("Net Profit %", compute='_compute_net_profit_percent', store=True)
     costing_structure_ids = fields.One2many('costing.structure', 'costing_id', "Costing", )
+    round_quote_price = fields.Float("Round Quote Price")
+    
+    @api.onchange('costing_structure_ids', 'costing_structure_ids.gquoted_price')
+    def onchange_costing_structure_ids(self):
+        total = 0.0
+        if self.costing_structure_ids:
+            for line in self.costing_structure_ids:
+                total += line.quoted_price
+            self.round_quote_price = total
     
     @api.onchange('kw')
     def onchange_kw(self):
@@ -186,6 +195,7 @@ class ProductEntry(models.Model):
                         'product_uom': line.product_uom_id.id,
                         'price_unit': line.cost,
                         'type': line.type,
+                        'hide': line.hide,
                         'price_subtotal': line.total,
                         'order_id': order.sale_order_id.id
                         })
@@ -206,7 +216,7 @@ class ProductEntry(models.Model):
                         col.markup = cs.markup
                         col.price_unit = col.price_unit + (col.price_unit * (cs.markup/100))
             order.state = 'validate'
-            order.sale_order_id.rounded_off_with_markup = rounded_off_with_markup
+            order.sale_order_id.rounded_off_with_markup = order.round_quote_price
 
     def action_re_compute(self):
         for order in self:
@@ -286,8 +296,8 @@ class CostingStructure(models.Model):
                     #     else:
                     #         rec.cost = 0.0
     
-    @api.onchange('cost', 'markup')
-    def onchange_markup_amt(self):
+    @api.depends('cost', 'markup')
+    def compute_markup_amt(self):
         for rec in self:
             rec.markup_amt = rec.cost * (rec.markup / 100)
             
@@ -313,7 +323,7 @@ class CostingStructure(models.Model):
            
     cost = fields.Float("Kw Price", compute='compute_cost', store=True)
     markup = fields.Float("Markup %")
-    markup_amt = fields.Float("Markup Amount")
+    markup_amt = fields.Float("Markup Amount", compute='compute_markup_amt', store=True)
     print_type = fields.Boolean('Print', compute='compute_print_type', store=True)
     quoted_price = fields.Float("Quoted Price", compute='compute_quoted_price', store=True)
     kw_price = fields.Float("Per Kwp Price", compute='compute_kw_price', store=True)
@@ -358,7 +368,7 @@ class ProductEntryLine(models.Model):
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     sale_order_line_id = fields.Many2one('sale.order.line', "Order Line")
     name = fields.Char("Description")
-    
+    hide = fields.Boolean("Hide")
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):
@@ -409,6 +419,7 @@ class ProductEntryCostLines(models.Model):
     notes = fields.Char("Notes")
     type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
     cost_lines_id = fields.Many2one('product.entry', copy=True)
+    hide = fields.Boolean("Hide")
     
     @api.depends('product_uom_qty','cost')
     def compute_total(self):

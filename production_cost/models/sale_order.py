@@ -34,6 +34,7 @@ class SaleOrder(models.Model):
     opex_description = fields.Html("Summary", copy=True)
     rounded_off_with_markup = fields.Float("Rounded Off Untaxed Amount")
     type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
+    revised_for_project = fields.Boolean("Project Revision")
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
@@ -300,6 +301,50 @@ class SaleOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
+        
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if self.type == 'sale':
+            for line in self.picking_ids:
+                line.project = True
+        return res
+    
+    def _get_new_rev_data1(self, new_rev_number):
+        self.ensure_one()
+        return {
+            "revision_number": new_rev_number,
+            "unrevisioned_name": self.unrevisioned_name,
+            "name": "%s-P%02d" % (self.unrevisioned_name, new_rev_number),
+            "old_revision_ids": [(4, self.id, False)],
+            'type': 'project',
+            'sale_order_template_id': False
+        }
+    
+    def copy_revision_with_context1(self):
+        default_data = self.default_get([])
+        new_rev_number = self.revision_number + 1
+        vals = self._get_new_rev_data1(new_rev_number)
+        default_data.update(vals)
+        new_revision = self.copy(default_data)
+        self.old_revision_ids.write({"current_revision_id": new_revision.id})
+        self.write(self._prepare_revision_data(new_revision))
+        return new_revision
+    
+    def request_for_project(self):
+        self.revised_for_project = True
+        revision_ids = []
+        for rec in self:
+            copied_rec = rec.copy_revision_with_context1()
+            if hasattr(self, "message_post"):
+                msg = _("New revision created: %s") % copied_rec.name
+                copied_rec.message_post(body=msg)
+                rec.message_post(body=msg)
+            revision_ids.append(copied_rec.id)
+    
+class Picking(models.Model):
+    _inherit = 'stock.picking'
+    
+    project = fields.Boolean("Project")
         
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
