@@ -45,7 +45,7 @@
             <field name="inherit_id" ref="account.view_move_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='amount_total']" position="before">
-                    <field name="round_active"/>
+                    <field name="round_active" invisible="1"/>
                     <field name="rounded_total" invisible="1"/>
                     <field name="round_off_value"/>
                     <field name="without_round_off"/>
