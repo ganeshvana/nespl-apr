@@ -128,6 +128,74 @@ class RoofType(models.Model):
     
     name = fields.Char("Roof Type")
     
+class Activity(models.Model):
+    _inherit = 'mail.activity'   
     
+    
+    def action_notify(self):
+        if not self:
+            return
+        return True
+        # original_context = self.env.context
+        # body_template = self.env.ref('mail.message_activity_assigned')
+        # for activity in self:
+        #     if activity.user_id.lang:
+        #         # Send the notification in the assigned user's language
+        #         self = self.with_context(lang=activity.user_id.lang)
+        #         body_template = body_template.with_context(lang=activity.user_id.lang)
+        #         activity = activity.with_context(lang=activity.user_id.lang)
+        #     model_description = self.env['ir.model']._get(activity.res_model).display_name
+        #     body = body_template._render(
+        #         dict(
+        #             activity=activity,
+        #             model_description=model_description,
+        #             access_link=self.env['mail.thread']._notify_get_action_link('view', model=activity.res_model, res_id=activity.res_id),
+        #         ),
+        #         engine='ir.qweb',
+        #         minimal_qcontext=True
+        #     )
+        #     record = self.env[activity.res_model].browse(activity.res_id)
+        #     if activity.user_id:
+        #         record.message_notify(
+        #             partner_ids=activity.user_id.partner_id.ids,
+        #             body=body,
+        #             subject=_('%(activity_name)s: %(summary)s assigned to you',
+        #                 activity_name=activity.res_name,
+        #                 summary=activity.summary or activity.activity_type_id.name),
+        #             record_name=activity.res_name,
+        #             model_description=model_description,
+        #             email_layout_xmlid='mail.mail_notification_light',
+        #         )
+        #     body_template = body_template.with_context(original_context)
+        #     self = self.with_context(original_context)
+    
+    
+class Compose(models.TransientModel):
+    _inherit = 'mail.compose.message'   
+    
+    @api.model
+    def default_get(self, fields):
+        result = super(Compose, self).default_get(fields)
+
+        mail_server = self.env['ir.mail_server'].search([('smtp_user','=', self.env.user.login)])
+        if mail_server:
+            result['mail_server_id'] = mail_server.id
+
+        filtered_result = dict((fname, result[fname]) for fname in result if fname in fields)
+        return filtered_result
+    
+class Mail(models.Model):
+    _inherit = 'mail.mail'   
+    
+    @api.model_create_multi
+    def create(self, values_list):
+        for values in values_list:
+            mail_server = self.env['ir.mail_server'].search([('smtp_user','=', self.env.user.login)])
+            if mail_server:
+                values['mail_server_id'] = mail_server.id            
+        new_mails = super(Mail, self).create(values_list)      
+
+        return new_mails
+        
     
     
