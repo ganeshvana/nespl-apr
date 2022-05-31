@@ -29,7 +29,6 @@ class PurchaseOrder(models.Model):
         # Ensures default picking type and currency are taken from the right company.
         self_comp = self.with_company(company_id)        
         company = self.env['res.company'].browse(vals.get('company_id'))
-        print(company, "self_comp=====")        
         if vals.get('name', 'New') == 'New':
             seq_date = None
             if 'date_order' in vals:

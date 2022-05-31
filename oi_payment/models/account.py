@@ -5,6 +5,23 @@ from odoo.exceptions import UserError
 class Move(models.Model):
     _inherit = "account.move"
     
+    @api.model
+    def create(self, vals):
+        res = super(Move, self).create(vals)
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
+        return res
+    
+    def write(self, vals):
+        result = super(Move, self).write(vals)
+        res = self
+        if res.message_follower_ids:
+            for line in res.message_follower_ids:
+                line.sudo().unlink()
+        
+        return result
+    
     def action_invoice_sent(self):
         """ Open a window to compose an email, with the edi invoice template
             message loaded by default
