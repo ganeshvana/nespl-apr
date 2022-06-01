@@ -307,6 +307,7 @@ class SaleOrder(models.Model):
         if self.type == 'sale':
             for line in self.picking_ids:
                 line.project = True
+                line.action_cancel()
         return res
     
     def _get_new_rev_data1(self, new_rev_number):
