@@ -34,7 +34,7 @@ class SaleOrder(models.Model):
     opex_description = fields.Html("Summary", copy=True)
     rounded_off_with_markup = fields.Float("Rounded Off Untaxed Amount")
     type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
-    revised_for_project = fields.Boolean("Project Revision")
+    revised_for_project = fields.Boolean("Project Revision", copy=False)
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):

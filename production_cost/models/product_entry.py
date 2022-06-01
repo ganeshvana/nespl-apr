@@ -127,7 +127,7 @@ class ProductEntry(models.Model):
         total = 0.0
         if self.costing_structure_ids:
             for line in self.costing_structure_ids:
-                total += line.quoted_price
+                total += line.calc_quoted_price
             self.round_quote_price = total
     
     @api.onchange('kw')
@@ -305,6 +305,11 @@ class CostingStructure(models.Model):
     def compute_quoted_price(self):
         for rec in self:
             rec.quoted_price = rec.cost + rec.markup_amt
+            
+    @api.onchange('cost', 'markup_amt')
+    def onchange_quoted_price(self):
+        for rec in self:
+            rec.calc_quoted_price = rec.cost + rec.markup_amt
     
     @api.depends('quoted_price', 'costing_id.kw')        
     def compute_kw_price(self):
@@ -326,6 +331,7 @@ class CostingStructure(models.Model):
     markup_amt = fields.Float("Markup Amount", compute='compute_markup_amt', store=True)
     print_type = fields.Boolean('Print', compute='compute_print_type', store=True)
     quoted_price = fields.Float("Quoted Price", compute='compute_quoted_price', store=True)
+    calc_quoted_price = fields.Float("Calculated Quoted Price")
     kw_price = fields.Float("Per Kwp Price", compute='compute_kw_price', store=True)
     costing_id = fields.Many2one('product.entry')
     type = fields.Selection([('bom', 'Main BOM'),('optional', 'Optional BOM'),

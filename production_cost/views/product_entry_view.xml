@@ -101,6 +101,7 @@
                             			<field name="cost" sum="Total" string="Cost Price"/>
                             			<field name="markup" />
                             			<field name="markup_amt" sum="Total"/>
+                            			<field name="calc_quoted_price" sum="Total"/>
                             			<field name="quoted_price" sum="Total"/>
                             			<field name="kw_price" sum="Total"/>
                             		</tree>
