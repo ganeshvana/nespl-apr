@@ -25,6 +25,10 @@
                       <field name="entry_count" widget="statinfo" string="Project Costing"/>
                   </button>
                 </xpath>
+                <xpath expr="//div[@name='button_box']" position="after">
+            		<field name="revised_for_project" invisible="1"/>
+            		<widget name="web_ribbon" text="Revised for Project" bg_color="bg-danger" attrs="{'invisible': [('revised_for_project', '=', False)]}"/>
+            	</xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="before">                	
                 	<field name="content"/>
                 	<field name="type" invisible="1"/>
@@ -337,6 +341,7 @@
 	        <field name="res_model">sale.order.template</field>
 	        <field name="view_mode">tree,form</field>
 	        <field name="domain">[('type', '=', 'project')]</field>
+	        <field name="context">{'default_type': 'project'}</field>
 	    </record>
 	    
 	    <record id="sale_order_template_action_project_11" model="ir.actions.act_window.view">
