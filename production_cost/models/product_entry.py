@@ -312,11 +312,11 @@ class CostingStructure(models.Model):
         for rec in self:
             rec.calc_quoted_price = rec.cost + rec.markup_amt
     
-    @api.depends('quoted_price', 'costing_id.kw')        
+    @api.depends('calc_quoted_price', 'costing_id.kw')        
     def compute_kw_price(self):
         for rec in self:
             if rec.costing_id.kw > 0:
-                rec.kw_price = rec.quoted_price / rec.costing_id.kw
+                rec.kw_price = rec.calc_quoted_price / rec.costing_id.kw
                 
     @api.depends('quoted_price')        
     def compute_print_type(self):
@@ -331,8 +331,8 @@ class CostingStructure(models.Model):
     markup = fields.Float("Markup %")
     markup_amt = fields.Float("Markup Amount", compute='compute_markup_amt', store=True)
     print_type = fields.Boolean('Print', compute='compute_print_type', store=True)
-    quoted_price = fields.Float("Quoted Price", compute='compute_quoted_price', store=True)
-    calc_quoted_price = fields.Float("Calculated Quoted Price")
+    quoted_price = fields.Float("Computed Price", compute='compute_quoted_price', store=True)
+    calc_quoted_price = fields.Float("Quoted Price")
     kw_price = fields.Float("Per Kwp Price", compute='compute_kw_price', store=True)
     costing_id = fields.Many2one('product.entry')
     type = fields.Selection([('bom', 'Main BOM'),('optional', 'Optional BOM'),

@@ -3,4 +3,7 @@
 	<record id="group_project_costing" model="res.groups">
 		<field name="name">Project Costing</field>		
 	</record>
+	<record id="group_sale_cost" model="res.groups">
+		<field name="name">Sale Cost</field>		
+	</record>
 </odoo>

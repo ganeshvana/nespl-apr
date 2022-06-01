@@ -32,7 +32,7 @@ class SaleOrder(models.Model):
     opex_lines_site = fields.One2many('opex.lines.site', 'sale_order_id', "OPEX Sites", copy=True)
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'sale_order_id', "OPEX", copy=True)
     opex_description = fields.Html("Summary", copy=True)
-    rounded_off_with_markup = fields.Float("Rounded Off Untaxed Amount")
+    rounded_off_with_markup = fields.Float("Quoted Price")
     type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
     revised_for_project = fields.Boolean("Project Revision", copy=False)
     
@@ -97,7 +97,6 @@ class SaleOrder(models.Model):
             'partner_ids': [(6,0, option.partner_ids.ids)],
             'vendor_ids': [(6,0, option.vendor_ids.ids)],
             'model': option.model,
-            
         }
     
     @api.onchange('sale_order_template_id')
@@ -261,6 +260,25 @@ class SaleOrder(models.Model):
                         option_lines.append((0, 0, data))
             entry_ids.order_line = order_lines
             entry_ids.cost_lines_option = option_lines
+            
+        if self.project_costing_id:
+            for line in self.project_costing_id.order_line:
+                if not line.sale_order_line_id:
+                    line.unlink()
+            for line in self.order_line:
+                costlines = False
+                costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line.product_id)    
+                if not costlines:
+                    pel = self.env['product.entry.line'].create({
+                        'product_id': line.product_id.id,
+                        'name': line.name,
+                        'kwp': self.kw,
+                        'cost': line.price_unit,
+                        'type': line.type,
+                        'entry_id': self.project_costing_id.id,
+                        'sale_order_line_id': line.id
+                        })
+                
         return {
             'name': _('Product Entry'),
             'view_type': 'form',

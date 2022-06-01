@@ -213,6 +213,7 @@
 					<t t-set="total" t-value="0"/>
 					
 					<t t-if="doc.costing_structure_ids">
+					<p style="page-break-before:always;"> </p>	
 						<p><strong><u>COMMERCIAL OFFER:</u></strong></p>
 					<table style="border-style:none;" width="100%">
 					<tr style="border-style:solid;border-width:1px;" width="100%">

@@ -51,8 +51,11 @@
 	    			<field name="employee_pin" password="True"/> 
                 </xpath>
                 <xpath expr="//field[@name='tax_totals_json']" position="before">
-	    			<field name="rounded_off_with_markup"/>
+	    			<field name="rounded_off_with_markup" groups="production_cost.group_sale_cost"/>
                 </xpath>
+                <xpath expr="//field[@name='tax_totals_json']" position="attributes">
+	    			<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>                
                 <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="after">
                 	<field name="hide" optional="hide"/>
                 	<field name="type" optional="hide"/>
@@ -61,6 +64,13 @@
                 	<field name="quotation_template_line_id" optional="hide"/>
                 	<field name="markup" optional="hide" invisible="1"/>
                 </xpath>
+                <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                <xpath expr="//page/field/tree/field[@name='price_unit']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Capex / Opex / Open Access">
                 		<group string="Summary">
@@ -252,7 +262,7 @@
                     <div name="button_box" class="oe_button_box"/>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="oe_title">
-                        <label for="name"/>
+                        <label for="name" string="Project BOM"/>
                         <h1>
                             <field name="name" placeholder="e.g. Standard Consultancy Package"/>
                         </h1>

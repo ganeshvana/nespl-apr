@@ -10,7 +10,7 @@
                 		<td style="border-style:none;text-align:right;" width="30%">
                 			<img t-att-src="image_data_uri(doc.company_id.logo)" style="max-height: 5cm; max-width: 6cm;" align="right"/>
                 			<br/>
-                			<span style="text-align:center;">www.novergysolar.com</span>
+                			
                 		</td>
                 	</tr>
                 </table>
@@ -24,7 +24,7 @@
                         <td><center>
                         <span class="page"/><br/>
                         Novergy Energy Solutions Pvt. Ltd.<br/>
-                        Contact: enquiry@novergy.net	
+                        <span style="text-align:center;">www.novergysolar.com</span>
                         </center></td>
                     </tr>
                 </table>
