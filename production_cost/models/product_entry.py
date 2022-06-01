@@ -187,6 +187,7 @@ class ProductEntry(models.Model):
                     line.sale_order_line_id.price_subtotal = line.total
                     line.sale_order_line_id.product_uom_qty = line.product_uom_qty
                     line.sale_order_line_id.type = line.type
+                    line.sale_order_line_id.hide = line.hide
                 if not line.sale_order_line_id:
                     template_line = self.env['sale.order.line'].create({
                         'product_id': line.product_id.id,
