@@ -236,7 +236,7 @@
             <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
             <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
             <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
-            <field name="domain">[('revised_for_project', '=', True)]</field>
+            <field name="domain">[('type', '=', 'project')]</field>
         </record>
         
         <menuitem id="menu_project_sale" name="Sales" parent="project.menu_main_pm" sequence="1"/>
