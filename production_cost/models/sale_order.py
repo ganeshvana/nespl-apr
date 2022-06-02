@@ -32,7 +32,9 @@ class SaleOrder(models.Model):
     opex_lines_site = fields.One2many('opex.lines.site', 'sale_order_id', "OPEX Sites", copy=True)
     opex_lines_site_rate = fields.One2many('opex.lines.site.year', 'sale_order_id', "OPEX", copy=True)
     opex_description = fields.Html("Summary", copy=True)
-    
+    rounded_off_with_markup = fields.Float("Quoted Price")
+    type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
+    revised_for_project = fields.Boolean("Project Revision", copy=False)
     
     @api.onchange('employee_pin', 'employee_id')
     def onchange_employee_pin(self):
@@ -95,7 +97,6 @@ class SaleOrder(models.Model):
             'partner_ids': [(6,0, option.partner_ids.ids)],
             'vendor_ids': [(6,0, option.vendor_ids.ids)],
             'model': option.model,
-            
         }
     
     @api.onchange('sale_order_template_id')
@@ -113,7 +114,6 @@ class SaleOrder(models.Model):
         self.reference = self.sale_order_template_id.reference
         self.kind_attn = self.sale_order_template_id.kind_attn
         self.content = self.sale_order_template_id.content
-        self.kw = self.sale_order_template_id.kw
         order_lines = [(5, 0, 0)]
         for line in template.sale_order_template_line_ids:
             data = self._compute_line_data_for_template_change(line)
@@ -128,9 +128,12 @@ class SaleOrder(models.Model):
                         discount = max(0, (price - pricelist_price) * 100 / price)
                     else:
                         price = pricelist_price
-
+                if self.kw > 0.0:
+                    pp = self.kw
+                else:
+                    pp = 1
                 data.update({
-                    'price_unit': line.cost,
+                    'price_unit': line.cost * pp,
                     'discount': discount,
                     'product_uom_qty': line.product_uom_qty,
                     'product_id': line.product_id.id,
@@ -142,6 +145,7 @@ class SaleOrder(models.Model):
                     'hide': line.hide,
                     'model': line.model,
                     'type': line.type,
+                    'per_kw' : line.cost,
                     'kwpunit': line.kwpunit,
                     'cost': line.cost,
                     'printkwp': line.printkwp,                    
@@ -225,34 +229,56 @@ class SaleOrder(models.Model):
                 'quotation_template_id': self.sale_order_template_id.id,
                 'kw': self.kw
                 })
-            entry_ids.onchange_quotation_template_id()
+            # entry_ids.onchange_quotation_template_id()
             order_lines = [(5, 0, 0)]
             option_lines = [(5, 0, 0)]
-            if entry_ids.quotation_template_id:
-                for line in entry_ids.quotation_template_id.sale_order_template_line_ids:
+            # if entry_ids.quotation_template_id:
+            if self.order_line:
+                for line in self.order_line:
                     if line.product_id:
                         data = {
                             'product_uom_qty': line.product_uom_qty,
                             'product_id': line.product_id.id,
                             'name': line.name,
-                            'product_uom_id': line.product_uom_id.id,
-                            'quotation_template_line_id' : line.id,
+                            'product_uom_id': line.product_uom.id,
+                            'sale_order_line_id' : line.id,
                             'type': line.type,
-                            'kwp': self.kw
+                            'kwp': self.kw,
+                            'cost': line.price_unit,
+                            'kw_cost': line.price_unit
                         }
                         order_lines.append((0, 0, data))
-                for line in entry_ids.quotation_template_id.sale_order_template_option_ids:
+                for line in self.sale_order_option_ids:
                     if line.product_id:
                         data = {
                             'product_uom_qty': line.quantity,
                             'product_id': line.product_id.id,
                             'product_uom_id': line.uom_id.id,
-                            'quotation_template_line_id' : line.id,
+                            # 'quotation_template_line_id' : line.id,
                             'kwp': self.kw
                         }
                         option_lines.append((0, 0, data))
             entry_ids.order_line = order_lines
             entry_ids.cost_lines_option = option_lines
+            
+        if self.project_costing_id:
+            for line in self.project_costing_id.order_line:
+                if not line.sale_order_line_id:
+                    line.unlink()
+            for line in self.order_line:
+                costlines = False
+                costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line.product_id)    
+                if not costlines:
+                    pel = self.env['product.entry.line'].create({
+                        'product_id': line.product_id.id,
+                        'name': line.name,
+                        'kwp': self.kw,
+                        'cost': line.price_unit,
+                        'type': line.type,
+                        'entry_id': self.project_costing_id.id,
+                        'sale_order_line_id': line.id
+                        })
+                
         return {
             'name': _('Product Entry'),
             'view_type': 'form',
@@ -293,71 +319,58 @@ class SaleOrder(models.Model):
             'target': 'new',
             'context': ctx,
         }
-        # if self.sale_order_template_id:
-        #     new_attachments = attachments = []
-        #     ATTACHMENT_NAME = self.name + '.pdf'
-        #     if self.sale_order_template_id.capex_opex == 'capex':
-        #         template_id = self.env.ref('production_cost.email_template_sale_quote_capex')
-        #     if self.sale_order_template_id.capex_opex == 'opex':
-        #         template_id = self.env.ref('production_cost.email_template_sale_quote_opex')
-        #     # if self.sale_order_template_id.capex_opex == 'capex':
-        #     #     pdf = self.env.ref('oi_sale_novergy.action_report_capex').sudo()._render_qweb_pdf([self.sale_order_template_id.id])[0]
-        #     #     # print(pdf, "=d===", type(pdf))
-        #     #     isr_pdf = base64.b64encode(pdf)
-        #     #     new_attachments.append((ATTACHMENT_NAME, isr_pdf))
-        #     # if self.sale_order_template_id.capex_opex == 'opex':
-        #     #     pdf = request.env.ref('production_cost.action_opex_with_bom_report').sudo()._render_qweb_pdf([self.sale_order_template_id.id])
-        #     #     # print(pdf, "====", type(pdf))
-        #     #     b64_pdf = base64.b64encode(pdf)
-        #     #
-        #     # file_name = ''                    
-        #     #
-        #     # # print(new_attachments, "new_attachments")
-        #     # pdf_file =  self.env['ir.attachment'].create({
-        #     #     'name': ATTACHMENT_NAME,
-        #     #     'type': 'binary',
-        #     #     'datas': isr_pdf,
-        #     #     'res_model': self._name,
-        #     #     'res_id': self.id,
-        #     #     'mimetype': 'application/pdf',
-        #     # })
-        #     # print(pdf_file, "pdf_file---")
-        #     # attachments.append(pdf_file.id)
-        #     # template_id.attachment_ids = [(6,0, attachments)]
-        #
-        #     # template = self.env['mail.template'].browse(template_id)
-        #     # if template.lang:
-        #     #     lang = template._render_lang(self.ids)[self.id]
-        #     ctx = {
-        #         'default_model': 'sale.order.template',
-        #         'default_res_id': self.sale_order_template_id.id,
-        #         'default_use_template': bool(template_id.id),
-        #         'default_template_id': template_id.id,
-        #         'default_composition_mode': 'comment',
-        #         'mark_so_as_sent': True,
-        #         'custom_layout': "mail.mail_notification_paynow",
-        #         'proforma': self.env.context.get('proforma', False),
-        #         'force_email': True,
-        #         'model_description': self.with_context(lang=lang).type_name,
-        #         # 'default_attachment_ids': [(6,0, attachments)]
-        #     }
-        #     return {
-        #         'type': 'ir.actions.act_window',
-        #         'view_mode': 'form',
-        #         'res_model': 'mail.compose.message',
-        #         'views': [(False, 'form')],
-        #         'view_id': False,
-        #         'target': 'new',
-        #         'context': ctx,
-        #     }
-            
-            
+        
+    def action_confirm(self):
+        res = super(SaleOrder, self).action_confirm()
+        if self.type == 'sale':
+            for line in self.picking_ids:
+                line.project = True
+                line.action_cancel()
+        return res
+    
+    def _get_new_rev_data1(self, new_rev_number):
+        self.ensure_one()
+        return {
+            "revision_number": new_rev_number,
+            "unrevisioned_name": self.unrevisioned_name,
+            "name": "%s-P%02d" % (self.unrevisioned_name, new_rev_number),
+            "old_revision_ids": [(4, self.id, False)],
+            'type': 'project',
+            'sale_order_template_id': False
+        }
+    
+    def copy_revision_with_context1(self):
+        default_data = self.default_get([])
+        new_rev_number = self.revision_number + 1
+        vals = self._get_new_rev_data1(new_rev_number)
+        default_data.update(vals)
+        new_revision = self.copy(default_data)
+        self.old_revision_ids.write({"current_revision_id": new_revision.id})
+        self.write(self._prepare_revision_data(new_revision))
+        return new_revision
+    
+    def request_for_project(self):
+        self.revised_for_project = True
+        revision_ids = []
+        for rec in self:
+            copied_rec = rec.copy_revision_with_context1()
+            if hasattr(self, "message_post"):
+                msg = _("New revision created: %s") % copied_rec.name
+                copied_rec.message_post(body=msg)
+                rec.message_post(body=msg)
+            revision_ids.append(copied_rec.id)
+    
+class Picking(models.Model):
+    _inherit = 'stock.picking'
+    
+    project = fields.Boolean("Project")
+        
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
     
     unit = fields.Float("Unit")
-    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
-    # kw = fields.Float(related='order_id.kw', store=True)
+    per_kw = fields.Float("Per KW")
+    kw = fields.Float(related='order_id.kw', store=True)
     cost = fields.Float("Cost")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1w', 'vendor_id', 'template_id', "Make")
@@ -370,6 +383,7 @@ class SaleOrderLine(models.Model):
     printkwp = fields.Boolean("Print KWp Unit")
     quotation_template_line_id = fields.Many2one('sale.order.template.line', "Quotation Template")
     markup = fields.Float("Markup")
+    
     
     @api.onchange('price_unit', 'markup')
     def onchange_price_unit_markup(self):
@@ -395,6 +409,7 @@ class SaleOrderTemplate(models.Model):
     project_costing_id = fields.Many2one('product.entry', "Costing")
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
     capex_opex = fields.Selection([('capex', 'Capex'), ('opex', 'Opex/ Open Access')], default='capex')
+    type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
     
     def action_quotation_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''
@@ -427,13 +442,13 @@ class SaleOrderTemplateLine(models.Model):
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
     kw = fields.Float(related='sale_order_template_id.kw', store=True)
-    cost = fields.Float("Cost")
+    cost = fields.Float("Kw Price")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1', 'vendor_id', 'template_id', "Make")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
-    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC'),('project', 'Project')], default='bom')
     name1 = fields.Char("Name")
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
@@ -463,13 +478,13 @@ class SaleOrderTemplateOption(models.Model):
     unit = fields.Float("Unit")
     per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
     kw = fields.Float(related='sale_order_template_id.kw', store=True)
-    cost = fields.Float("Cost")
+    cost = fields.Float("Kw Price")
     total = fields.Float("Total")
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel2', 'vendor_id', 'template_id', "Make")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rel22', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
-    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    type = fields.Selection([('bom', 'BoM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC'),('project', 'Project')], default='bom')
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
     

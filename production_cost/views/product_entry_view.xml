@@ -33,7 +33,7 @@
                             <field name="contribution_price"/>
                             <field name="contribution_percent"/> -->
                             <field name="date"/>
-                            <field name="kw" invisible="1"/>
+                            <field name="kw" readonly="1"/>
                         </group>
                         <group>
                             <!--<field name="total_material_cost"/>
@@ -58,12 +58,14 @@
                                     <field name="sequence" widget="handle"/>
                                     <field name="product_id" required='1'/>
                                     <field name="name"/>
-                                    <field name="product_uom_id"/>   
-                                    <field name="kwp" invisible="1"/>   
+                                    <field name="product_uom_id"/>  
+                                    <field name="product_uom_qty" required='1'/> 
+                                    <field name="kwp"/>
+                                    <field name="kw_cost" optional="hide"/>   
                                     <field name="cost"/>
-                                    <field name="product_uom_qty" required='1'/>
                                     <field name="total"/>
                                     <field name="type" optional="hide"/>
+                                    <field name="hide" optional="hide"/>
                                     <field name="notes" optional="hide"/>
                                     <field name="quotation_template_line_id" optional="hide"/>
                                     <!-- <field name="remarks"/> -->
@@ -96,13 +98,20 @@
                             	<field name="costing_structure_ids" attrs="{'readonly':[('state','in',['compute'])]}" nolabel="1">
                             		<tree editable="bottom">
                             			<field name="type" required="1" />
-                            			<field name="cost" sum="Total"/>
+                            			<field name="cost" sum="Total" string="Cost Price"/>
                             			<field name="markup" />
                             			<field name="markup_amt" sum="Total"/>
-                            			<field name="quoted_price" sum="Total"/>
+                            			<field name="quoted_price" string="Computed Price" sum="Total"/>
+                            			<field name="calc_quoted_price" string="Quoted Price" sum="Total"/>
                             			<field name="kw_price" sum="Total"/>
                             		</tree>
                             	</field>
+                            </group>
+                            <group>
+                            	<group>
+                            	
+                            	</group>
+                            	<group><field name="round_quote_price" /></group>
                             </group>
                         </page>
                         <page name='components' string='Optional Products'>

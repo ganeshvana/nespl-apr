@@ -292,6 +292,7 @@
 					<field name="partner_ids" widget="many2many_tags" invisible="1"/>
                 	<field name="vendor_ids" widget="many2many_tags" domain="[('id', 'in', partner_ids)]"/>
                 	<field name="model"/>
+                	<field name="per_kw" invisible="1"/>
 				</xpath>
 				
                 <notebook position="inside">
@@ -320,6 +321,15 @@
             		<field name="partner_shipping_id"/>
             		<field name="kw"/>            		
             	</field>
+            	<xpath expr="//field[@name='amount_untaxed']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_tax']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                <xpath expr="//field[@name='amount_total']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
             </field>
         </record>
         

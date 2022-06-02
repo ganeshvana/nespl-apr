@@ -6,6 +6,11 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+            	<xpath expr="//button[@name='action_confirm']" position="before">
+            		<button type="object" name="request_for_project" class="oe_highlight" 
+            		attrs="{'invisible': ['|', ('state','not in',['done','sale']), ('revised_for_project', '=', True)]}"
+            		string="Send to Project"/>
+            	</xpath>
                 <xpath expr="//button[@name='action_view_invoice']" position="before">
                 	<button type="object"
                       name="action_view_bom"
@@ -20,13 +25,20 @@
                       <field name="entry_count" widget="statinfo" string="Project Costing"/>
                   </button>
                 </xpath>
+                <xpath expr="//div[@name='button_box']" position="after">
+            		<field name="revised_for_project" invisible="1"/>
+            		<widget name="web_ribbon" text="Revised for Project" bg_color="bg-danger" attrs="{'invisible': [('revised_for_project', '=', False)]}"/>
+            	</xpath>
                 <xpath expr="//field[@name='payment_term_id']" position="before">                	
                 	<field name="content"/>
+                	<field name="type" invisible="1"/>
+                	<field name="revised_for_project" invisible="1"/>
                 </xpath>
                 
                 <xpath expr="//field[@name='sale_order_template_id']" position="attributes">
                   <attribute name="string">Bill of Material</attribute>                  
                   <attribute name="attrs">{'readonly': [('state','in',['done','cancel'])]}</attribute>
+                  <attribute name="domain">[('type','=',type)]</attribute>
                 </xpath>
                 <xpath expr="//field[@name='sale_order_template_id']" position="after">
                   
@@ -38,6 +50,12 @@
                   <field name="employee_id"/>
 	    			<field name="employee_pin" password="True"/> 
                 </xpath>
+                <xpath expr="//field[@name='tax_totals_json']" position="before">
+	    			<field name="rounded_off_with_markup" groups="production_cost.group_sale_cost"/>
+                </xpath>
+                <xpath expr="//field[@name='tax_totals_json']" position="attributes">
+	    			<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>                
                 <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="after">
                 	<field name="hide" optional="hide"/>
                 	<field name="type" optional="hide"/>
@@ -46,6 +64,13 @@
                 	<field name="quotation_template_line_id" optional="hide"/>
                 	<field name="markup" optional="hide" invisible="1"/>
                 </xpath>
+                <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                <xpath expr="//page/field/tree/field[@name='price_unit']" position="attributes">
+                	<attribute name="groups">production_cost.group_sale_cost</attribute>
+                </xpath>
+                
                 <xpath expr="//notebook" position="inside">
                 	<page name="opex" string="Capex / Opex / Open Access">
                 		<group string="Summary">
@@ -116,13 +141,13 @@
                 </xpath>
                 <xpath expr="//field[@name='active']" position="before">
                 	<field name="capex_opex" widget="radio" options="{'horizontal': true}"/>
-                	<field name="kw"/>
+                	<field name="kw" invisible="1"/>
                 	<field name="sale_order_id" />
                 	<field name="subject"/>
                 	<field name="kind_attn"/>
                 	<field name="reference"/>
                 	<field name="content"/>
-                	
+                	<field name="type" invisible="1"/>
                 </xpath>
                 <xpath expr="//page[@name='order_lines']/field[@name='sale_order_template_line_ids']/tree/field[@name='product_uom_qty']" position="before">
                 	<field name="partner_ids" widget="many2many_tags" invisible="1"/>
@@ -213,5 +238,150 @@
                 </xpath>
             </field>
         </record>
+        
+        <record id="action_quotations_project" model="ir.actions.act_window">
+            <field name="name">Quotations</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">sale.order</field>
+            <field name="view_id" ref="sale.view_quotation_tree_with_onboarding"/>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph,activity</field>
+            <field name="search_view_id" ref="sale.sale_order_view_search_inherit_quotation"/>
+            <field name="domain">[('type', '=', 'project')]</field>
+        </record>
+        
+        <menuitem id="menu_project_sale" name="Sales" parent="project.menu_main_pm" sequence="1"/>
+        
+        <menuitem id="menu_project_sale_quotation" action="action_quotations_project" name="Quotations" parent="menu_project_sale" sequence="1"/>
+        
+        <record id="sale_order_template_view_form_bom1" model="ir.ui.view">
+            <field name="name">sale.order.template.form.inherit</field>
+            <field name="model">sale.order.template</field>
+            <field name="arch" type="xml">
+            	<form string="Quotation Template">
+                <sheet>
+                    <div name="button_box" class="oe_button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <label for="name" string="Project BOM"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Standard Consultancy Package"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                           
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook name="main_book">
+                        <page string="Lines" name="order_lines">
+                        <field name="sale_order_template_line_ids" widget="section_and_note_one2many">
+                            <form string="Quotation Template Lines">
+                                <!--
+                                    We need the sequence field to be here for new lines to be added at the correct position.
+                                    TODO: at some point we want to fix this in the framework so that an invisible field is not required.
+                                -->
+                                <field name="sequence" invisible="1"/>
+                                <field name="display_type" invisible="1"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <group attrs="{'invisible': [('display_type', '!=', False)]}">
+                                    <group>
+                                        <field name="product_id" attrs="{'required': [('display_type', '=', False)]}"/>
+                                        <label for="product_uom_qty"/>
+                                        <div>
+                                            <field name="product_uom_qty" class="oe_inline"/>
+                                        </div>
+                                    </group>
+                                </group>
+                                <notebook colspan="4" name="description">
+                                    <page string="Description" name="order_description" attrs="{'invisible': [('display_type', '!=', False)]}">
+                                        <field name="name"/>
+                                    </page>
+                                    <page string="Section" name="order_section" attrs="{'invisible': [('display_type', '!=', 'line_section')]}">
+                                        <field name="name"/>
+                                    </page>
+                                    <page string="Note" name="order_note" attrs="{'invisible': [('display_type', '!=', 'line_note')]}">
+                                        <field name="name"/>
+                                    </page>
+                                </notebook>
+                            </form>
+                            <tree string="Quotation Template Lines" editable="bottom">
+                                <control>
+                                    <create name="add_product_control" string="Add a product"/>
+                                    <create name="add_section_control" string="Add a section" context="{'default_display_type': 'line_section'}"/>
+                                    <create name="add_note_control" string="Add a note" context="{'default_display_type': 'line_note'}"/>
+                                </control>
+
+                                <field name="display_type" invisible="1"/>
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id"/>
+                                <field name="name" widget="section_and_note_text"/>
+                                <field name="product_uom_qty"/>
+                                <field name="product_uom_category_id" invisible="1"/>
+                                <field name="product_uom_id" groups="uom.group_uom" attrs="{'required': [('display_type', '=', False)]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                    <page string="Optional Products" name="optional_products">
+                        <field name="sale_order_template_option_ids">
+                          <tree string="Quotation Template Lines" editable="bottom">
+                            <field name="product_id" domain="[('sale_ok', '=', False)]"/>
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="product_uom_category_id" invisible="1"/>
+                            <field name="uom_id" groups="uom.group_uom"/>
+                          </tree>
+                        </field>
+                    </page>
+                    
+                    </notebook>
+                    <field name="note" nolabel="1" placeholder="The Administrator can set default Terms &amp; Conditions in Sales Settings. Terms set here will show up instead if you select this quotation template."/>
+                </sheet>
+            </form>
+            </field>
+            </record>
+        
+        
+        <record id="sale_order_template_action_project" model="ir.actions.act_window">
+	        <field name="name">Quotation Templates</field>
+	        <field name="type">ir.actions.act_window</field>
+	        <field name="res_model">sale.order.template</field>
+	        <field name="view_mode">tree,form</field>
+	        <field name="domain">[('type', '=', 'project')]</field>
+	        <field name="context">{'default_type': 'project'}</field>
+	    </record>
+	    
+	    <record id="sale_order_template_action_project_11" model="ir.actions.act_window.view">
+			<field eval="1" name="sequence" />
+			<field name="view_mode">tree</field>
+			<field name="view_id" ref="sale_management.sale_order_template_view_tree" />
+			<field name="act_window_id" ref="sale_order_template_action_project" />
+		</record>
+	    
+	    <record id="sale_order_template_action_project_1" model="ir.actions.act_window.view">
+			<field eval="2" name="sequence" />
+			<field name="view_mode">form</field>
+			<field name="view_id" ref="sale_order_template_view_form_bom1" />
+			<field name="act_window_id" ref="sale_order_template_action_project" />
+		</record>
+        
+        <menuitem id="menu_project_sale_quotation_template" action="sale_order_template_action_project" name="BOM" parent="menu_project_sale" sequence="2"/>
+        
+        <record id="view_picking_formd" model="ir.ui.view">
+            <field name="name">stock.picking.1</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//div[@name='button_box']" position="after">
+            		<field name="project" invisible="1"/>
+            		<widget name="web_ribbon" text="For Project" bg_color="bg-danger" attrs="{'invisible': [('project', '=', False)]}"/>
+            	</xpath>
+            </field>
+       	</record>
+        
+        
     </data>
 </odoo>

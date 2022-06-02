@@ -29,12 +29,20 @@ class SaleOrder(models.Model):
     lock_amount_total = fields.Boolean(
         string="Lock Amount Total", compute="_compute_lock_amount_total"
     )
-    type = fields.Selection(related='so_team_id.type', store=True)
     approval_required = fields.Boolean(related='so_team_id.approval_required', store=True)
     amount_total = fields.Monetary(tracking=True)
     state = fields.Selection(selection_add=[('to approve', 'To Approve')])
-    kw = fields.Float("KWP", readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
+    kw = fields.Float("KWP", default=1.0, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     order_type_id = fields.Many2one('sale.order.type', "Order Type")
+    
+    @api.onchange('kw')
+    def onchange_kw(self):
+        if self.kw:   
+            if self.sale_order_template_id:
+                self.onchange_sale_order_template_id()         
+            # if self.order_line:
+            #     for l in self.order_line:
+            #         l.price_unit = l.per_kw * l.price_unit
 
     # def _track_subtype(self, init_values):
     #     self.ensure_one()
@@ -298,13 +306,13 @@ class SaleOrder(models.Model):
     _inherit = "sale.order.line"    
     
     unit = fields.Float("Unit")
-    per_kw = fields.Float("Per KW", compute='compute_per_kw', store=True)
+    per_kw = fields.Float("Per KW")
     kw = fields.Float(related='order_id.kw', store=True)
     partner_ids = fields.Many2many('res.partner', 'vendor_template_rel1e', 'vendor_id', 'template_id', "Make")
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_rele', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     
-    @api.onchange('product_id')
+    @api.onchange('product_id', 'kw', 'per_kw')
     def onchange_product(self):
         products = []
         if self.product_id:
@@ -312,6 +320,8 @@ class SaleOrder(models.Model):
                 for line in self.product_id.seller_ids:
                     products.append(line.name.id)
             self.partner_ids = [(6, 0, products)]
+        if self.kw:
+            self.price_unit = self.per_kw * self.kw
     
     @api.depends('kw', 'unit')
     def compute_per_kw(self):

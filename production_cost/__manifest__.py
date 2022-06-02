@@ -7,7 +7,7 @@
     'sequence': 1,
     'summary': 'Calculate production cost into sale order line',
     'description': """Calculate production cost into sale order line""",
-    'depends': ['sale_mrp', 'sale_management', 'sale', 'sale_approval_route'],
+    'depends': ['sale_mrp', 'sale_management', 'sale', 'sale_approval_route', 'stock'],
     'data': [
         'security/ir.model.access.csv',
         'security/security.xml',
