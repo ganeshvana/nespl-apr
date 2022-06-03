@@ -175,8 +175,8 @@
             <field name="arch" type="xml">
 
                 <button name="button_approve" position="attributes">
-                    <attribute name="groups"></attribute>
-                    <attribute name="attrs">{'invisible':['|', ('is_current_approver', '=', False)]}</attribute>
+                    <attribute name="groups">purchase_approval_route.purchase_order_approval</attribute>
+                    <attribute name="attrs">{'invisible':[('state', '!=', 'to approve')]}</attribute>
                 </button>
 
                 <field name="partner_id" position="before">
