@@ -48,28 +48,27 @@ class PurchaseOrder(models.Model):
                 # Do default behaviour if PO Team is not set
                 super(PurchaseOrder, order).button_approve(force)
             elif order.current_approver:
-                if order.current_approver.user_id == self.env.user or self.env.is_superuser():
-                    # If current user is current approver (or superuser) update state as "approved"
-                    order.current_approver.state = 'approved'
-                    order.message_post(body=_('PO approved by %s') % self.env.user.name)
-                    # Check is there is another approver
-                    if order.next_approver:
-                        # Send request to approve is there is next approver
-                        order.send_to_approve()
-                    else:
-                        # If there is not next approval, than assume that approval is finished and send notification
-                        partner = order.user_id.partner_id if order.user_id else order.create_uid.partner_id
-                        order.message_post_with_view(
-                            'purchase_approval_route.order_approval',
-                            subject=_('PO Approved: %s') % (order.name,),
-                            composition_mode='mass_mail',
-                            partner_ids=[(4, partner.id)],
-                            auto_delete=True,
-                            auto_delete_message=True,
-                            parent_id=False,
-                            subtype_id=self.env.ref('mail.mt_note').id)
-                        # Do default behaviour to set state as "purchase" and update date_approve
-                        return super(PurchaseOrder, order).button_approve(force)
+                # If current user is current approver (or superuser) update state as "approved"
+                order.current_approver.state = 'approved'
+                order.message_post(body=_('PO approved by %s') % self.env.user.name)
+                # Check is there is another approver
+                # if order.next_approver:
+                #     # Send request to approve is there is next approver
+                #     order.send_to_approve()
+                # else:
+                    # If there is not next approval, than assume that approval is finished and send notification
+                partner = order.user_id.partner_id if order.user_id else order.create_uid.partner_id
+                order.message_post_with_view(
+                    'purchase_approval_route.order_approval',
+                    subject=_('PO Approved: %s') % (order.name,),
+                    composition_mode='mass_mail',
+                    partner_ids=[(4, partner.id)],
+                    auto_delete=True,
+                    auto_delete_message=True,
+                    parent_id=False,
+                    subtype_id=self.env.ref('mail.mt_note').id)
+                    # Do default behaviour to set state as "purchase" and update date_approve
+                return super(PurchaseOrder, order).button_approve(force)
 
     def button_confirm(self):
         for order in self:
