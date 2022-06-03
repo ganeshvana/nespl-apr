@@ -248,12 +248,12 @@ class SaleOrder(models.Model):
                             'kw_cost': line.price_unit
                         }
                         order_lines.append((0, 0, data))
-                for line in self.sale_order_option_ids:
-                    if line.product_id:
+                for line2 in self.sale_order_option_ids:
+                    if line2.product_id:
                         data = {
-                            'product_uom_qty': line.quantity,
-                            'product_id': line.product_id.id,
-                            'product_uom_id': line.uom_id.id,
+                            'product_uom_qty': line2.quantity,
+                            'product_id': line2.product_id.id,
+                            'product_uom_id': line2.uom_id.id,
                             # 'quotation_template_line_id' : line.id,
                             'kwp': self.kw
                         }
@@ -267,21 +267,21 @@ class SaleOrder(models.Model):
                 for l in self.project_costing_id.order_line:
                     l.kwp = self.kw
                     l.cost = self.kw * l.kw_cost
-            for line in self.project_costing_id.order_line:
-                if not line.sale_order_line_id:
-                    line.unlink()
-            for line in self.order_line:
+            for line3 in self.project_costing_id.order_line:
+                if not line3.sale_order_line_id:
+                    line3.unlink()
+            for line4 in self.order_line:
                 costlines = False
-                costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line.product_id)    
+                costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line4.product_id)    
                 if not costlines:
                     pel = self.env['product.entry.line'].create({
-                        'product_id': line.product_id.id,
-                        'name': line.name,
+                        'product_id': line4.product_id.id,
+                        'name': line4.name,
                         'kwp': self.kw,
-                        'cost': line.price_unit,
-                        'type': line.type,
+                        'cost': line4.price_unit,
+                        'type': line4.type,
                         'entry_id': self.project_costing_id.id,
-                        'sale_order_line_id': line.id
+                        'sale_order_line_id': line4.id
                         })
                 
         return {
