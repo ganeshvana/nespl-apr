@@ -229,6 +229,7 @@ class SaleOrder(models.Model):
                 'quotation_template_id': self.sale_order_template_id.id,
                 'kw': self.kw
                 })
+            self.project_costing_id = entry_ids.id
             # entry_ids.onchange_quotation_template_id()
             order_lines = [(5, 0, 0)]
             option_lines = [(5, 0, 0)]
