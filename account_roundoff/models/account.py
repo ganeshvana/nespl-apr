@@ -203,6 +203,7 @@ class AccountMove(models.Model):
         if vals_list:
             if 'invoice_line_ids' in vals_list[0].keys():
                 account_id = int(self.env['ir.config_parameter'].sudo().get_param("account.roundoff_account_id"))
+                account_id = self.env['account.account'].search([('name', '=', 'Round off')]).id
                 accountoff_amount = 0.00
                 if self.env.context.get('active_id') and self.env.context.get('active_model') == 'sale.order':
                     sale = self.env['sale.order'].browse(self.env.context.get('active_id'))

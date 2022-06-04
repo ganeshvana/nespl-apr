@@ -346,7 +346,7 @@
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.amount_total_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+									<span t-esc="round(doc.amount_total_signed)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 								</strong>
 							</td>
 						</tr>
@@ -706,7 +706,7 @@
 							</td>
 							<td colspan="2" style="width:20%;text-align:right">
 								<strong>
-									<span t-field="doc.amount_total_signed" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
+									<span t-esc="round(doc.amount_total_signed)" t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.currency_id}"/>
 								</strong>
 							</td>
 						</tr>
