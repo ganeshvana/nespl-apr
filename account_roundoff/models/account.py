@@ -15,7 +15,7 @@ class ResConfigSettings(models.TransientModel):
         params = self.env['ir.config_parameter'].sudo()
         res.update(
             # roundoff_account_id=int(params.get_param('account.roundoff_account_id', default=False)) or False,
-            account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company_id.id)]).id or False,
+            account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company.id)]).id or False,
             invoice_roundoff=params.get_param('account.invoice_roundoff') or False,
         )
         return res
@@ -204,7 +204,7 @@ class AccountMove(models.Model):
         if vals_list:
             if 'invoice_line_ids' in vals_list[0].keys():
                 # account_id = int(self.env['ir.config_parameter'].sudo().get_param("account.roundoff_account_id"))
-                account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company_id.id)]).id
+                account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company.id)]).id
                 accountoff_amount = 0.00
                 if self.env.context.get('active_id') and self.env.context.get('active_model') == 'sale.order':
                     sale = self.env['sale.order'].browse(self.env.context.get('active_id'))
@@ -217,7 +217,7 @@ class AccountMove(models.Model):
                     if vals_list[0].get('round_active') ==True and vals_list[0].get('round_off_amount'):
                         # If rounding amount is available, then update the total amount and add the roundoff value as new line.
                         # account_id = int(self.env['ir.config_parameter'].sudo().get_param("account.roundoff_account_id"))
-                        account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company_id.id)]).id
+                        account_id = self.env['account.account'].search([('name', '=', 'Round off'),('company_id', '=', self.env.company.id)]).id
                         flag=False
                         for record in vals_list[0].get('line_ids'):
                             if record[2]['account_id']:
