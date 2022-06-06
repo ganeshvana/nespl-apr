@@ -14,7 +14,7 @@
     'data' : [
         'views/sale_view.xml',
         'views/purchase_view.xml',
-        'views/account_config_view.xml',
+        # 'views/account_config_view.xml',
     ],
     'images': ['static/description/banner.png'], 
     'installable' : True,
