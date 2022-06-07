@@ -9,5 +9,13 @@
 				file="oi_sale_novergy.offer_letter_report"
 				name="oi_sale_novergy.offer_letter_report"
 		/>
+		<report
+				id="action_report_rfq"
+				string="RFQ"
+				model="purchase.order"
+				report_type="qweb-pdf"
+				file="oi_sale_novergy.rfq_report"
+				name="oi_sale_novergy.rfq_report"
+		/>
 	</data>
 </odoo>
