@@ -27,7 +27,6 @@ class SaleTeam(models.Model):
     escalation_days = fields.Integer("Escalation Days")
     from_email = fields.Char("From Email")
     to_email = fields.Char("To Email")
-    type = fields.Selection([('import','Import'),('export', 'Local')], string="Import/Export", default='import')
 
     approver_ids = fields.One2many(
         comodel_name="sale.team.approver", inverse_name='team_id', string='Approvers')
