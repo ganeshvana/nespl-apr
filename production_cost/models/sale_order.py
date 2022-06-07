@@ -128,12 +128,9 @@ class SaleOrder(models.Model):
                         discount = max(0, (price - pricelist_price) * 100 / price)
                     else:
                         price = pricelist_price
-                if self.kw > 0.0:
-                    pp = self.kw
-                else:
-                    pp = 1
+                
                 data.update({
-                    'price_unit': line.cost * pp,
+                    'price_unit': line.cost,
                     'discount': discount,
                     'product_uom_qty': line.product_uom_qty,
                     'product_id': line.product_id.id,

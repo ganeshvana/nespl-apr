@@ -63,6 +63,7 @@
                 	<field name="printkwp" optional="hide"/>
                 	<field name="quotation_template_line_id" optional="hide"/>
                 	<field name="markup" optional="hide" invisible="1"/>
+                	<field name="cost" optional="hide"/>
                 </xpath>
                 <xpath expr="//page/field/tree/field[@name='price_subtotal']" position="attributes">
                 	<attribute name="groups">production_cost.group_sale_cost</attribute>
