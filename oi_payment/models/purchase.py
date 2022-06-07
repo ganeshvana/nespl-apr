@@ -29,10 +29,16 @@ class PurchaseOrder(models.Model):
         # Ensures default picking type and currency are taken from the right company.
         self_comp = self.with_company(company_id)        
         company = self.env['res.company'].browse(vals.get('company_id'))
+<<<<<<< HEAD
+=======
+        if not company:
+            company = self.env.company
+>>>>>>> 55276a3... request
         if vals.get('name', 'New') == 'New':
             seq_date = None
             if 'date_order' in vals:
                 seq_date = fields.Datetime.context_timestamp(self, fields.Datetime.to_datetime(vals['date_order']))
+            print(company.code, seq_date)
             vals['name'] = 'NPO/' + company.code + '/' + self_comp.env['ir.sequence'].next_by_code('purchase.order', sequence_date=seq_date) or '/'
         vals, partner_vals = self._write_partner_values(vals)
         res = super(PurchaseOrder, self).create(vals)

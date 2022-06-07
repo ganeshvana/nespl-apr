@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from datetime import date
+from datetime import date, datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models, _
@@ -71,8 +71,40 @@ class PRL(models.Model):
     _inherit = 'purchase.requisition.line'
     
     product_tmpl_id = fields.Many2one('product.template', 'Product')
-    model = fields.Char("Make/Model")
+    model = fields.Many2one('purchase.make',"Make/Model")
     product_id = fields.Many2one('product.product', "Product", required=False)
+    
+    def _prepare_purchase_order_line(self, name, product_qty=0.0, price_unit=0.0, taxes_ids=False):
+        self.ensure_one()
+        requisition = self.requisition_id
+        if self.product_description_variants:
+            name += '\n' + self.product_description_variants
+        if requisition.schedule_date:
+            date_planned = datetime.combine(requisition.schedule_date, time.min)
+        else:
+            date_planned = datetime.now()
+        return {
+            'name': name,
+            'product_id': self.product_id.id,
+            'model': self.model.id,
+            'product_uom': self.product_id.uom_po_id.id,
+            'product_qty': product_qty,
+            'price_unit': price_unit,
+            'taxes_id': [(6, 0, taxes_ids)],
+            'date_planned': date_planned,
+            'account_analytic_id': self.account_analytic_id.id,
+            'analytic_tag_ids': self.analytic_tag_ids.ids,
+        }
+    
+class POL(models.Model):
+    _inherit = 'purchase.order.line'
+    
+    model = fields.Many2one('purchase.make',"Make/Model")
+    
+class PurchaseMake(models.Model):
+    _name = 'purchase.make'
+    
+    name = fields.Char("Make")
 
         
 class Pricelist(models.Model):
