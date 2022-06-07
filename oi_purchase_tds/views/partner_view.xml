@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_partner_form_inherit_tds">
+        <field name="name">res.partner.purchase.property.form.inherit.tds</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                <field name="goods_tds_applicable"/>
+                <field name="service_tds_applicable"/>
+            </field>
+
+            <div name="button_box" position="inside">
+                <button type="object" class="oe_stat_button" icon="fa-pencil-square-o" name="action_view_partner_bills"
+                    context="{'default_partner_id': active_id}">
+                    <div class="o_form_field o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="total_billed" widget='monetary' options="{'currency_field': 'currency_id'}"/>
+                        </span>
+                        <span class="o_stat_text">Billed</span>
+                    </div>
+                </button>
+            </div>
+        </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_move_form_inherit_tds">
+        <field name="name">account.move.form.inherit.tds</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <field name="invoice_date" position="after">
+                <field name="service_tds_applicable"/>
+            </field>            
+        </field>
+    </record>
+</odoo>
