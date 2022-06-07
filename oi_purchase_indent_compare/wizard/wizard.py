@@ -56,10 +56,10 @@ class IndentComparision(models.TransientModel):
     def generate_report(self):
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        worksheet = workbook.add_worksheet('Tender Comparision')
+        worksheet = workbook.add_worksheet('Indent Comparision')
         style_highlight_right = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#E0E0E0', 'align': 'right'})
         style_highlight = workbook.add_format({'bold': True, 'pattern': 1, 'bg_color': '#E0E0E0', 'align': 'center'})
-        style_normal = workbook.add_format({'align': 'center'})
+        style_normal = workbook.add_format({'align': 'left'})
         style_right = workbook.add_format({'align': 'right'})
         style_left = workbook.add_format({'align': 'left'})
         merge_formatb = workbook.add_format({
@@ -74,33 +74,38 @@ class IndentComparision(models.TransientModel):
         headers = []
         row = 1
         col = 0
-        for line in self.purchase_indent.line_ids:
-            headers.append(line.product_id)
-        product_dict = {}        
+        for line in self.purchase_indent.purchase_ids:
+            if line.partner_id not in headers:
+                headers.append(line.partner_id)
+        vendor_dict = {}        
         for i in headers:
-            product_dict[i] = 0.0
+            vendor_dict[i] = 0.0
         mrg = 'A' + str(row) + ':G' + str(row)
         worksheet.merge_range(mrg, 'Indent ' + self.purchase_indent.name, merge_formatb)
         row += 1
         col = 1
         for header in headers:
             worksheet.write(row, col, header.name, style_highlight)
-            worksheet.set_column(col, col, 20)
+            worksheet.set_column(col, col, 30)
             col += 1       
         row += 1
         if self.purchase_indent:
             quotations = self.purchase_indent.purchase_ids     
         col = 0   
-        for quote in quotations:  
+        for pil in self.purchase_indent.line_ids:
             col = 0 
-            if quote.state != 'cancel':
-                worksheet.write(row, col, str(quote.partner_id.name+ '['+ quote.name + ']'),style_normal)
-                col += 1          
-                if quote.order_line:                
-                    for line in quote.order_line: 
-                        if line.product_id:
-                            product_dict[line.product_id] = line.price_unit
-                    for val in product_dict.values():
+            print(row,col,pil, "=========a")
+            worksheet.write(row, col, str(pil.product_id.name+ '['+ pil.product_id.default_code + ']'),style_normal)
+            col += 1
+            quote_lines = self.env['purchase.order.line'].search([('order_id', 'in', quotations.ids)])
+            print(quote_lines, "quote_lines===")
+            if quote_lines:
+                quote_lines.filtered(lambda d: d.product_id == pil.product_id)
+                if quote_lines:
+                    for line in quote_lines: 
+                        if line.partner_id:
+                            vendor_dict[line.partner_id] = line.price_unit
+                    for val in vendor_dict.values():
                         worksheet.set_column(col, col, 15)
                         if val == 0.0:
                             val = ''
