@@ -264,7 +264,6 @@ class SaleOrder(models.Model):
                 self.project_costing_id.kw = self.kw
                 for l in self.project_costing_id.order_line:
                     l.kwp = self.kw
-                    l.cost = l.kw_cost
             for line3 in self.project_costing_id.order_line:
                 if not line3.sale_order_line_id:
                     line3.unlink()
