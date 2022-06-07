@@ -35,11 +35,11 @@ class SaleOrder(models.Model):
     kw = fields.Float("KWP", default=1.0, readonly=True, states={'draft': [('readonly', False)], 'sent': [('readonly', False)]},)
     order_type_id = fields.Many2one('sale.order.type', "Order Type")
     
-    @api.onchange('kw')
-    def onchange_kw(self):
-        if self.kw:   
-            if self.sale_order_template_id:
-                self.onchange_sale_order_template_id()         
+    # @api.onchange('kw')
+    # def onchange_kw(self):
+    #     if self.kw:   
+    #         if self.sale_order_template_id:
+    #             self.onchange_sale_order_template_id()         
             # if self.order_line:
             #     for l in self.order_line:
             #         l.price_unit = l.per_kw * l.price_unit
