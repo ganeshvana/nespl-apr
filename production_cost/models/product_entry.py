@@ -183,8 +183,8 @@ class ProductEntry(models.Model):
             order.sale_order_id.kw = order.kw            
             for line in order.order_line:                
                 if line.sale_order_line_id:
-                    line.sale_order_line_id.price_unit = line.cost
-                    line.sale_order_line_id.price_subtotal = line.total
+                    line.sale_order_line_id.price_unit = line.total
+                    # line.sale_order_line_id.price_subtotal = line.total
                     line.sale_order_line_id.product_uom_qty = line.product_uom_qty
                     line.sale_order_line_id.type = line.type
                     line.sale_order_line_id.hide = line.hide
@@ -194,7 +194,7 @@ class ProductEntry(models.Model):
                         'name': line.product_id.name,
                         'product_uom_qty': line.product_uom_qty,
                         'product_uom': line.product_uom_id.id,
-                        'price_unit': line.cost,
+                        'price_unit': line.total,
                         'type': line.type,
                         'hide': line.hide,
                         'price_subtotal': line.total,
