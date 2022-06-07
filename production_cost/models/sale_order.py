@@ -271,15 +271,16 @@ class SaleOrder(models.Model):
                 costlines = False
                 costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line4.product_id)    
                 if not costlines:
-                    pel = self.env['product.entry.line'].create({
-                        'product_id': line4.product_id.id,
-                        'name': line4.name,
-                        'kwp': self.kw,
-                        'cost': line4.cost,
-                        'type': line4.type,
-                        'entry_id': self.project_costing_id.id,
-                        'sale_order_line_id': line4.id
-                        })
+                    if line4.product_id:
+                        pel = self.env['product.entry.line'].create({
+                            'product_id': line4.product_id.id,
+                            'name': line4.name,
+                            'kwp': self.kw,
+                            'cost': line4.cost,
+                            'type': line4.type,
+                            'entry_id': self.project_costing_id.id,
+                            'sale_order_line_id': line4.id
+                            })
                 
         return {
             'name': _('Product Entry'),
