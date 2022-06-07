@@ -128,12 +128,9 @@ class SaleOrder(models.Model):
                         discount = max(0, (price - pricelist_price) * 100 / price)
                     else:
                         price = pricelist_price
-                if self.kw > 0.0:
-                    pp = self.kw
-                else:
-                    pp = 1
+                
                 data.update({
-                    'price_unit': line.cost * pp,
+                    'price_unit': line.cost,
                     'discount': discount,
                     'product_uom_qty': line.product_uom_qty,
                     'product_id': line.product_id.id,
@@ -267,7 +264,6 @@ class SaleOrder(models.Model):
                 self.project_costing_id.kw = self.kw
                 for l in self.project_costing_id.order_line:
                     l.kwp = self.kw
-                    l.cost = l.kw_cost
             for line3 in self.project_costing_id.order_line:
                 if not line3.sale_order_line_id:
                     line3.unlink()
@@ -275,15 +271,16 @@ class SaleOrder(models.Model):
                 costlines = False
                 costlines = self.project_costing_id.order_line.filtered(lambda l: l.product_id == line4.product_id)    
                 if not costlines:
-                    pel = self.env['product.entry.line'].create({
-                        'product_id': line4.product_id.id,
-                        'name': line4.name,
-                        'kwp': self.kw,
-                        'cost': line4.cost,
-                        'type': line4.type,
-                        'entry_id': self.project_costing_id.id,
-                        'sale_order_line_id': line4.id
-                        })
+                    if line4.product_id:
+                        pel = self.env['product.entry.line'].create({
+                            'product_id': line4.product_id.id,
+                            'name': line4.name,
+                            'kwp': self.kw,
+                            'cost': line4.cost,
+                            'type': line4.type,
+                            'entry_id': self.project_costing_id.id,
+                            'sale_order_line_id': line4.id
+                            })
                 
         return {
             'name': _('Product Entry'),
