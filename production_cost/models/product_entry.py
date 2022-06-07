@@ -362,7 +362,7 @@ class ProductEntryLine(models.Model):
     product_id = fields.Many2one('product.product', store=True, copy=True)
     product_uom_qty = fields.Float(string='Quantity', digits='Product Unit of Measure', default=1.0, store=True, copy=True)
     product_uom_id =  fields.Many2one('uom.uom', related='product_id.uom_id', store=True, copy=True)
-    cost = fields.Float(string='Cost', store=True, copy=True)
+    cost = fields.Float(string='Kw Cost', store=True, copy=True)
     weight = fields.Float(digits='Product Unit of Measure', default=1.0, store=True, copy=True)
     price_unit = fields.Float(string='Unit Price', digits='Product Price', default=0.0, store=True, copy=True)
     material_cost = fields.Float(string='Material Cost', digits='Product Price', default=0.0, compute='get_material_cost', store=True, copy=True)
@@ -380,13 +380,8 @@ class ProductEntryLine(models.Model):
     @api.depends('product_uom_qty','cost')
     def compute_total(self):
         for rec in self:
-            rec.total = rec.product_uom_qty * rec.cost
+            rec.total = rec.kwp * rec.cost
             
-    @api.onchange('kwp','kw_cost')
-    def compute_cost(self):
-        if self.kwp and self.kw_cost:
-            self.cost = self.kwp * self.kw_cost
-
 class ProductEntryCost(models.Model):
     _name = 'product.entry.cost'
     _description = "Product Entry Cost"

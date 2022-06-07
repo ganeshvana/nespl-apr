@@ -245,8 +245,8 @@ class SaleOrder(models.Model):
                             'sale_order_line_id' : line.id,
                             'type': line.type,
                             'kwp': self.kw,
-                            'cost': line.price_unit,
-                            'kw_cost': line.price_unit
+                            'cost': line.cost,
+                            'kw_cost': line.cost
                         }
                         order_lines.append((0, 0, data))
                 for line2 in self.sale_order_option_ids:
@@ -267,7 +267,7 @@ class SaleOrder(models.Model):
                 self.project_costing_id.kw = self.kw
                 for l in self.project_costing_id.order_line:
                     l.kwp = self.kw
-                    l.cost = self.kw * l.kw_cost
+                    l.cost = l.kw_cost
             for line3 in self.project_costing_id.order_line:
                 if not line3.sale_order_line_id:
                     line3.unlink()
@@ -279,7 +279,7 @@ class SaleOrder(models.Model):
                         'product_id': line4.product_id.id,
                         'name': line4.name,
                         'kwp': self.kw,
-                        'cost': line4.price_unit,
+                        'cost': line4.cost,
                         'type': line4.type,
                         'entry_id': self.project_costing_id.id,
                         'sale_order_line_id': line4.id
