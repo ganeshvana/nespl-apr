@@ -23,6 +23,35 @@
         </field>
     </record>
     
+    <record id="survey_survey_form111" model = "ir.ui.view" >
+	    <field name="name">survey.survey.inherit</field>
+	    <field name="model">survey.user_input</field>
+	    <field name="inherit_id" ref = "survey.survey_user_input_view_form"/>
+	    <field name="arch" type="xml" >
+	    	<xpath expr= "//field[@name='user_input_line_ids']" position ="replace">
+	    		<field name="user_input_line_ids" mode="tree" attrs="{'readonly': False}">
+	                    <tree>
+	                        <field name="question_sequence" invisible="1"/>
+	                        <field name="question_id"/>
+	                        <field name="page_id" optional="hide"/>
+	                        <field name="answer_type" optional="hide"/>
+	                        <field name="skipped" optional="hide"/>
+	                        <field name="create_date" optional="hide"/>
+	                        <field name="answer_is_correct" optional="hide"/>
+	                        <field name="value_char_box" optional="show"/>
+	                        <field name="value_date" optional="show"/>
+	                        <field name="value_datetime" optional="show"/>
+	                        <field name="value_numerical_box" optional="show"/>
+	                        <field name="value_text_box" optional="hide"/>
+	                        <field name="answer_score" optional="show"/>
+	                        <field name="matrix_row_id" optional="hide"/>
+	                        <field name="suggested_answer_id" optional="hide"/>
+	                    </tree>
+	                </field>
+	    	</xpath>
+	    </field>
+	</record>
+    
     <record id="crm_case_tree_view_leads1" model = "ir.ui.view" >
         <field name="name">crm.lead.tree.inherit</field>
         <field name="model">crm.lead</field>
