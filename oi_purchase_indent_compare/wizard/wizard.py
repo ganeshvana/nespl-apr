@@ -82,37 +82,51 @@ class IndentComparision(models.TransientModel):
             vendor_dict[i] = 0.0
         mrg = 'A' + str(row) + ':G' + str(row)
         worksheet.merge_range(mrg, 'Indent ' + self.purchase_indent.name, merge_formatb)
+        worksheet.set_column(col, col, 40)
         row += 1
         col = 1
-        for header in headers:
-            worksheet.write(row, col, header.name, style_highlight)
-            worksheet.set_column(col, col, 30)
-            col += 1       
+        fcol = 1 
+        lcol = 3
+        for header in headers:   
+            worksheet.set_column(col, col, 20)         
+            worksheet.merge_range(row, fcol, row, lcol, header.name, merge_formatb)
+            # worksheet.write(row, col, header.name, style_highlight)
+            
+            fcol += 3     
+            lcol += 3  
         row += 1
+        title = ["Payment Term", "Make", "Price","Payment Term", "Make", "Price","Payment Term", "Make", "Price" ]
         if self.purchase_indent:
             quotations = self.purchase_indent.purchase_ids     
-        col = 0   
+        col = 1
+        for t in title:            
+            worksheet.write(row, col, t, merge_formatb)
+            worksheet.set_column(col, col, 20)
+            col+=1
+        row += 1
         for pil in self.purchase_indent.line_ids:
             col = 0 
-            print(row,col,pil, "=========a")
             worksheet.write(row, col, str(pil.product_id.name+ '['+ pil.product_id.default_code + ']'),style_normal)
             col += 1
-            quote_lines = self.env['purchase.order.line'].search([('order_id', 'in', quotations.ids)])
-            print(quote_lines, "quote_lines===")
-            if quote_lines:
-                quote_lines.filtered(lambda d: d.product_id == pil.product_id)
+            quote_liness = self.env['purchase.order.line'].search([('order_id', 'in', quotations.ids)])
+            if quote_liness:
+                quote_lines = quote_liness.filtered(lambda d: d.product_id == pil.product_id)
                 if quote_lines:
                     for line in quote_lines: 
                         if line.partner_id:
-                            vendor_dict[line.partner_id] = line.price_unit
+                            vendor_dict[line.partner_id] = [line.order_id.payment_term_id.name, line.model.name, line.price_unit]
                     for val in vendor_dict.values():
-                        worksheet.set_column(col, col, 15)
-                        if val == 0.0:
-                            val = ''
-                        else:
-                            val = str("%.2f" % val + quote.currency_id.symbol)
-                        worksheet.write(row, col, val,style_right)                     
-                        col += 1        
+                        if val != 0.0:
+                            worksheet.write(row, col, val[0],style_left)
+                            col += 1
+                            worksheet.write(row, col, val[1],style_left)
+                            col += 1
+                            if val[2] == 0.0:
+                                pr = ''
+                            else:
+                                pr = str("%.2f" % val[2] + line.order_id.currency_id.symbol)
+                            worksheet.write(row, col, pr,style_right)                     
+                            col += 1        
             row += 1
         
         workbook.close()
