@@ -95,14 +95,18 @@ class IndentComparision(models.TransientModel):
             fcol += 3     
             lcol += 3  
         row += 1
-        title = ["Payment Term", "Make", "Price","Payment Term", "Make", "Price","Payment Term", "Make", "Price" ]
+        length = len(headers)
+        title = ["Payment Term", "Make", "Price"]
         if self.purchase_indent:
             quotations = self.purchase_indent.purchase_ids     
         col = 1
-        for t in title:            
-            worksheet.write(row, col, t, merge_formatb)
-            worksheet.set_column(col, col, 20)
-            col+=1
+        count = 0
+        while count < length:
+            for t in title:            
+                worksheet.write(row, col, t, merge_formatb)
+                worksheet.set_column(col, col, 20)
+                col+=1
+            count += 1
         row += 1
         for pil in self.purchase_indent.line_ids:
             col = 0 
