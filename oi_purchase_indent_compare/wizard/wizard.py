@@ -106,7 +106,7 @@ class IndentComparision(models.TransientModel):
         row += 1
         for pil in self.purchase_indent.line_ids:
             col = 0 
-            worksheet.write(row, col, str(pil.product_id.name+ '['+ pil.product_id.default_code + ']'),style_normal)
+            worksheet.write(row, col, str(pil.product_id.name),style_normal)
             col += 1
             quote_liness = self.env['purchase.order.line'].search([('order_id', 'in', quotations.ids)])
             if quote_liness:
