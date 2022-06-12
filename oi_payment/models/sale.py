@@ -53,7 +53,56 @@ class SaleOrderLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = "sale.order"
     
-    
+    def action_view_project_ids(self):
+        self.ensure_one()
+        view_form_id = self.env.ref('project.edit_project').id
+        view_kanban_id = self.env.ref('project.view_project_kanban').id
+        projects = []
+        if self.project_id:
+            projects.append(self.project_id.id)
+        for quotation in self:
+            if quotation.project_ids:
+                for project in quotation.project_ids:
+                    projects.append(project.id)
+        if not projects:
+            projecttemp = self.env['project.project'].search([('template', '=', True)], limit=1)
+            values = {
+                'partner_id': self.partner_id.id,
+                'active': True,
+                'company_id': self.company_id.id,
+                'template': False,
+                'sale_order_id': self.id
+                }
+            if projecttemp:
+                values['name'] = self.name 
+                project = projecttemp.copy(values)
+                project.tasks.write({
+                    # 'sale_line_id': self.id,
+                    'partner_id': self.partner_id.id,
+                    'email_from': self.partner_id.email,
+                })
+                # duplicating a project doesn't set the SO on sub-tasks
+            #     project.tasks.filtered(lambda task: task.parent_id != False).write({
+            #         'sale_line_id': self.id,
+            #         'sale_order_id': self.order_id,
+            #     })
+            # else:
+                # project = self.env['project.project'].create(values)
+                self.project_id = project.id
+                projects.append(project.id)
+                self.project_ids = [(6, 0, projects)]
+        action = {
+            'type': 'ir.actions.act_window',
+            'domain': [('id', 'in', projects)],
+            'view_mode': 'kanban,form',
+            'name': _('Projects'),
+            'res_model': 'project.project',
+        }
+        if len(projects) == 1:
+            action.update({'views': [(view_form_id, 'form')], 'res_id': projects[0]})
+        else:
+            action['views'] = [(view_kanban_id, 'kanban'), (view_form_id, 'form')]
+        return action
     
     @api.depends('order_line.price_total')
     def _amount_all_proforma(self):
