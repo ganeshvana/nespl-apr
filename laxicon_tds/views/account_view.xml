@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+     <record model="ir.ui.view" id="invoice_extend_tds_view">
+        <field name="name">invoice.line.extend_tds</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='tax_totals_json']" position="after">
+                <field name="tds_active" invisible="1"/>
+                <field name="tds_per" attrs="{'invisible': ['|', ('valid_tds', '=', False), ('move_type', 'in', ['out_invoice', 'in_refund'])]}" string="TDS %"/>
+                <field name="tds_value" attrs="{'invisible': ['|', ('valid_tds', '=', False), ('move_type', 'in', ['out_invoice', 'in_refund'])]}"/>
+                <field name="tcs_active" invisible="1"/>
+                <field name="tcs_per" string="TCS %" attrs="{'invisible': ['|', ('valid_tcs', '=', False), ('move_type', 'in', ['in_invoice', 'out_refund'])]}"/>
+                <field name="tcs_value" attrs="{'invisible': ['|', ('valid_tcs', '=', False), ('move_type', 'in', ['in_invoice', 'out_refund'])]}"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_id']" position="after">
+                 <field name="pan" placeholder="Pan Card Number" attrs="{'invisible': [('valid_tds', '=', False)]}"/>
+            </xpath>
+            <xpath expr="//group[@id='other_tab_group']" position="after">
+                <group string="TDS" name="tds_group" attrs="{'invisible': ['|', ('valid_tds', '=', False), ('move_type', 'in', ['out_invoice', 'in_refund'])]}">
+                    <group>
+                        <field name="valid_tds" invisible="1"/>
+                        <field name="tds_id" attrs="{'required': [('valid_tds', '=', True)]}" options="{'no_create': True}"/>
+                        <field name="tds_type" attrs="{'required': [('valid_tds', '=', True)]}"/>
+                        <field name="tds_account_id"/>
+                        <field name="nature" string="Payment Nature"/>
+                        <field name="threshold_amt" string="Thareshold Amount"/>
+                    </group>
+                    <group>
+                        <field name="tax_w_wo" string="Amount Type"/>
+                        <field name="tra_type" string="Transaction Type"/>
+                        <field name="ind_huf_tds_per"/>
+                        <field name="other_tds_per"/>
+                        <field name="force_tds" string="Apply any way"/>
+                    </group>
+                </group>
+                <group string="TCS" name="tcs_group" attrs="{'invisible': ['|', ('valid_tcs', '=', False), ('move_type', 'in', ['in_invoice', 'out_refund'])]}">
+                    <group>
+                        <field name="valid_tcs" invisible="1"/>
+                        <field name="tcs_id" options="{'no_create': True}" attrs="{'required': [('valid_tcs', '=', True)]}"/>
+                        <field name="tcs_type" attrs="{'required': [('valid_tcs', '=', True)]}"/>
+                        <field name="tcs_account_id"/>
+                        <field name="tcs_threshold_amt" string="Thareshold Amount"/>
+                        <field name="tcs_nature" string="Payment Nature"/>
+                    </group>
+                    <group>
+                        <field name="tcs_tax_w_wo" string="Amount Type"/>
+                        <field name="tcs_tra_type" string="Transaction Type"/>
+                        <field name="ind_huf_tcs_per"/>
+                        <field name="other_tcs_per"/>
+                        <field name="force_tcs" string="Apply any way"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+    </data>
+</odoo>

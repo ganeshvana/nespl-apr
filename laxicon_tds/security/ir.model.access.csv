@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_tds_tds_user,access_account_tds_tds_user,model_account_tds_tds,base.group_user,1,0,0,0
+access_account_tds_tds_ai,access_account_tds_tds_ai,model_account_tds_tds,account.group_account_invoice,1,1,1,1
+access_account_tcs_tcs_user,access_account_tcs_tcs_user,model_account_tcs_tcs,base.group_user,1,0,0,0
+access_account_tcs_tcs_ai,access_account_tcs_tcs_ai,model_account_tcs_tcs,account.group_account_invoice,1,1,1,1

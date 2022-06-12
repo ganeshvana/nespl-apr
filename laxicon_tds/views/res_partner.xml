@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="base_view_partner_form_tds_tcs" model="ir.ui.view">
+            <field name="name">partner.tds.from</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//field[@name='website']" position="before">
+                        <field name="pan" placeholder="PAN Number"/>
+                        <field name="pan_type"/>
+                        <field name="customer_rank" invisible='1'/>
+                    </xpath>
+                    <xpath expr="//page[@name='sales_purchases']" position="inside">
+                        <group string="TDS" attrs="{'invisible': [('com_tds_active', '=', False)]}">
+                            <group>
+                                <field name="com_tds_active" invisible="1"/>
+                                <field name="valid_tds" attrs="{'invisible': [('com_tds_active', '=', False)]}"/>
+                                <field name="tds_id" attrs="{'required': [('valid_tds', '=', True)]}" options="{'no_create': True}"/>
+                                <field name="tds_type" attrs="{'required': [('valid_tds', '=', True)]}"/>
+                                <field name="tds_account_id"/>
+                                <field name="nature" string="Payment Nature"/>
+                            </group>
+                            <group>
+                                <field name="threshold_amt" string="Threshold Amount"/>
+                                <field name="tax_w_wo" string="Amount Type"/>
+                                <field name="tra_type" string="Transaction Type"/>
+                                <field name="ind_huf_tds_per"/>
+                                <field name="other_tds_per"/>
+                            </group>
+                        </group>
+                        <group string="TCS" attrs="{'invisible': [('com_tcs_active', '=', False)]}">
+                            <group>
+                                <field name="com_tcs_active" invisible="1"/>
+                                <field name="valid_tcs"  attrs="{'invisible': [('com_tcs_active', '=', False)]}"/>
+                                <field name="tcs_id" attrs="{'required': [('valid_tcs', '=', True)]}"/>
+                                <field name="tcs_type" attrs="{'required': [('valid_tcs', '=', True)]}"/>
+                                <field name="tcs_account_id"/>
+                                <field name="tcs_nature" string="Payment Nature"/>
+                            </group>
+                            <group>
+                                <field name="tcs_threshold_amt" string="Threshold Amount"/>
+                                <field name="tcs_tax_w_wo" string="Amount Type"/>
+                                <field name="tcs_tra_type" string="Transaction Type"/>
+                                <field name="ind_huf_tcs_per"/>
+                                <field name="other_tcs_per"/>
+                            </group>
+                        </group>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+</odoo>

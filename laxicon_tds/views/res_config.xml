@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<record id="res_config_settings_view_tds" model="ir.ui.view">
+		<field name="name">res.config.settings.view.form.tds</field>
+		<field name="model">res.config.settings</field>
+		<field name="priority" eval="40" />
+		<field name="inherit_id" ref="base.res_config_settings_view_form" />
+		<field name="arch" type="xml">
+			<xpath expr="//div[hasclass('settings')]/div[@data-key='account']" position="inside">
+				<h2>TDS</h2>
+                <div class="row mt16 o_settings_container" id="tds_default">
+                    <div class="col-12 col-lg-6 o_setting_box" id="tds_settings">
+                        <div class="o_setting_left_pane">
+                            <field name="tds_active"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="tds_active" string="Allow T.D.S."/>
+                            <div class="text-muted">
+                                Collect T.D.S. from the Vendor
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h2>TCS</h2>
+                <div class="row mt16 o_settings_container" id="tcs_default">
+                    <div class="col-12 col-lg-6 o_setting_box"  id="tcs_settings">
+                        <div class="o_setting_left_pane">
+                            <field name="tcs"/>
+                        </div>
+                        <div class="o_setting_right_pane">
+                            <label for="tcs" string="Allow T.C.S."/>
+                            <div class="text-muted">
+                                Collect T.C.S. from the Customer
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</xpath>
+		</field>
+	</record>
+    <record id="view_company_form_tds" model="ir.ui.view">
+        <field name="name">res.company.view.form.tds</field>
+        <field name="model">res.company</field>
+        <field name="priority" eval="40" />
+        <field name="inherit_id" ref="base.view_company_form" />
+        <field name="arch" type="xml">
+            <field name="favicon" position="after">
+                <field name="tds_active"/>
+                <field name="tcs"/>
+            </field>
+        </field>
+    </record>
+</odoo>
