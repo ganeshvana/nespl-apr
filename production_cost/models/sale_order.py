@@ -341,6 +341,10 @@ class SaleOrder(models.Model):
             'type': 'project',
             'sale_order_template_id': False
         }
+        
+    def _prepare_revision_data1(self, new_revision):
+        vals = super()._prepare_revision_data1(new_revision)
+        return vals
     
     def copy_revision_with_context1(self):
         default_data = self.default_get([])
@@ -349,7 +353,7 @@ class SaleOrder(models.Model):
         default_data.update(vals)
         new_revision = self.copy(default_data)
         self.old_revision_ids.write({"current_revision_id": new_revision.id})
-        self.write(self._prepare_revision_data(new_revision))
+        self.write(self._prepare_revision_data1(new_revision))
         return new_revision
     
     def request_for_project(self):
