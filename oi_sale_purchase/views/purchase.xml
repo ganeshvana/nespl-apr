@@ -23,6 +23,18 @@
             </field>
         </record>
         
+        <record id="view_purchase_requisition_tree1inherit" model="ir.ui.view">
+            <field name="name">purchase.requisition.tree.term.invoice</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_tree"/>
+            <field name="arch" type="xml">
+            	<xpath expr="//field[@name='state']" position="before">
+	            	<field name="account_analytic_id"/>
+	            	<field name="template_id" domain="[('type', '=', 'project')]"/>
+	            </xpath>
+            </field>
+        </record>
+        
         <record id="view_purchase_requisition_form1inherit" model="ir.ui.view">
             <field name="name">purchase.requisition.form.term.invoice</field>
             <field name="model">purchase.requisition</field>

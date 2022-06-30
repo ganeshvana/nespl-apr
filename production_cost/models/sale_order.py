@@ -341,6 +341,10 @@ class SaleOrder(models.Model):
             'type': 'project',
             'sale_order_template_id': False
         }
+        
+    def _prepare_revision_data1(self, new_revision):
+        vals = super()._prepare_revision_data1(new_revision)
+        return vals
     
     def copy_revision_with_context1(self):
         default_data = self.default_get([])
@@ -349,7 +353,7 @@ class SaleOrder(models.Model):
         default_data.update(vals)
         new_revision = self.copy(default_data)
         self.old_revision_ids.write({"current_revision_id": new_revision.id})
-        self.write(self._prepare_revision_data(new_revision))
+        self.write(self._prepare_revision_data1(new_revision))
         return new_revision
     
     def request_for_project(self):
@@ -362,6 +366,41 @@ class SaleOrder(models.Model):
                 copied_rec.message_post(body=msg)
                 rec.message_post(body=msg)
             revision_ids.append(copied_rec.id)
+            projects = []
+            if copied_rec.project_id:
+                projects.append(copied_rec.project_id.id)
+            for quotation in self:
+                if quotation.project_ids:
+                    for project in quotation.project_ids:
+                        projects.append(project.id)
+            if not projects:
+                projecttemp = self.env['project.project'].search([('template', '=', True)], limit=1)
+                values = {
+                    'partner_id': copied_rec.partner_id.id,
+                    'active': True,
+                    'company_id': copied_rec.company_id.id,
+                    'template': False,
+                    'sale_order_id': copied_rec.id
+                    }
+                if projecttemp:
+                    values['name'] = copied_rec.name 
+                    project = projecttemp.copy(values)
+                    project.tasks.write({
+                        # 'sale_line_id': self.id,
+                        'partner_id': copied_rec.partner_id.id,
+                        'email_from': copied_rec.partner_id.email,
+                    })
+                    
+                    # duplicating a project doesn't set the SO on sub-tasks
+                #     project.tasks.filtered(lambda task: task.parent_id != False).write({
+                #         'sale_line_id': self.id,
+                #         'sale_order_id': self.order_id,
+                #     })
+                # else:
+                    # project = self.env['project.project'].create(values)
+                    copied_rec.project_id = project.id
+                    projects.append(project.id)
+                    copied_rec.project_ids = [(6, 0, projects)]
     
 class Picking(models.Model):
     _inherit = 'stock.picking'
@@ -413,6 +452,11 @@ class SaleOrderTemplate(models.Model):
     costing_structure_ids = fields.One2many(related='project_costing_id.costing_structure_ids',)
     capex_opex = fields.Selection([('capex', 'Capex'), ('opex', 'Opex/ Open Access')], default='capex')
     type = fields.Selection([('sale', 'Sale'), ('project', 'Project')], default = 'sale')
+    project_id = fields.Many2one('project.project', "Project")
+    
+    
+    def approve(self):
+        self.state = 'validated'
     
     def action_quotation_send(self):
         ''' Opens a wizard to compose an email, with relevant mail template loaded by default '''

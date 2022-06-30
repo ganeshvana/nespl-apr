@@ -259,7 +259,12 @@
             <field name="model">sale.order.template</field>
             <field name="arch" type="xml">
             	<form string="Quotation Template">
+            	<header>
+                		<button name="approve" string="Validate" states="draft" groups="production_cost.group_template_approve"/>
+                		<field name="state" widget="statusbar" state_visible="draft,validated"/>
+                	</header>
                 <sheet>
+                	
                     <div name="button_box" class="oe_button_box"/>
                     <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
                     <div class="oe_title">
@@ -271,9 +276,9 @@
                     <group>
                         <group>
                             <field name="active" invisible="1"/>
-                           
                         </group>
                         <group>
+                        	<field name="project_id" options="{'no_create': True,'no_open': True, 'no_edit': True}"/>
                             <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
                         </group>
                     </group>
@@ -318,6 +323,7 @@
 
                                 <field name="display_type" invisible="1"/>
                                 <field name="sequence" widget="handle"/>
+                                <field name="create_date" widget="date"/>
                                 <field name="product_id"/>
                                 <field name="name" widget="section_and_note_text"/>
                                 <field name="product_uom_qty"/>

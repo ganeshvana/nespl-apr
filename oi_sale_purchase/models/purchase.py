@@ -54,10 +54,19 @@ class PurchaseOrder(models.Model):
             'context': self._context,
         }
         
+    def button_confirm(self):
+        for order in self:
+            res = super(PurchaseOrder, order).button_confirm()
+            picking = self.env['stock.picking'].search([('origin', '=', self.name)])
+            if picking:
+                picking.project_number = order.project_id.name
+        return res
+        
 class PR(models.Model):
     _inherit = 'purchase.requisition'
     
     account_analytic_id = fields.Many2one('account.analytic.account', "Analytic Account")
+    template_id = fields.Many2one('sale.order.template', "BoM")
     
     @api.onchange('account_analytic_id')
     def onchange_account_analytic_id(self):
