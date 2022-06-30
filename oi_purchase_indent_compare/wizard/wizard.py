@@ -121,18 +121,10 @@ class IndentComparision(models.TransientModel):
                             vendor_dict[line.partner_id] = [line.order_id.payment_term_id.name, line.model.name, line.price_unit]
                     for val in vendor_dict.values():
                         if val != 0.0:
-                            if val[0]:
-                                worksheet.write(row, col, val[0],style_left)
-                                col += 1
-                            else:
-                                worksheet.write(row, col, '',style_left)
-                                col += 1
-                            if val[1]:
-                                worksheet.write(row, col, val[1],style_left)
-                                col += 1
-                            else:
-                                worksheet.write(row, col, '',style_left)
-                                col += 1
+                            worksheet.write(row, col, val[0],style_left)
+                            col += 1
+                            worksheet.write(row, col, val[1],style_left)
+                            col += 1
                             if val[2] == 0.0:
                                 pr = ''
                             else:
