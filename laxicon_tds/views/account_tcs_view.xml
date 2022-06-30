@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="account_tcs_conf" name="TCS" parent="account.menu_finance_configuration" sequence="2" groups="account.group_account_invoice"/>
+
+    <record id="view_tcs_form" model="ir.ui.view">
+        <field name="name">account.tcs.tcs.form.tcs</field>
+        <field name="model">account.tcs.tcs</field>
+        <field name="arch" type="xml">
+            <form string="TCS Configuration">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Section for TCS" string="Section" required="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="nature" placeholder="Nature of Payment" required="1"/>
+                            <field name="threshold_amt" placeholder="threshold amount" required="1"/>
+                            <field name="tax_w_wo" widget="selection"/>
+                            <field name="tra_type" widget="selection" required="1"/>
+                            <field name="account_id" string="TCS Account" options="{'no_create': True}" required="1"/>
+                        </group>
+                        <group>
+                            <field name="ind_huf_tcs_per"/>
+                            <field name="other_tcs_per" string="Other Tcs %"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group string="Financial Year Detail" invisible="1">
+                        <group>
+                            <field name="curr_year" readonly="1"/>
+                            <field name="curr_qtr" readonly="1"/>
+                            <field name="curr_month" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="f_start_date" readonly="1"/>
+                            <field name="f_end_date" readonly="1"/>
+                            <field name="fq_start_date" readonly="1"/>
+                            <field name="fq_end_date" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_tcs_setup_tree" model="ir.ui.view">
+        <field name="name">account.tcs.tcs.tree.tcs</field>
+        <field name="model">account.tcs.tcs</field>
+        <field name="arch" type="xml">
+            <tree string="TCS Configuration">
+                <field name="name" />
+                <field name="ind_huf_tcs_per"/>
+                <field name="other_tcs_per"/>
+                <field name="account_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record model="ir.actions.act_window" id="tcs_configuration_action">
+        <field name="name">TCS Setup</field>
+        <field name="res_model">account.tcs.tcs</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem 
+        id="tcs_configuration_menu" 
+        name="TCS"
+        parent="laxicon_tds.account_tcs_conf" 
+        action="laxicon_tds.tcs_configuration_action"
+        sequence="11" />
+</odoo>

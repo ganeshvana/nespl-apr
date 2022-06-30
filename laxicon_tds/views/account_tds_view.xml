@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem id="account_tds_tds_conf" name="TDS" parent="account.menu_finance_configuration" sequence="2" groups="account.group_account_invoice"/>
+
+	<record id="view_tds_form" model="ir.ui.view">
+        <field name="name">account.tds.tds.form.tds</field>
+        <field name="model">account.tds.tds</field>
+        <field name="arch" type="xml">
+            <form string="TDS Configuration">
+            	<sheet>
+	                <div class="oe_title">
+	                    <h1>
+	                        <field name="name" placeholder="Section for TDS" string="Section"/>
+	                    </h1>
+	                </div>
+	                <group>
+	                	<group>
+	                		<field name="nature" placeholder="Nature of Payment"/>
+	                		<field name="threshold_amt" placeholder="Threshold amount" required="1"/>
+	                		<field name="tax_w_wo" widget="selection"/>
+	                		<field name="tra_type" widget="selection" required="1"/>
+                            <field name="account_id" string="TDS Account" options="{'no_create': True}"/>
+	                	</group>
+	                	<group>
+	                		<field name="ind_huf_tds_per"/>
+	                		<field name="other_tds_per"/>
+	                		<field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+   	                	</group>
+	                </group>
+                    <group string="Financial Year Detail" invisible="1">
+                        <group>
+                            <field name="curr_year" readonly="1"/>
+                            <field name="curr_qtr" readonly="1"/>
+                            <field name="curr_month" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="f_start_date" readonly="1"/>
+                            <field name="f_end_date" readonly="1"/>
+                            <field name="fq_start_date" readonly="1"/>
+                            <field name="fq_end_date" readonly="1"/>
+                        </group>
+                    </group>
+	            </sheet>
+            </form>
+        </field>
+    </record>
+
+	<record id="view_tds_setup_tree" model="ir.ui.view">
+        <field name="name">account.tds.tds.tree.tds</field>
+        <field name="model">account.tds.tds</field>
+        <field name="arch" type="xml">
+            <tree string="TDS Configuration">
+                <field name="name" />
+                <field name="threshold_amt" />
+                <field name="tax_w_wo" />
+                <field name="tra_type" />
+                <field name="ind_huf_tds_per"/>
+                <field name="other_tds_per"/>
+                <field name="account_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+
+	<record model="ir.actions.act_window" id="tds_configuration_action">
+        <field name="name">TDS Setup</field>
+        <field name="res_model">account.tds.tds</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+	<menuitem 
+        id="tds_configuration_menu" 
+        name="TDS"
+        parent="laxicon_tds.account_tds_tds_conf" 
+        action="laxicon_tds.tds_configuration_action"
+        sequence="10" />
+</odoo>
