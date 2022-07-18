@@ -71,6 +71,8 @@ class Project(models.Model):
     country_code = fields.Char(related='country_id.code', string="Country Code")
     partner_latitude = fields.Float(string='Geo Latitude', digits=(10, 7))
     partner_longitude = fields.Float(string='Geo Longitude', digits=(10, 7))
+    template = fields.Boolean("Template")
+    
     
     # def create(self, vals):
     #     res = super(Project, self).create(vals)
