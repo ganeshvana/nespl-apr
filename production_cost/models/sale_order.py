@@ -343,7 +343,7 @@ class SaleOrder(models.Model):
         }
         
     def _prepare_revision_data1(self, new_revision):
-        vals = super()._prepare_revision_data1(new_revision)
+        vals = super()._prepare_revision_data(new_revision)
         return vals
     
     def copy_revision_with_context1(self):
