@@ -419,7 +419,7 @@ class SaleOrderLine(models.Model):
     vendor_ids = fields.Many2many('res.partner', 'vendor_template_relw', 'vendor_id', 'template_id', "Make")
     model = fields.Char("Model")
     hide = fields.Boolean("Hide")
-    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC')], default='bom')
+    type = fields.Selection([('bom', 'BOM'),('ic','I&C'),('amc', 'AMC'),('om', 'O&M'),('camc','CAMC'),('project','Project')], default='bom')
     name1 = fields.Char("Name")
     kwpunit = fields.Float("KWp Unit")
     printkwp = fields.Boolean("Print KWp Unit")
