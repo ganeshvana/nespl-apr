@@ -137,7 +137,7 @@ class AccountMove(models.Model):
                 elif res.tcs_id.tra_type == 'year':
                     domain.append(('invoice_date', '>=', res.tcs_id.f_start_date))
                     domain.append(('invoice_date', '<=', res.tcs_id.f_end_date))
-                    inv_ids = self.search(domain)
+                    inv_ids = self.sudo().search(domain)
                     for inv in inv_ids:
                         amt += sum(line.price_subtotal for line in inv.invoice_line_ids)
                 if res.tcs_id.tax_w_wo == 'w_tax':
